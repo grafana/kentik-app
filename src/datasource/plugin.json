@@ -1,0 +1,7 @@
+{
+  "type": "datasource",
+  "name": "Kentik",
+  "id": "kentik-ds",
+
+  "metrics": true
+}

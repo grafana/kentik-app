@@ -1,0 +1,46 @@
+module.exports = function(grunt) {
+
+  require('load-grunt-tasks')(grunt);
+
+  grunt.loadNpmTasks('grunt-execute');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
+  grunt.initConfig({
+
+    clean: ["dist"],
+
+    copy: {
+      src_to_dist: {
+        expand: true,
+        src: ['plugin.json', 'src/**/*', '!src/**/*.js', '!src/**/*.scss'],
+        dest: 'dist'
+      }
+    },
+
+    watch: {
+      rebuild_all: {
+        files: ['src/**/*', 'plugin.json'],
+        tasks: ['default'],
+        options: {spawn: false}
+      },
+    },
+
+    babel: {
+      options: {
+        sourceMap: false,
+        modules: "system"
+      },
+      dist: {
+        files: [{
+          expand: true,
+          src: ['src/**/*.js'],
+          dest: 'dist',
+          ext:'.js'
+        }]
+      },
+    },
+
+  });
+
+  grunt.registerTask('default', ['clean', 'copy:src_to_dist', 'babel']);
+};

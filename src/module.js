@@ -1,12 +1,4 @@
-define([
-], function()  {
-  'use strict';
 
-  function ConfigCtrl() {}
-  ConfigCtrl.templateUrl = 'config/config.html';
+import {ConfigCtrl} from './config/config.js';
 
-  return {
-    ConfigCtrl: ConfigCtrl,
-  };
-
-});
+export {ConfigCtrl};
