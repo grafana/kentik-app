@@ -1,0 +1,31 @@
+{
+  "type": "app",
+  "name": "Kentik",
+  "id": "kentik-app",
+
+  "staticRoot": "./src",
+
+  "info": {
+    "description": "Kentik App",
+    "author": {
+      "name": "Nginx Inc.",
+      "url": "http://nginx.com"
+    },
+    "keywords": ["nginx"],
+    "logos": {
+      "small": "img/logo_small.png",
+      "large": "img/logo_large.png"
+    },
+    "links": [
+      {"name": "Project site", "url": "http://project.com"},
+      {"name": "License & Terms", "url": "http://license.com"}
+    ],
+    "version": "1.0.0",
+    "updated": "2015-02-10"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "2.6.x",
+    "plugins": []
+  }
+}
