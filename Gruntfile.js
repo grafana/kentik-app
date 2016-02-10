@@ -27,8 +27,8 @@ module.exports = function(grunt) {
 
     babel: {
       options: {
-        sourceMap: false,
-        modules: "system"
+        sourceMap: true,
+        plugins: ['transform-es2015-modules-systemjs'],
       },
       dist: {
         files: [{

@@ -1,6 +1,6 @@
 {
   "type": "app",
-  "name": "Kentik",
+  "name": "Kentik App",
   "id": "kentik-app",
 
   "staticRoot": "./src",

@@ -1,6 +1,8 @@
+import configTemplate from './config.html!text';
+
 class ConfigCtrl {
 }
-ConfigCtrl.templateUrl = 'config/config.html';
+ConfigCtrl.template = configTemplate;
 
 export {ConfigCtrl};
 
