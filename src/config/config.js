@@ -1,8 +1,16 @@
 import configTemplate from './config.html!text';
 
-class ConfigCtrl {
+class KentikConfigCtrl {
+  constructor() {
+    this.appModel.secureJsonData = {
+      token: '**********'
+    };
+  }
 }
-ConfigCtrl.template = configTemplate;
 
-export {ConfigCtrl};
+KentikConfigCtrl.template = configTemplate;
+
+export {
+  KentikConfigCtrl as ConfigCtrl
+};
 

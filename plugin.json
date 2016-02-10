@@ -5,6 +5,18 @@
 
   "staticRoot": "./src",
 
+  "routes": [
+    {
+      "path": "query",
+      "method": "POST",
+      "url": "https://cloudhelix.com/api/v1/query",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    }
+  ],
+
   "info": {
     "description": "Kentik App",
     "author": {
