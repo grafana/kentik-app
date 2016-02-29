@@ -1,5 +1,7 @@
 
 import {ConfigCtrl} from './config/config.js';
+import {HomeCtrl} from './components/home';
+//import {KentikDeviceAddCtrl} from './components/device';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
@@ -7,4 +9,9 @@ loadPluginCss({
   light: 'plugins/kentik-app/css/light.css'
 });
 
-export {ConfigCtrl};
+export {
+	HomeCtrl,
+	//KentikDeviceAddCtrl,
+	ConfigCtrl
+};
+

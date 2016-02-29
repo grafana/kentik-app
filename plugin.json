@@ -7,9 +7,9 @@
 
   "routes": [
     {
-      "path": "query",
-      "method": "POST",
-      "url": "https://cloudhelix.com/api/v1/query",
+      "path": "api/*",
+      "method": "*",
+      "url": "https://cloudhelix.com/api/v1",
       "headers": [
         {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
         {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
@@ -35,6 +35,10 @@
     "version": "1.0.0",
     "updated": "2015-02-10"
   },
+
+  "pages": [
+    { "name": "Kentik Home", "component": "HomeCtrl", "role": "Editor"}
+  ],
 
   "dependencies": {
     "grafanaVersion": "2.6.x",
