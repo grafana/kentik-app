@@ -20,10 +20,10 @@
   "info": {
     "description": "Kentik App",
     "author": {
-      "name": "Nginx Inc.",
-      "url": "http://nginx.com"
+      "name": "Kentik.",
+      "url": "http://kentik.com"
     },
-    "keywords": ["nginx"],
+    "keywords": ["kentik"],
     "logos": {
       "small": "img/logo_small.png",
       "large": "img/logo_large.png"
@@ -38,6 +38,8 @@
 
   "dependencies": {
     "grafanaVersion": "2.6.x",
-    "plugins": []
+    "plugins": [
+      {"type": "panel", "id": "graph", "name": "Graph", "version": "1.0.0"}
+    ]
   }
 }
