@@ -19,7 +19,7 @@ class KentikDatasource {
     console.log('Kentik query: ', query);
     return this.backendSrv.datasourceRequest({
       method: 'POST',
-      url: 'api/plugin-proxy/kentik-app/query',
+      url: 'api/plugin-proxy/kentik-app/api/query',
       data: {q: query}
     }).then(this.processResponse.bind(this));
   }
