@@ -38,7 +38,8 @@
 
   "pages": [
     { "name": "Home", "component": "HomeCtrl", "role": "Editor"},
-    { "name": "Add Device", "component": "AddDeviceCtrl", "role": "Editor"}
+    { "name": "Add Device", "component": "AddDeviceCtrl", "role": "Editor"},
+    { "name": "Device", "component": "DeviceCtrl", "role": "Viewer"}
   ],
 
   "dependencies": {

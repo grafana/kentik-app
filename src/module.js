@@ -2,6 +2,7 @@
 import {ConfigCtrl} from './config/config.js';
 import {HomeCtrl} from './components/home';
 import {AddDeviceCtrl} from './components/add_device';
+import {DeviceCtrl} from './components/device';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
@@ -12,6 +13,7 @@ loadPluginCss({
 export {
 	HomeCtrl,
 	AddDeviceCtrl,
+	DeviceCtrl,
 	ConfigCtrl
 };
 
