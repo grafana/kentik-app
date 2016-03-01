@@ -1,0 +1,19 @@
+
+<div style="margin: 10px; position: relative; display: block; max-width: 1000px; min-width:400px;">
+
+	<!-- page title -->
+	<div class="rt-page-header-area" style="margin-bottom: 50px;">
+		<h1 class="rt-h1">{{ctrl.device.device_name}}</h1><a ng-click="gotoDashboard(ctrl.device)"><i ng-class="icon" class="primary-icon-header dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Kentik: Summary </br>dashboard for this device'"></i></a>
+	</div>
+
+	<!-- tabs -->
+	<div class="rt-tabs">
+		<span ng-class="ctrl.TabState('detail')"><a ng-click="ctrl.ChangeTab('detail')">Device Details</a></span>
+		<span style="margin-left: 15px;" ng-class="ctrl.TabState('config')"><a ng-click="ctrl.ChangeTab('config')">Configuration</a></span>
+		<span style="margin-left: 15px;"ng-class="ctrl.TabState('docs')"><a ng-click="ctrl.ChangeTab('docs')">Documentaion</a></span>
+	</div>
+</div>
+
+ <div ng-include src="'public/plugins/kentik-app/components/device_detail_tab.html'" ng-if="ctrl.tab==='detail'"></div>
+ <div ng-include src="'public/plugins/kentik-app/components/device_config_tab.html'" ng-if="ctrl.tab==='config'"></div>
+ <div ng-include src="'public/plugins/kentik-app/components/device_docs_tab.html'" ng-if="ctrl.tab==='docs'"></div>

@@ -1,6 +1,6 @@
 <div class="rt-page-header-area" style="margin-left:25px; margin-bottom: 35px;">
     <h1 class="rt-h1">Kentik Devices</h1>
-    <span style="float: right; margin-top: 10px; margin-right: 20px;"><a class="rt-btn" href="plugins/kentik-app/pages/new-device">New Device</a></span>
+    <span style="float: right; margin-top: 10px; margin-right: 20px;"><a class="rt-btn" href="plugins/kentik-app/page/add-device">New Device</a></span>
 </div>
 <div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
     <div class="rt-loading-message-inside">
@@ -14,7 +14,7 @@
     <div ng-if="ctrl.devices.length === 0" class="rt-dash-flex-container" style="align-items: center; min-height: 350px;">
         <div style="text-align: center; min-height: 220px; min-width: 400px;  margin: 0 auto;">
             <i ng-class="icon" class="fa fa-server no-devices"></i>
-            <p>Looks like you don’t have any devices yet. <a class="rt-body-link" href="plugins/kentik-app/pages/new-device">Add an device now.</a></p>
+            <p>Looks like you don’t have any devices yet. <a class="rt-body-link" href="plugins/kentik-app/page/add-device">Add an device now.</a></p>
 
             <p bs-tooltip="'Devices are routers and hosts that Kentik ingests and stores full-resolution network data — NetFlow, SNMP, BGP — and scale seamlessly to any volume of flow.'">What's a device? <i class="grafana-tip fa fa-question-circle ng-scope"></i></p>
         </div>
