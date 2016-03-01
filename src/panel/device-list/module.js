@@ -1,5 +1,11 @@
 import _ from 'lodash';
 import {PanelCtrl} from 'app/plugins/sdk';
+import {loadPluginCss} from 'app/plugins/sdk';
+
+loadPluginCss({
+  dark: 'plugins/kentik-app/css/dark.css',
+  light: 'plugins/kentik-app/css/light.css'
+});
 
 var panelDefaults = {
     fullscreen: true
