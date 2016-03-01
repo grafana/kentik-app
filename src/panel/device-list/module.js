@@ -36,7 +36,7 @@ class DeviceListCtrl extends PanelCtrl {
   }
 
   gotoDeviceDetail(device) {
-    this.$location.url("/plugins/kentik-app/pags/device-detail?device="+device.id);
+    this.$location.url("/plugins/kentik-app/page/device?device="+device.id);
   }
 }
 
