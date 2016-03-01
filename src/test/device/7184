@@ -1,0 +1,32 @@
+{
+      "device": [
+        {
+            "id": 7814,
+            "company_id": 2573,
+            "device_name": "nntp3a",
+            "device_description": "nntp3a",
+            "device_type": "host",
+            "device_sample_rate": "1",
+            "device_flow_type": "hiresflow",
+            "device_snmp_ip": null,
+            "device_snmp_community": "",
+            "minimize_snmp": false,
+            "device_agent_type": "pcap",
+            "device_bgp_type": "none",
+            "device_bgp_neighbor_ip": null,
+            "device_bgp_neighbor_asn": null,
+            "device_bgp_local_asn": null,
+            "device_bgp_multihop": false,
+            "device_bgp_password": null,
+            "use_bgp_device_id": null,
+            "device_last_edit": "2015-12-09T16:35:47.421Z",
+            "device_chf_interface": null,
+            "device_chf_client_port": null,
+            "device_chf_client_protocol": null,
+            "device_proxy_bgp": "",
+            "max_flow_rate": 4000,
+            "max_big_flow_rate": 30,
+            "custom_columns": null
+        }
+      ]
+}

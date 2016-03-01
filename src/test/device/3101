@@ -1,0 +1,32 @@
+{
+    "device": [
+        {
+            "id": 3101,
+            "company_id": 2573,
+            "device_name": "cat2_cloudhelix_com",
+            "device_description": "Cloudhelix core router",
+            "device_type": "router",
+            "device_sample_rate": "1024",
+            "device_flow_type": "netflow.v5",
+            "device_snmp_ip": "198.186.190.7",
+            "device_snmp_community": "hello1",
+            "minimize_snmp": false,
+            "device_agent_type": "v5",
+            "device_bgp_type": "none",
+            "device_bgp_neighbor_ip": null,
+            "device_bgp_neighbor_asn": null,
+            "device_bgp_local_asn": null,
+            "device_bgp_multihop": false,
+            "device_bgp_password": null,
+            "use_bgp_device_id": 0,
+            "device_last_edit": "2015-08-13T18:01:21.368Z",
+            "device_chf_interface": "38.118.79.46",
+            "device_chf_client_port": 30094,
+            "device_chf_client_protocol": "17",
+            "device_proxy_bgp": "",
+            "max_flow_rate": 4000,
+            "max_big_flow_rate": 30,
+            "custom_columns": null
+        }
+    ]
+}

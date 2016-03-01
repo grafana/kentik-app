@@ -1,0 +1,32 @@
+{
+    "device": [
+        {
+            "id": 3086,
+            "company_id": 2573,
+            "device_name": "rx1_cloudhelix_com",
+            "device_description": "Cloudhelix switch",
+            "device_type": "router",
+            "device_sample_rate": "8192",
+            "device_flow_type": "sflow",
+            "device_snmp_ip": "38.118.79.3",
+            "device_snmp_community": "hellomonitorme",
+            "minimize_snmp": false,
+            "device_agent_type": "sflow",
+            "device_bgp_type": "none",
+            "device_bgp_neighbor_ip": null,
+            "device_bgp_neighbor_asn": null,
+            "device_bgp_local_asn": null,
+            "device_bgp_multihop": false,
+            "device_bgp_password": null,
+            "use_bgp_device_id": 0,
+            "device_last_edit": "2015-01-12T03:41:13.642Z",
+            "device_chf_interface": "38.118.79.45",
+            "device_chf_client_port": 30057,
+            "device_chf_client_protocol": "17",
+            "device_proxy_bgp": "",
+            "max_flow_rate": 4000,
+            "max_big_flow_rate": 30,
+            "custom_columns": null
+        }
+    ]
+}

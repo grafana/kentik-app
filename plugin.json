@@ -9,7 +9,7 @@
     {
       "path": "api/*",
       "method": "*",
-      "url": "https://cloudhelix.com/api/v1",
+      "url": "http://localhost:3000/public/plugins/kentik-app/test/",
       "headers": [
         {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
         {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
@@ -39,7 +39,7 @@
   "pages": [
     { "name": "Home", "component": "HomeCtrl", "role": "Editor"},
     { "name": "Add Device", "component": "AddDeviceCtrl", "role": "Editor"},
-    { "name": "Device", "component": "DeviceCtrl", "role": "Viewer"}
+    { "name": "Device", "component": "DeviceCtrl", "role": "Viewer", "suppress_nav": true}
   ],
 
   "dependencies": {
