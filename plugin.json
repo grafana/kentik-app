@@ -3,7 +3,7 @@
   "name": "Kentik App",
   "id": "kentik-app",
 
-  "staticRoot": "./src",
+  "staticRoot": ".",
 
   "routes": [
     {
