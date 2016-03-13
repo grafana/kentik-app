@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/components/add_device.js"],"names":[],"mappings":";;;;;;;;;;;;;;+BAAa;;;;;;AAEb,oBAAc,WAAd,GAA4B,4BAA5B","file":"add_device.js","sourcesContent":["export class AddDeviceCtrl {\n}\nAddDeviceCtrl.templateUrl = 'components/add_device.html';"]}

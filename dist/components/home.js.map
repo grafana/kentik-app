@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/components/home.js"],"names":[],"mappings":";;;;;;;;;;;;;;0BAAa;;;;;;AAEb,eAAS,WAAT,GAAuB,sBAAvB","file":"home.js","sourcesContent":["export class HomeCtrl {\n}\nHomeCtrl.templateUrl = 'components/home.html';"]}
