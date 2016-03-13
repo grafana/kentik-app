@@ -45,11 +45,10 @@
     { "type": "panel", "name": "Kentik Call To Action"},
     { "type": "panel", "name": "Kentik Device List"},
     { "type": "datasource", "name": "Kentik-ds"},
-
-    { "type": "dashboard", "path": "dashboards/top_talkers.json"}
+    { "type": "dashboard", "name": "Top Talkers", "path": "dashboards/top_talkers.json"}
   ],
 
   "dependencies": {
-    "grafanaVersion": "2.6.x"
+    "grafanaVersion": "3.x.x"
   }
 }
