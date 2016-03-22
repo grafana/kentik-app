@@ -36,16 +36,40 @@
     "updated": "2015-02-10"
   },
 
-  "pages": [
-    { "name": "Home", "component": "HomeCtrl", "role": "Editor"},
-    { "name": "Add Device", "component": "AddDeviceCtrl", "role": "Editor"}
-  ],
-
   "includes": [
-    { "type": "panel", "name": "Kentik Call To Action"},
-    { "type": "panel", "name": "Kentik Device List"},
-    { "type": "datasource", "name": "Kentik-ds"},
-    { "type": "dashboard", "name": "Top Talkers", "path": "dashboards/top_talkers.json"}
+    {
+      "type": "page",
+      "name": "Home",
+      "component": "HomeCtrl",
+      "role": "Editor",
+      "addToNav": true,
+      "defaultNav": true
+    },
+    {
+      "type": "page",
+      "name": "Add Device",
+      "component": "AddDeviceCtrl",
+      "role": "Editor",
+      "addToNav": true
+    },
+    {
+      "type": "dashboard",
+      "name": "Top Talkers",
+      "path": "dashboards/top_talkers.json",
+      "addToNav": true
+    },
+    {
+      "type": "panel",
+      "name": "Kentik Call To Action"
+    },
+    {
+      "type": "panel",
+      "name": "Kentik Device List"
+    },
+    {
+      "type": "datasource",
+      "name": "Kentik-ds"
+    }
   ],
 
   "dependencies": {
