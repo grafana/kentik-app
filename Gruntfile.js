@@ -11,14 +11,20 @@ module.exports = function(grunt) {
 
     copy: {
       src_to_dist: {
-        expand: true,
         cwd: 'src',
-        src: ['**/*', '!**/*.js'],
+        expand: true,
+        src: ['**/*', '!**/*.js', '!**/*.scss'],
         dest: 'dist'
       },
-      other: {
+      img_to_dist: {
+        cwd: 'src',
         expand: true,
-        src: ['plugin.json', 'readme.md'],
+        src: ['img/*'],
+        dest: 'dist/src/'
+      },
+      pluginDef: {
+        expand: true,
+        src: ['plugin.json', 'README.md'],
         dest: 'dist',
       }
     },
@@ -41,13 +47,24 @@ module.exports = function(grunt) {
         files: [{
           cwd: 'src',
           expand: true,
-          src: ['**/*.js'],
+          src: ['**/*.js', '!src/directives/*.js', '!src/filters/*.js'],
           dest: 'dist',
           ext:'.js'
         }]
       },
     },
 
+    sass: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          "dist/css/kentik.dark.css": "src/sass/kentik.dark.scss",
+          "dist/css/kentik.light.css": "src/sass/kentik.light.scss",
+        }
+      }
+    }
   });
 
   grunt.registerTask('default', ['clean', 'copy', 'babel']);

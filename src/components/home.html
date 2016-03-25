@@ -1,3 +1,62 @@
-<h3>
-	Kentik Home!
-</h3>
+<div class="page-header">
+	<h1 class="rt-h1">Devices</h1>
+	<a class="btn btn-success" href="plugins/kentik-app/pages/new-device">
+		<i class="fa fa-plus"></i>
+		New Device
+	</a>
+</div>
+
+<div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
+	<div class="rt-loading-message-inside">
+		<img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
+		<p class="rt-loading-msg-1">To infinity...and beyond.</p>
+		<p class="rt-loading-msg-2">This is taking longer than expected.</p>
+		<p class="rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
+	</div>
+</div>
+
+<div ng-if="ctrl.pageReady">
+	<div ng-if="ctrl.devices.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
+		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
+			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
+			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/kentik-app/pages/new-device">Add an endpoint now.</a></p>
+		</div>
+		<div class="rt-collapse-container">
+			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an Kentik Device? <i class="fa fa-caret-down"></i></label>
+			<input id="_1" type="checkbox">
+			<div class="rt-collapse-blurb-box">
+				<p class="rt-helper-blurb">Devices in Kentik are sources of network flow data - commonly a network component such as a switch or router, or a flow generation agent on a host/server.  Once configured, Kentik will automatically begin tracking and returning direct insights from that source viewpoint into exactly which applications and endpoints are actively driving network traffic.</p>
+			</div>
+		</div>
+	</div>
+	<div ng-if="ctrl.devices.length > 0">
+		<div class="rt-list-showing-header">
+			<div class="rt-list-status">
+				<span class="small">Showing {{(ctrl.devices | filterByTag:ctrl.filter.tag).length}}</span>
+				<span class="small"> of <span class="rt-list-links">{{ctrl.devices.length}} total</a></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<section ng-if="ctrl.devices.length > 0" class="card-section" layout-mode>
+    <layout-selector></layout-selector>
+
+		<ol class="card-list" >
+			<li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:sort_field">
+				<a class="card-item" href="#" ng-click="ctrl.gotoDeviceDetail(device)">
+					<div class="card-item-header">
+						{{device.device_type}}
+					</div>
+					<div class="card-item-body">
+						<div class="card-item-details">
+							<div class="card-item-name">
+								{{device.device_name}}
+								</span>
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+		</ol>
+	</section>

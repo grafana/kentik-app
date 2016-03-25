@@ -18,7 +18,7 @@
   ],
 
   "info": {
-    "description": "Kentik App",
+    "description": "Kentik Connect Lite allows you to quickly and easily add network activity visibility metrics to your Grafana dashboard.",
     "author": {
       "name": "Kentik.",
       "url": "http://kentik.com"
@@ -57,6 +57,13 @@
       "name": "Top Talkers",
       "path": "dashboards/top_talkers.json",
       "addToNav": true
+    },
+    {
+      "type": "dashboard",
+      "name": "Kentik Home",
+      "path": "dashboards/kentik-home.json",
+      "addToNav": true,
+      "defaultNav": true
     },
     {
       "type": "panel",
