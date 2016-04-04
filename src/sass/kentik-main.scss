@@ -122,9 +122,6 @@ ul.rt-modal-ul {
   }
 }
 
-.public {color:$rt-blue;}
-.private {color:$gray-1;}
-
 .collectorStatus,
 .endpointStatus  {
   margin-bottom: 50px;
@@ -237,23 +234,6 @@ ul.rt-modal-ul {
 }
 
 .refresh {padding-top:15px;}
-
-.mainLink i, .mainLink i:visited{
-  color: $link-color;
-  -webkit-text-fill-color: transparent;
-  background: -webkit-linear-gradient(top left, $link-color 0%, #13b2d4 100%) repeat;
-  background: -o-linear-gradient(top left, $link-color 0%, $rt-blue 100%) repeat;
-  -webkit-background-clip: text;
-  text-decoration:none;
-  transition: 0.15s;
-}
-
-.mainLink i:hover, .mainLink i:active {
-  color: $link-hover-color;
-  -webkit-text-fill-color: $link-hover-color;
-  text-decoration:none;
-  transition: 0.15s;
-}
 
 .tag-icon {
   font-size: 14px;
@@ -625,7 +605,6 @@ raintank POSITIONING
   margin: 10px 0;
   display:block;
   cursor: pointer;
-  color: $rt-blue;
 }
 
 .rt-collapse-secondary{
@@ -658,7 +637,6 @@ raintank POSITIONING
   margin: 10px 0 0 0;
   display:block;
   cursor: pointer;
-  color: $rt-blue;
 }
 .rt-advanced-options:hover{
  color: $text-color;
@@ -676,67 +654,7 @@ raintank POSITIONING
   display:block;
 }
 
-// raintank form elements
 
-.rt-radio-custom {
-    opacity: 0;
-    position: absolute;
-}
-
-.rt-radio-layout {
-  margin-right: 20px;
-}
-
-.rt-radio-custom, .rt-radio-jumbo-label, .rt-radio-body-label {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px;
-    cursor: pointer;
-}
-
-.rt-radio-body-label {
-  @extend .rt-modal-body-copy;
-  font-style: normal;
-  color: $text-color;
-}
-
-.rt-radio-jumbo-label {
-    position: relative;
-    color: $text-color;
-    font-size: 40px;
-    font-weight: 600;
-}
-
-.rt-radio-jumbo-sub-label {
-  color: $text-color;
-  font-weight: 400;
-  display: block;
-  margin-top: 5px;
-}
-
-.rt-radio-custom + *:before {
-    content: '';
-    background: transparent;
-    border: 2px solid $text-color-weak;
-    display: inline-block;
-    vertical-align: middle;
-    width: 10px;
-    height: 10px;
-    padding: 2px;
-    margin-right: 10px;
-    text-align: center;
-    transition: all 50ms linear;
-}
-
-
-.rt-radio-custom + *:before {
-    border-radius: 50%;
-}
-
-.rt-radio-custom:checked + *:before {
-    background: $rt-blue;
-    box-shadow: inset 0px 0px 0px 3px $body-bg;
-}
 
 // Hiding class for screen readers
 
