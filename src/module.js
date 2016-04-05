@@ -1,6 +1,7 @@
 
 import {ConfigCtrl} from './config/config.js';
-import {HomeCtrl} from './components/home';
+import {DeviceListCtrl} from './components/device_list';
+import {DeviceDetailsCtrl} from './components/device_details';
 import {AddDeviceCtrl} from './components/add_device';
 import {loadPluginCss} from 'app/plugins/sdk';
 
@@ -10,7 +11,8 @@ loadPluginCss({
 });
 
 export {
-	HomeCtrl,
+	DeviceListCtrl,
+	DeviceDetailsCtrl,
 	AddDeviceCtrl,
 	ConfigCtrl
 };

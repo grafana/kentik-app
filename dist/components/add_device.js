@@ -16,9 +16,9 @@ System.register([], function (_export, _context) {
         _classCallCheck(this, AddDeviceCtrl);
       });
 
-      _export('AddDeviceCtrl', AddDeviceCtrl);
-
       AddDeviceCtrl.templateUrl = 'components/add_device.html';
+
+      _export('AddDeviceCtrl', AddDeviceCtrl);
     }
   };
 });

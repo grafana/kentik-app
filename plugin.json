@@ -39,11 +39,17 @@
   "includes": [
     {
       "type": "page",
-      "name": "Home",
-      "component": "HomeCtrl",
+      "name": "Device List",
+      "component": "DeviceListCtrl",
       "role": "Editor",
-      "addToNav": true,
-      "defaultNav": true
+      "addToNav": true
+    },
+    {
+      "type": "page",
+      "name": "Device Details",
+      "component": "DeviceDetailsCtrl",
+      "role": "Editor",
+      "addToNav": false
     },
     {
       "type": "page",

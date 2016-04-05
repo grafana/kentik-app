@@ -1,1 +1,88 @@
-<h2>Add Kentik Device</h2>
+<div class="page-header">
+  <h1>Add a New Device</h1>
+</div>
+<div class="row">
+  <div class="col-md-10">
+    <p>Devices in Kentik are sources of network flow data - commonly a network component such as a switch or router, or a flow generation agent on a host/server.  Once configured, Kentik will automatically begin tracking and returning direct insights from that source viewpoint into exactly which applications and endpoints are actively driving network traffic.</p>
+  </div>
+</div>
+
+<form ng-if="!ctrl.collector.id" name="collectorNameForm">
+	<div class="gf-form-group">
+		<div class="gf-form">
+		  <label class="gf-form-label width-11">Device Name</label>
+		  <input class="gf-form-input max-width-21" type="text" required>
+		</div>
+		<div class="gf-form">
+		  <label class="gf-form-label width-11">Device Type</label>
+		  <div class="gf-form-select-wrapper">
+		    <select class="gf-form-input gf-size-auto" ng-init="kentikDevice = 'router'" ng-model="kentikDevice">
+		    	<option ng-option value="router">Router</option>
+		    	<option ng-option value="host">Host</option>
+		    </select>
+		  </div>
+		</div>
+	</div>
+
+	<div class="gf-form-group">
+		<div class="gf-form">
+		  <label class="gf-form-label width-11">Description</label>
+		  <input class="gf-form-input max-width-21" type="text">
+		</div>
+		<div class="gf-form" ng-if="kentikDevice == 'router'">
+		  <label class="gf-form-label width-11">Flow Type</label>
+		  <div class="gf-form-select-wrapper">
+		    <select class="gf-form-input gf-size-auto">
+		    	<option>sFlow</option>
+		    	<option>NetFlow v5</option>
+		    	<option>NetFlow v9</option>
+ 			    <option>IPFIX</option>
+		    </select>
+		  </div>
+		</div>
+		<div class="gf-form" ng-if="kentikDevice == 'host'">
+		  <label class="gf-form-label width-11">Flow Type</label>
+		  <div class="gf-form-select-wrapper">
+		    <select class="gf-form-input gf-size-auto">
+		    	<option>HiresFlow</option>
+		    </select>
+		  </div>
+		</div>
+		<div class="gf-form">
+		  <label class="gf-form-label width-11">Sample Rate</label>
+		  <input class="gf-form-input max-width-5" type="text" required>
+		</div>
+	</div>
+	<div class="gf-form-group">
+		<div class="gf-form" ng-if="kentikDevice == 'router'">
+		  <label class="gf-form-label width-11">SNMP Polling</label>
+		  <div class="gf-form-select-wrapper">
+		    <select class="gf-form-input gf-size-auto">
+		    	<option>Standard</option>
+		    	<option>Minimum</option>
+		    </select>
+		  </div>
+		</div>
+		<div class="gf-form" ng-if="kentikDevice == 'router'">
+		  <label class="gf-form-label width-11">SNMP Community</label>
+		  <input class="gf-form-input max-width-15" type="text">
+		</div>
+		<div class="gf-form" ng-if="kentikDevice == 'router'">
+		  <label class="gf-form-label width-11">Device IP</label>
+		  <input class="gf-form-input max-width-15" type="text">
+		  <a class="btn btn-inverse btn-small"><i class="fa fa-plus"></i></a>
+		</div>
+	</div>
+	<div class="gf-form-group">
+		<div class="gf-form">
+		  <label class="gf-form-label width-11">BGP</label>
+		  <div class="gf-form-select-wrapper">
+		    <select class="gf-form-input max-width-15" disabled>
+		    	<option>Available with paid acounts</option>
+		    </select>
+		  </div>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-success">Add Device</button>
+	<a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+</form>

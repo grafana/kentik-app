@@ -1,12 +1,14 @@
 'use strict';
 
-System.register(['./config/config.js', './components/home', './components/add_device', 'app/plugins/sdk'], function (_export, _context) {
-	var ConfigCtrl, HomeCtrl, AddDeviceCtrl, loadPluginCss;
+System.register(['./config/config.js', './components/device_list', './components/device_details', './components/add_device', 'app/plugins/sdk'], function (_export, _context) {
+	var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, AddDeviceCtrl, loadPluginCss;
 	return {
 		setters: [function (_configConfigJs) {
 			ConfigCtrl = _configConfigJs.ConfigCtrl;
-		}, function (_componentsHome) {
-			HomeCtrl = _componentsHome.HomeCtrl;
+		}, function (_componentsDevice_list) {
+			DeviceListCtrl = _componentsDevice_list.DeviceListCtrl;
+		}, function (_componentsDevice_details) {
+			DeviceDetailsCtrl = _componentsDevice_details.DeviceDetailsCtrl;
 		}, function (_componentsAdd_device) {
 			AddDeviceCtrl = _componentsAdd_device.AddDeviceCtrl;
 		}, function (_appPluginsSdk) {
@@ -19,7 +21,9 @@ System.register(['./config/config.js', './components/home', './components/add_de
 				light: 'plugins/kentik-app/css/light.css'
 			});
 
-			_export('HomeCtrl', HomeCtrl);
+			_export('DeviceListCtrl', DeviceListCtrl);
+
+			_export('DeviceDetailsCtrl', DeviceDetailsCtrl);
 
 			_export('AddDeviceCtrl', AddDeviceCtrl);
 
