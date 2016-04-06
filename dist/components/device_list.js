@@ -31,8 +31,16 @@ System.register([], function (_export, _context) {
       }();
 
       _export("DeviceListCtrl", DeviceListCtrl = function () {
-        function DeviceListCtrl() {
+        /** @ngInject */
+
+        function DeviceListCtrl($scope, $injector, $location, backendSrv) {
           _classCallCheck(this, DeviceListCtrl);
+
+          this.backendSrv = backendSrv;
+          this.$location = $location;
+          this.devices = [];
+          this.pageReady = false;
+          this.getDevices();
         }
 
         _createClass(DeviceListCtrl, [{
