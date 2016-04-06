@@ -1,1 +1,0 @@
-Kentik Connect Lite allows you to quickly and easily add network activity visibility metrics to your Grafana dashboard. By leveraging the power of Kentik’s monitoring SaaS, you can enjoy rich, actionable insights into consumers of network bandwidth and anomalies that can affect application or service performance.

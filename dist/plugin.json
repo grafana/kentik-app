@@ -9,7 +9,7 @@
     {
       "path": "api/*",
       "method": "*",
-      "url": "https://cloudhelix.com/api/v1",
+      "url": "https://api.kentik.com/api/",
       "headers": [
         {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
         {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}

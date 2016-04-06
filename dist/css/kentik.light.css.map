@@ -3,9 +3,9 @@
 	"file": "kentik.light.css",
 	"sources": [
 		"../../src/sass/kentik.light.scss",
-		"../../../go/src/github.com/grafana/grafana/public/sass/_variables.light.scss",
+		"../../../../../public/sass/_variables.light.scss",
 		"../../src/sass/kentik.scss",
-		"../../../go/src/github.com/grafana/grafana/public/sass/_variables.scss",
+		"../../../../../public/sass/_variables.scss",
 		"../../src/sass/base/_config.scss",
 		"../../src/sass/components/animations.scss",
 		"../../src/sass/pages/device-detail.scss",
