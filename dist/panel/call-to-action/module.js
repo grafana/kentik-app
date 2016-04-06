@@ -60,8 +60,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
       }();
 
       loadPluginCss({
-        dark: 'plugins/kentik-app/css/dark.css',
-        light: 'plugins/kentik-app/css/light.css'
+        dark: 'plugins/kentik-app/css/kentik.dark.css',
+        light: 'plugins/kentik-app/css/kentik.light.css'
       });
 
       panelDefaults = {

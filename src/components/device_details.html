@@ -3,13 +3,13 @@
 
 	<div class="page-header-tabs">
 		<ul class="gf-tabs">
-			<li class="gf-tabs-item">
+<!-- 			<li class="gf-tabs-item">
 				<a class="gf-tabs-link" href="#" ng-init="ctrl.tabIndex = 0" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 0" ng-class="{active: ctrl.tabIndex === 0}">
 					Details
 				</a>
-			</li>
+			</li> -->
 			<li class="gf-tabs-item">
-				<a class="gf-tabs-link" href="#" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 1" ng-class="{active: ctrl.tabIndex === 1}">
+				<a class="gf-tabs-link" href="#" ng-init="ctrl.tabIndex = 1" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 1" ng-class="{active: ctrl.tabIndex === 1}">
 					Configuration
 				</a>
 			</li>
@@ -23,11 +23,11 @@
 </div>
 
 <div class="page-body">
-<div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 0">
+<!-- <div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 0">
   <div>
   	Whatever stats we can get from the v1 API.
   </div>
-</div>
+</div> -->
 
 <div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 1">
 	<form ng-if="!ctrl.collector.id" name="collectorNameForm">

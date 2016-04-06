@@ -23,21 +23,21 @@
     -webkit-transform: rotate(350deg);
     opacity: .5; } }
 
-.rt-loading-message-container {
+.kentik-loading-message-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: 350px; }
 
-.rt-loading-message-inside {
+.kentik-loading-message-inside {
   text-align: center;
   padding-top: 90px;
   min-height: 150px;
   min-width: 400px;
   margin: 0 auto; }
 
-.rt-loading-pulse {
+.kentik-loading-pulse {
   opacity: 0;
   margin-left: auto;
   margin-right: auto;
@@ -52,7 +52,7 @@
   animation: loading-opacity 200ms 500ms ease-in forwards;
   /* IE 10+, Fx 29+ */ }
 
-.rt-loading-msg, .rt-loading-msg-1, .rt-loading-msg-2, .rt-loading-msg-3 {
+.kentik-loading-msg, .kentik-loading-msg-1, .kentik-loading-msg-2, .kentik-loading-msg-3 {
   opacity: 0;
   position: relative;
   margin-left: auto;
@@ -63,14 +63,14 @@
   text-transform: uppercase;
   font-weight: 400; }
 
-.rt-loading-msg-1 {
+.kentik-loading-msg-1 {
   animation: loading-opacity 200ms 500ms ease-in forwards, loading-clear 200ms 5s ease-in forwards; }
 
-.rt-loading-msg-2 {
+.kentik-loading-msg-2 {
   top: -35px;
   animation: loading-opacity 200ms 5.5s ease-in forwards, loading-clear 200ms 15s ease-in forwards; }
 
-.rt-loading-msg-3 {
+.kentik-loading-msg-3 {
   top: -70px;
   animation: loading-opacity 200ms 15.5s ease-in forwards; }
 
@@ -122,266 +122,8 @@
   100% {
     opacity: 0; } }
 
-.ascii-spinner-layout, .ascii-spinner-1, .ascii-spinner-2, .ascii-spinner-3 {
-  opacity: 0;
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -20px;
-  left: 0;
-  right: 0; }
-
-.ascii-spinner-container {
-  position: relative;
-  display: inline-block; }
-
-.ascii-spinner-1 {
-  animation: loading-1 2250ms ease-in infinite;
-  -webkit-animation: loading-1 2250ms ease-in infinite;
-  -moz-animation: loading-1 2250ms ease-in infinite;
-  -o-animation: loading-1 2250ms ease-in infinite; }
-
-.ascii-spinner-2 {
-  -webkit-animation: loading-2 2250ms ease-in infinite;
-  -moz-animation: loading-2 2250ms ease-in infinite;
-  -o-animation: loading-2 2250ms ease-in infinite;
-  animation: loading-2 2250ms ease-in infinite; }
-
-.ascii-spinner-3 {
-  -webkit-animation: loading-3 2250ms ease-in infinite;
-  -moz-animation: loading-3 2250ms ease-in infinite;
-  -o-animation: loading-3 2250ms ease-in infinite;
-  animation: loading-3 2250ms ease-in infinite; }
-
-@-webkit-keyframes loading-1 {
-  0% {
-    opacity: 0; }
-  1% {
-    opacity: .5; }
-  11% {
-    opacity: .5; }
-  12% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes loading-1 {
-  0% {
-    opacity: 0; }
-  1% {
-    opacity: .5; }
-  11% {
-    opacity: .5; }
-  12% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes loading-1 {
-  0% {
-    opacity: 0; }
-  1% {
-    opacity: .5; }
-  11% {
-    opacity: .5; }
-  12% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@keyframes loading-1 {
-  0% {
-    opacity: 0; }
-  1% {
-    opacity: .5; }
-  11% {
-    opacity: .5; }
-  12% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes loading-2 {
-  0% {
-    opacity: 0; }
-  10% {
-    opacity: 0; }
-  11% {
-    opacity: .5; }
-  22% {
-    opacity: .5; }
-  23% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes loading-2 {
-  0% {
-    opacity: 0; }
-  10% {
-    opacity: 0; }
-  11% {
-    opacity: .5; }
-  22% {
-    opacity: .5; }
-  23% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes loading-2 {
-  0% {
-    opacity: 0; }
-  10% {
-    opacity: 0; }
-  11% {
-    opacity: .5; }
-  22% {
-    opacity: .5; }
-  23% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@keyframes loading-2 {
-  0% {
-    opacity: 0; }
-  10% {
-    opacity: 0; }
-  11% {
-    opacity: .5; }
-  22% {
-    opacity: .5; }
-  23% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes loading-3 {
-  0% {
-    opacity: 0; }
-  21% {
-    opacity: 0; }
-  22% {
-    opacity: .5; }
-  33% {
-    opacity: .5; }
-  34% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes loading-3 {
-  0% {
-    opacity: 0; }
-  21% {
-    opacity: 0; }
-  22% {
-    opacity: .5; }
-  33% {
-    opacity: .5; }
-  34% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes loading-3 {
-  0% {
-    opacity: 0; }
-  21% {
-    opacity: 0; }
-  22% {
-    opacity: .5; }
-  33% {
-    opacity: .5; }
-  34% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-@keyframes loading-3 {
-  0% {
-    opacity: 0; }
-  21% {
-    opacity: 0; }
-  22% {
-    opacity: .5; }
-  33% {
-    opacity: .5; }
-  34% {
-    opacity: 0; }
-  100% {
-    opacity: 0; } }
-
-.wp-tag-margin--bottom {
-  margin-bottom: 50px; }
-
-.card-item-header--wp-icons i {
+.card-item-header--kentik-icons i {
   font-size: 16px; }
-
-.endpoint-detail-flex-grow {
-  flex-grow: 2;
-  margin-right: 50px; }
-
-.endpoint-detail-flex-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap; }
-
-.card-list-layout-grid .endpoint-detail-flex-container {
-  flex-direction: column; }
-
-.card-list-layout-list .endpoint-detail-flex-container {
-  flex-direction: row; }
-
-.card-list-layout-grid .endpoint-alerting {
-  margin: 25px 0; }
-
-.endpoint-name {
-  line-height: 1.3; }
-
-.endpoint-alerting {
-  float: left;
-  font-size: 1rem; }
-
-.endpoint-alerting-status,
-.endpoint-alerting-recipients {
-  display: inline-block; }
-  .endpoint-alerting-status .icon,
-  .endpoint-alerting-recipients .icon {
-    display: inline-block;
-    margin-right: 5px;
-    font-size: 16px;
-    vertical-align: top;
-    margin-top: 2px; }
-
-.endpoint-alerting-recipients .icon {
-  margin-right: 10px; }
-
-.endpoint-alerting-status {
-  margin-right: 30px;
-  font-weight: 400; }
-  .endpoint-alerting-status.not-enabled,
-  .endpoint-alerting-status.not-enabled a {
-    display: inline-block;
-    color: #7B7B7B;
-    font-weight: normal; }
-    .endpoint-alerting-status.not-enabled:hover,
-    .endpoint-alerting-status.not-enabled a:hover {
-      color: #fff; }
-  .endpoint-alerting-status a {
-    display: inline-block; }
-  @media (min-width: 675px) {
-    .endpoint-alerting-status {
-      margin-bottom: 2px; } }
-
-.endpoint-alerting-recipients {
-  color: #7B7B7B; }
-
-@media (min-width: 675px) {
-  .endpoint-alerting-status,
-  .endpoint-alerting-recipients {
-    display: block; } }
 
 .section-header-flex-container {
   display: flex;
@@ -443,6 +185,102 @@
 
 .wp-app-advanced-link {
   margin: 1rem 0; }
+
+.wp-icon-success {
+  color: #10a345;
+  font-size: 24px;
+  text-decoration: none;
+  vertical-align: sub; }
+
+/******************************************
+RAINTANK DASHBOARD STYLES
+******************************************/
+.kentik-dash--cta-logo {
+  margin-left: -10px;
+  width: 150px;
+  margin-bottom: 10px; }
+
+p.kentik-dashboard-copy {
+  font-size: 14px;
+  color: #D8D9DA; }
+
+.kentik-dash-flex-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column; }
+
+.kentik-panel-CTA-flex-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  text-align: center;
+  min-height: 220px;
+  margin: 0 100px 25px 80px;
+  background: #221f1f;
+  border: solid 1px #292929;
+  padding: 5px 30px; }
+  .kentik-panel-CTA-flex-container .kentik-CTA-flex-copy {
+    flex-grow: 2; }
+
+.kentik-CTA-flex-image {
+  min-width: 185px;
+  max-width: 200px;
+  margin-bottom: 10px; }
+
+.kentik-dash-flex-item {
+  flex: 1;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: 15px; }
+
+@media screen and (max-width: 780px) {
+  .kentik-dash-flex-item {
+    flex: 0 100%;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto; } }
+
+p.kentik-helper-blurb {
+  font-size: 14px;
+  color: #D8D9DA;
+  min-height: 35px; }
+
+p.kentik-dashboard-blurb {
+  font-size: 14px;
+  color: #D8D9DA;
+  margin: 0; }
+
+a.kentik-dashboard-blurb {
+  font-size: 14px;
+  color: #dF7518;
+  margin: 0; }
+
+a.kentik-dashboard-blurb:hover {
+  text-decoration: underline; }
+
+.kentik-dashboard-icons {
+  color: #dF7518;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(to right, rgba(255, 213, 0, 0.7) 0%, rgba(255, 68, 0, 0.7) 99%, rgba(255, 68, 0, 0.7) 100%);
+  -webkit-background-clip: text;
+  text-decoration: none;
+  font-size: 85px;
+  vertical-align: sub; }
+
+.kentik-CTA-item {
+  margin: 10px 0; }
+
+.kentik-blurb-success {
+  color: #7B7B7B;
+  text-decoration: line-through; }
+
+.kentik-dashboard-icons-container {
+  width: 30px;
+  display: inline-block;
+  margin-right: 5px;
+  text-align: center; }
 
 .page-header--flex {
   display: flex; }
@@ -605,10 +443,6 @@ raintank BOX
   margin: 0;
   background-color: none;
   padding: 0px 30px; }
-
-.page-container {
-  background: #1f1d1d;
-  border: solid 1px #292929; }
 
 .oneCol {
   display: none; }

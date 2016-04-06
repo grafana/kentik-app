@@ -12,27 +12,6 @@
       {
         "collapse": false,
         "editable": true,
-        "height": "125px",
-        "panels": [
-          {
-            "content": "<img src=\"public/plugins/worldping-app/src/img/logo_large.png\" width=\"49\" style=\"margin-top: 25px;\">",
-            "editable": true,
-            "error": false,
-            "id": 2,
-            "links": [],
-            "mode": "html",
-            "span": 12,
-            "style": {},
-            "title": "",
-            "transparent": true,
-            "type": "text"
-          }
-        ],
-        "title": ""
-      },
-      {
-        "collapse": false,
-        "editable": true,
         "height": "330px",
         "panels": [
           {

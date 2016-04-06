@@ -1,17 +1,17 @@
 <div class="page-header">
-    <h1 class="rt-h1">Devices</h1>
+    <h1 class="rt-h1">Kentik Connect: Devices</h1>
     <a class="btn btn-success" href="plugins/kentik-app/pages/new-device">
         <i class="fa fa-plus"></i>
         New Device
     </a>
 </div>
 
-<div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
-    <div class="rt-loading-message-inside">
-        <img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
-        <p class="rt-loading-msg-1">To infinity...and beyond.</p>
-        <p class="rt-loading-msg-2">This is taking longer than expected.</p>
-        <p class="rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
+<div ng-if="!ctrl.pageReady" class="kentik-loading-message-container">
+    <div class="kentik-loading-message-inside">
+        <img class="kentik-loading-pulse" src="public/plugins/kentik-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
+        <p class="kentik-loading-msg-1">To infinity...and beyond.</p>
+        <p class="kentik-loading-msg-2">This is taking longer than expected.</p>
+        <p class="kentik-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
     </div>
 </div>
 
@@ -39,67 +39,34 @@
     </div>
 </div>
 
-    <section ng-if="ctrl.devices.length > 0" class="card-section" layout-mode>
-    <layout-selector></layout-selector>
+<section ng-if="ctrl.devices.length > 0" class="card-section" layout-mode>
+<layout-selector></layout-selector>
 
-        <ol class="card-list" >
-            <li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:sort_field">
-                <a class="card-item" href="#" ng-click="ctrl.gotoDeviceDetail(device)">
-                    <div class="card-item-header">
-                        {{device.device_type}}
-                    </div>
-                    <div class="card-item-body">
-                        <div class="card-item-details">
+    <ol class="card-list" >
+        <li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:sort_field">
+            <div class="card-item" ng-click="http://www.google.com">
+                <div class="card-item-header card-item-header--kentik-icons card-item-header-action">
+                    <a href="#">
+                        <i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Top Talkers</br>dashboard for {{device.device_name}}'"></i>
+                    </a>
+                    <a href="#">
+                        <i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{device.device_name}}'"></i>
+                    </a>
+                </div>
+                <div class="card-item-body">
+                    <div class="card-item-details">
+                        <a href="#">
                             <div class="card-item-name">
                                 {{device.device_name}}
-                                </span>
+                                <span class="small">{{device.device_type}}</span>
                             </div>
-                        </div>
+                            <div class="card-item-sub-name">
+                                {{device.device_description}}
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </li>
-        </ol>
-    </section>
-
-
-
-<!-- <div class="rt-page-header-area" style="margin-left:25px; margin-bottom: 35px;">
-    <h1 class="rt-h1">Kentik Devices</h1>
-    <span style="float: right; margin-top: 10px; margin-right: 20px;"><a class="rt-btn" href="plugins/kentik-app/pages/new-device">New Device</a></span>
-</div>
-<div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
-    <div class="rt-loading-message-inside">
-        <img class="rt-loading-pulse" src="/public/img/loading-pulse.svg" style="margin-bottom: 10px;">
-        <p class="freqMsg nodata rt-loading-msg-1">To infinity...and beyond.</p>
-        <p class="freqMsg nodata rt-loading-msg-2">This is taking longer than expected.</p>
-        <p class="freqMsg nodata rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
-    </div>
-</div>
-<div ng-if="ctrl.pageReady">
-    <div ng-if="ctrl.devices.length === 0" class="rt-dash-flex-container" style="align-items: center; min-height: 350px;">
-        <div style="text-align: center; min-height: 220px; min-width: 400px;  margin: 0 auto;">
-            <i ng-class="icon" class="fa fa-server no-devices"></i>
-            <p>Looks like you don’t have any devices yet. <a class="rt-body-link" href="plugins/kentik-app/pages/new-device">Add an device now.</a></p>
-
-            <p bs-tooltip="'Devices are routers and hosts that Kentik ingests and stores full-resolution network data — NetFlow, SNMP, BGP — and scale seamlessly to any volume of flow.'">What's a device? <i class="grafana-tip fa fa-question-circle ng-scope"></i></p>
-        </div>
-    </div>
-</div>
-<div ng-if="ctrl.pageReady">
-
-    <div ng-if="ctrl.devices.length > 0" style="margin: 15px; position: relative; display: block;">
-    <div class="rt-list" ng-repeat="device in ctrl.devices | orderBy:sort_field">
-        <div class="rt-list-header rt-page-box-header" style="overflow: visible; padding:5px;" ng-click="ctrl.gotoDeviceDetail(device)">
-            <span class="rt-list-item-title"><a ng-click="ctrl.gotoDeviceDetail(device)">{{device.device_name}}</a></span>
-                <div style="float: right;">
-                <div style="display: inline;">
-                   {{device.device_type}}
-                </div>
-                <div style="display: inline; margin-left:25px;">
                 </div>
             </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    </div>
-</div> -->
+        </li>
+    </ol>
+</section>
