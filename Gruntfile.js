@@ -54,6 +54,22 @@ module.exports = function(grunt) {
       },
     },
 
+    jshint: {
+      source: {
+        files: {
+          src: ['Gruntfile.js', 'src/**/*.js'],
+        }
+      },
+      options: {
+        jshintrc: true,
+        reporter: require('jshint-stylish'),
+        ignores: [
+          'node_modules/*',
+          'dist/*',
+        ]
+      }
+    },
+
     sass: {
       options: {
         sourceMap: true
@@ -67,5 +83,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'babel']);
+  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'jshint', 'babel']);
 };
