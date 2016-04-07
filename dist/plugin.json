@@ -38,7 +38,7 @@
       "large": "img/logo_large.png"
     },
     "links": [
-      {"name": "Project site", "url": "http://project.com"},
+      {"name": "Kentik", "url": "http://www.kentik.com"},
       {"name": "License & Terms", "url": "http://license.com"}
     ],
     "version": "1.0.0",
