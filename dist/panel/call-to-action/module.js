@@ -73,12 +73,11 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
 
         /** @ngInject */
 
-        function CallToActiontCtrl($scope, $injector, $q, backendSrv) {
+        function CallToActiontCtrl($scope, $injector, backendSrv) {
           _classCallCheck(this, CallToActiontCtrl);
 
           var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CallToActiontCtrl).call(this, $scope, $injector));
 
-          _this.$q = $q;
           _this.backendSrv = backendSrv;
           _this.deviceStatus = '';
           _this.AllDone = false;
@@ -90,24 +89,26 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _createClass(CallToActiontCtrl, [{
           key: 'getTaskStatus',
           value: function getTaskStatus() {
-            var self = this;
-            this.$q.all([self.getDevices()]).then(function () {
-              if (self.deviceStatus === 'hasDevices') {
-                self.AllDone = true;
+            var _this2 = this;
+
+            this.getDevices().then(function () {
+              if (_this2.deviceStatus === 'hasDevices') {
+                _this2.AllDone = true;
               } else {
-                self.AllDone = false;
+                _this2.AllDone = false;
               }
             });
           }
         }, {
           key: 'getDevices',
           value: function getDevices() {
-            var self = this;
+            var _this3 = this;
+
             return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function (resp) {
               if (resp.device.length > 0) {
-                self.deviceStatus = 'hasDevices';
+                _this3.deviceStatus = 'hasDevices';
               } else {
-                self.deviceStatus = 'noDevices';
+                _this3.deviceStatus = 'noDevices';
               }
             });
           }

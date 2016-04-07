@@ -70,6 +70,13 @@ module.exports = function(grunt) {
       }
     },
 
+    jscs: {
+      src: ['src/**/*.js'],
+      options: {
+        config: ".jscs.json",
+      },
+    },
+
     sass: {
       options: {
         sourceMap: true
@@ -83,5 +90,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'jshint', 'babel']);
+  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'babel', 'jshint', 'jscs']);
 };

@@ -8,10 +8,11 @@ loadPluginCss({
 });
 
 var panelDefaults = {
-    fullscreen: true
+  fullscreen: true
 };
 
 class DeviceListCtrl extends PanelCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv) {
     super($scope, $injector);

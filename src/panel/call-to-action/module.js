@@ -8,14 +8,14 @@ loadPluginCss({
 });
 
 var panelDefaults = {
-    fullscreen: true
+  fullscreen: true
 };
 
 class CallToActiontCtrl extends PanelCtrl {
+
   /** @ngInject */
-  constructor($scope, $injector, $q, backendSrv) {
+  constructor($scope, $injector, backendSrv) {
     super($scope, $injector);
-    this.$q = $q;
     this.backendSrv = backendSrv;
     this.deviceStatus = '';
     this.AllDone = false;
@@ -24,25 +24,21 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   getTaskStatus() {
-    var self = this;
-    this.$q.all([
-      self.getDevices()
-    ]).then(function() {
-      if (self.deviceStatus === 'hasDevices') {
-        self.AllDone = true;
+    this.getDevices().then(() => {
+      if (this.deviceStatus === 'hasDevices') {
+        this.AllDone = true;
       } else {
-        self.AllDone = false;
+        this.AllDone = false;
       }
     });
   }
 
   getDevices() {
-    var self = this;
-    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function(resp) {
+    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(resp => {
       if (resp.device.length > 0) {
-        self.deviceStatus = 'hasDevices';
+        this.deviceStatus = 'hasDevices';
       } else {
-        self.deviceStatus = 'noDevices';
+        this.deviceStatus = 'noDevices';
       }
     });
   }
@@ -53,5 +49,4 @@ class CallToActiontCtrl extends PanelCtrl {
 }
 
 CallToActiontCtrl.templateUrl = 'panel/call-to-action/module.html';
-
 export {CallToActiontCtrl as PanelCtrl};
