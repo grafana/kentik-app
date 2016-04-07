@@ -1,7 +1,7 @@
 'use strict';
 
-System.register([], function (_export, _context) {
-  var _createClass, KentikDatasource;
+System.register(['./metric_list', 'lodash'], function (_export, _context) {
+  var metricList, _, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -10,7 +10,11 @@ System.register([], function (_export, _context) {
   }
 
   return {
-    setters: [],
+    setters: [function (_metric_list) {
+      metricList = _metric_list.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
+    }],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -31,38 +35,50 @@ System.register([], function (_export, _context) {
       }();
 
       _export('KentikDatasource', KentikDatasource = function () {
-        function KentikDatasource(instanceSettings, backendSrv, $q) {
+        function KentikDatasource(instanceSettings, backendSrv, templateSrv) {
           _classCallCheck(this, KentikDatasource);
 
           this.instanceSettings = instanceSettings;
           this.backendSrv = backendSrv;
-          this.$q = $q;
+          this.templateSrv = templateSrv;
         }
 
         _createClass(KentikDatasource, [{
-          key: 'getTimeFilter',
-          value: function getTimeFilter(range) {
-            var timeFilter = 'ctimestamp > ' + (range.from.valueOf() / 1000).toFixed(0);
-            timeFilter += ' OR ctimestamp < ' + (range.to.valueOf() / 1000).toFixed(0);
-            return timeFilter;
+          key: 'interpolateDeviceField',
+          value: function interpolateDeviceField(value, variable) {
+            // if no multi or include all do not regexEscape
+            if (!variable.multi && !variable.includeAll) {
+              return value;
+            }
+
+            if (typeof value === 'string') {
+              return value;
+            }
+
+            return value.join(',');
           }
         }, {
           key: 'query',
           value: function query(options) {
-            // var query = options.targets[0].target;
-            // query = query.replace('$timeFilter', this.getTimeFilter(options.range));
+            if (!options.targets || options.targets.length === 0) {
+              return Promise.resolve({ data: [] });
+            }
+
+            var target = options.targets[0];
+            var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
+
             var query = {
               version: "2.01",
               query: {
-                device_name: 'nntp2a',
-                time_type: 'relative', // or fixed
+                device_name: deviceNames,
+                time_type: 'fixed', // or fixed
                 lookback_seconds: 3600,
-                starting_time: null,
-                ending_time: null,
-                metric: "Traffic",
-                fast_data: "Auto", // or Fast or Full
-                device_type: 'router' },
-              // or host,
+                starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
+                ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+                metric: this.templateSrv.replace(target.metric),
+                fast_data: "Auto" },
+              // or Fast or Full
+              // device_type: 'router', // or host,
               filterSettings: {
                 connector: 'All',
                 filterString: '',
@@ -75,13 +91,13 @@ System.register([], function (_export, _context) {
               method: 'POST',
               url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/timeSeriesData',
               data: query
-            }).then(this.processResponse.bind(this));
+            }).then(this.processResponse.bind(this, query));
           }
         }, {
           key: 'processResponse',
-          value: function processResponse(data) {
+          value: function processResponse(query, data) {
             if (!data.data) {
-              return this.$q.reject({ message: 'no kentik data' });
+              return Promise.reject({ message: 'no kentik data' });
             }
 
             var rows = data.data;
@@ -89,18 +105,50 @@ System.register([], function (_export, _context) {
               return [];
             }
 
-            var seriesList = [];
-            var series = { target: 'traffic', datapoints: [] };
+            var seriesList = {};
+            var metricDef = _.findWhere(metricList, { value: query.query.metric });
 
             for (var i = 0; i < rows.length; i++) {
               var row = rows[i];
               var value = row.f_sum_both_bytes;
+              var seriesName = row[metricDef.field];
+              var series = seriesList[seriesName];
+              if (!series) {
+                series = seriesList[seriesName] = {
+                  target: seriesName,
+                  datapoints: []
+                };
+              }
+
               var time = new Date(row.i_start_time).getTime();
               series.datapoints.push([value, time]);
             }
 
-            seriesList.push(series);
-            return { data: seriesList };
+            return {
+              data: _.map(seriesList, function (value) {
+                return value;
+              })
+            };
+          }
+        }, {
+          key: 'metricFindQuery',
+          value: function metricFindQuery(query) {
+            if (query === 'metrics()') {
+              return Promise.resolve(metricList);
+            }
+
+            return this.backendSrv.datasourceRequest({
+              method: 'GET',
+              url: 'api/plugin-proxy/kentik-app/api/v1/device/list'
+            }).then(function (res) {
+              if (!res.data || !res.data.device) {
+                return [];
+              }
+
+              return res.data.device.map(function (device) {
+                return { text: device.device_name, value: device.device_name };
+              });
+            });
           }
         }]);
 

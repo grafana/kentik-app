@@ -1,8 +1,14 @@
 <query-editor-row ctrl="ctrl">
 	<li class="tight-form-item">
-		Query
+		Device
 	</li>
-	<div class="tight-form-flex-wrapper">
-		<input type="text" class="input tight-form-clear-input" style="width: 100%" ng-model="ctrl.target.target"></input>
-	</div>
+	<li>
+		<input type="text" class="input-large tight-form-input" ng-model="ctrl.target.device"></input>
+	</li>
+	<li class="tight-form-item">
+		Metric
+	</li>
+	<li>
+		<input type="text" class="input-large tight-form-input" ng-model="ctrl.target.metric"></input>
+	</li>
 </query-editor-row>

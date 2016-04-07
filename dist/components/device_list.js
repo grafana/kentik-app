@@ -47,7 +47,7 @@ System.register([], function (_export, _context) {
           key: "getDevices",
           value: function getDevices() {
             var self = this;
-            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/device/list").then(function (resp) {
+            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function (resp) {
               self.devices = resp.device;
               self.pageReady = true;
             });
@@ -60,7 +60,7 @@ System.register([], function (_export, _context) {
         }, {
           key: "gotoDeviceDetail",
           value: function gotoDeviceDetail(device) {
-            this.$location.url("/plugins/kentik-app/pags/device-detail?device=" + device.id);
+            this.$location.url("/plugins/kentik-app/page/device-details?device=" + device.id);
           }
         }]);
 
