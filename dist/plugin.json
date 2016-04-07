@@ -24,7 +24,6 @@
         {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
       ]
     }
-
   ],
 
   "info": {
