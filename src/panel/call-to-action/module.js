@@ -38,7 +38,7 @@ class CallToActiontCtrl extends PanelCtrl {
 
   getDevices() {
     var self = this;
-    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/device/list").then(function(resp) {
+    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function(resp) {
       if (resp.device.length > 0) {
         self.deviceStatus = 'hasDevices';
       } else {

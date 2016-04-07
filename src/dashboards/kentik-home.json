@@ -15,7 +15,7 @@
         "height": "125px",
         "panels": [
           {
-            "content": "<img src=\"public/plugins/worldping-app/src/img/logo_large.png\" width=\"49\" style=\"margin-top: 25px;\">",
+            "content": "<img src=\"public/plugins/kentik-app/img/logo_large.png\" width=\"49\" style=\"margin-top: 25px;\">",
             "editable": true,
             "error": false,
             "id": 2,
@@ -146,6 +146,6 @@
       "list": []
     },
     "schemaVersion": 7,
-    "version": 2,
+    "version": 3,
     "links": []
   }

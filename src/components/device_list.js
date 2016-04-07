@@ -9,7 +9,7 @@ class DeviceListCtrl {
   }
   getDevices() {
     var self = this;
-    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/device/list").then(function(resp) {
+    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function(resp) {
       self.devices = resp.device;
       self.pageReady = true;
     });
