@@ -39,6 +39,7 @@ System.register(['lodash'], function (_export, _context) {
         flow_type: 'sflow',
         flow_rate: 5,
         other_ips: '',
+        minimize_snmp: false,
         device_ip: '',
         snmp_community: ''
       };
@@ -46,10 +47,11 @@ System.register(['lodash'], function (_export, _context) {
       _export('AddDeviceCtrl', AddDeviceCtrl = function () {
         /** @ngInject */
 
-        function AddDeviceCtrl($scope, $injector, $location, backendSrv) {
+        function AddDeviceCtrl($scope, $injector, $location, backendSrv, alertSrv) {
           _classCallCheck(this, AddDeviceCtrl);
 
           this.backendSrv = backendSrv;
+          this.alertSrv = alertSrv;
           this.$location = $location;
           this.device = angular.copy(defaults);
           this.other_ips = [{ ip: '' }];
@@ -58,7 +60,6 @@ System.register(['lodash'], function (_export, _context) {
         _createClass(AddDeviceCtrl, [{
           key: 'addIP',
           value: function addIP() {
-            console.log("adding IP.");
             this.other_ips.push({ ip: '' });
           }
         }, {
@@ -69,14 +70,20 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'addDevice',
           value: function addDevice() {
+            var _this = this;
+
             var self = this;
             var ips = [];
             _.forEach(this.other_ips, function (ip) {
               ips.push(ip.ip);
             });
             this.device.other_ips = ips.join();
-            this.backendSrv.post("/api/plugin-proxy/kentik-app/api/device/create", this.device).then(function () {
-              self.$location.url("/plugins/kentik-app/page/device-list");
+            this.backendSrv.post("/api/plugin-proxy/kentik-app/api/v1/device/create", this.device).then(function (resp) {
+              if ('err' in resp) {
+                _this.alertSrv.set("Device Add failed.", resp.err, 'error');
+              } else {
+                self.$location.url("/plugins/kentik-app/page/device-list");
+              }
             });
           }
         }]);

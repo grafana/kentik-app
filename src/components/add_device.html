@@ -17,8 +17,8 @@
       <label class="gf-form-label width-11">Device Type</label>
       <div class="gf-form-select-wrapper">
         <select class="gf-form-input gf-size-auto" ng-model="ctrl.device.type">
-          <option ng-option value="router">Router</option>
-          <option ng-option value="host">Host</option>
+          <option value="router">Router</option>
+          <option value="host">Host</option>
         </select>
       </div>
     </div>
@@ -33,10 +33,10 @@
       <label class="gf-form-label width-11">Flow Type</label>
       <div class="gf-form-select-wrapper">
         <select class="gf-form-input gf-size-auto" ng-model="ctrl.device.flow_type">
-          <option>sFlow</option>
-          <option>NetFlow v5</option>
-          <option>NetFlow v9</option>
-          <option>IPFIX</option>
+          <option value="sflow">sFlow</option>
+          <option value="netflow.v5">NetFlow v5</option>
+          <option value="netflow.v9">NetFlow v9</option>
+          <option value="ipfix">IPFIX</option>
         </select>
       </div>
     </div>
@@ -44,7 +44,7 @@
       <label class="gf-form-label width-11">Flow Type</label>
       <div class="gf-form-select-wrapper">
         <select class="gf-form-input gf-size-auto" ng-model="ctrl.device.flow_type">
-          <option>HiresFlow</option>
+          <option value=hiresflow>HiresFlow</option>
         </select>
       </div>
     </div>
@@ -63,9 +63,7 @@
     <div class="gf-form" ng-if="ctrl.device.type == 'router'">
       <label class="gf-form-label width-11">SNMP Polling</label>
       <div class="gf-form-select-wrapper">
-        <select class="gf-form-input gf-size-auto" ng-model="ctrl.device.snmp_polling">
-          <option>Standard</option>
-          <option>Minimum</option>
+        <select class="gf-form-input gf-size-auto" ng-model="ctrl.device.minimize_snmp" ng-options="i.v as i.l for i in [{v: true, l: 'Minimum'}, {v: false, l: 'Standard'}]">
         </select>
       </div>
     </div>
