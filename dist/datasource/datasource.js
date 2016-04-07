@@ -1,7 +1,7 @@
 'use strict';
 
-System.register([], function (_export, _context) {
-  var _createClass, KentikDatasource;
+System.register(['./metric_list', 'lodash'], function (_export, _context) {
+  var metricList, _, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -10,7 +10,11 @@ System.register([], function (_export, _context) {
   }
 
   return {
-    setters: [],
+    setters: [function (_metric_list) {
+      metricList = _metric_list.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
+    }],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -40,11 +44,18 @@ System.register([], function (_export, _context) {
         }
 
         _createClass(KentikDatasource, [{
-          key: 'getTimeFilter',
-          value: function getTimeFilter(range) {
-            var timeFilter = 'ctimestamp > ' + (range.from.valueOf() / 1000).toFixed(0);
-            timeFilter += ' OR ctimestamp < ' + (range.to.valueOf() / 1000).toFixed(0);
-            return timeFilter;
+          key: 'interpolateDeviceField',
+          value: function interpolateDeviceField(value, variable) {
+            // if no multi or include all do not regexEscape
+            if (!variable.multi && !variable.includeAll) {
+              return value;
+            }
+
+            if (typeof value === 'string') {
+              return value;
+            }
+
+            return value.join(',');
           }
         }, {
           key: 'query',
@@ -54,15 +65,16 @@ System.register([], function (_export, _context) {
             }
 
             var target = options.targets[0];
+            var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
             var query = {
               version: "2.01",
               query: {
-                device_name: this.templateSrv.replace(target.device),
-                time_type: 'relative', // or fixed
+                device_name: deviceNames,
+                time_type: 'fixed', // or fixed
                 lookback_seconds: 3600,
-                starting_time: null,
-                ending_time: null,
+                starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
+                ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
                 metric: this.templateSrv.replace(target.metric),
                 fast_data: "Auto" },
               // or Fast or Full
@@ -93,32 +105,36 @@ System.register([], function (_export, _context) {
               return [];
             }
 
-            console.log('kentik response', rows);
-            var seriesList = [];
-            var series = { target: query.query.metric, datapoints: [] };
+            var seriesList = {};
+            var metricDef = _.findWhere(metricList, { value: query.query.metric });
 
             for (var i = 0; i < rows.length; i++) {
               var row = rows[i];
               var value = row.f_sum_both_bytes;
+              var seriesName = row[metricDef.field];
+              var series = seriesList[seriesName];
+              if (!series) {
+                series = seriesList[seriesName] = {
+                  target: seriesName,
+                  datapoints: []
+                };
+              }
+
               var time = new Date(row.i_start_time).getTime();
               series.datapoints.push([value, time]);
             }
 
-            seriesList.push(series);
-            return { data: seriesList };
-          }
-        }, {
-          key: 'getMetricList',
-          value: function getMetricList() {
-            return Promise.resolve(["Traffic", "Geography_src", "src_geo_region", "src_geo_city", "AS_src", "InterfaceID_src", "Port_src", "VLAN_src", "IP_src", "src_route_prefix_len", "src_route_length", "src_bgp_community", "src_bgp_aspath", "src_nexthop_ip", "src_nexthop_asn", "src_second_asn", "src_third_asn", "src_proto_port", "TopFlow", "Proto", "InterfaceTopTalkers", "PortPortTalkers", "RegionTopTalkers", "TopFlowsIP", "ASTopTalkers", "TOS", "Geography_dst", "dst_geo_region", "dst_geo_city", "AS_dst", "InterfaceID_dst", "Port_dst", "VLAN_dst", "IP_dst", "dst_route_prefix_len", "dst_route_length", "dst_bgp_community", "dst_bgp_aspath", "dst_nexthop_ip", "dst_nexthop_asn", "dst_second_asn", "dst_third_asn", "dst_proto_port"].map(function (value) {
-              return { text: value, value: value };
-            }));
+            return {
+              data: _.map(seriesList, function (value) {
+                return value;
+              })
+            };
           }
         }, {
           key: 'metricFindQuery',
           value: function metricFindQuery(query) {
             if (query === 'metrics()') {
-              return this.getMetricList();
+              return Promise.resolve(metricList);
             }
 
             return this.backendSrv.datasourceRequest({
