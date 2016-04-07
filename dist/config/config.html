@@ -1,0 +1,18 @@
+
+
+<h3 class="page-heading">Kentik Credentials</h3>
+<div class="gf-form-group">
+	<div class="gf-form">
+		<label class="gf-form-label width-10">Email</label>
+		<!-- Hidden input to stop chrome from autofilling -->
+		<input style="display:none;" type="text" name="somefakename" />
+		<input type="text" class="gf-form-input max-width-20" ng-model='ctrl.appModel.jsonData.email' placeholder="email"></input>
+	</div>
+	<div class="gf-form">
+		<label class="gf-form-label width-10">Api Token</label>
+		<!-- Hidden input to stop chrome from autofilling -->
+		<input style="display:none;" type="password" name="anotherfakename" />
+		<input type="password" class="gf-form-input max-width-20" ng-model='ctrl.appModel.secureJsonData.token' placeholder="api token"></input>
+	</div>
+</div>
+
