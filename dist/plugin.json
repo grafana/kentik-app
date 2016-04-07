@@ -7,7 +7,16 @@
 
   "routes": [
     {
-      "path": "api/*",
+      "path": "api/v4/*",
+      "method": "*",
+      "url": "https://api.kentik.com/api/v4/",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    },
+    {
+      "path": "api/v1/*",
       "method": "*",
       "url": "https://cloudhelix.com/api/v1",
       "headers": [
