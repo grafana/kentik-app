@@ -16,7 +16,7 @@ class DeviceListCtrl {
   }
 
   refresh() {
-    this.getDevices()
+    this.getDevices();
   }
 
   gotoDeviceDetail(device) {
@@ -24,6 +24,6 @@ class DeviceListCtrl {
   }
 }
 
-DeviceListCtrl.templateUrl = 'components/device_list.html'
+DeviceListCtrl.templateUrl = 'components/device_list.html';
 
-export {DeviceListCtrl}
+export {DeviceListCtrl};

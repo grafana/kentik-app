@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import angular from 'angular';
 
 var defaults = {
   device_name: '',
@@ -12,15 +13,15 @@ var defaults = {
   snmp_community: ''
 };
 
-class AddDeviceCtrl {
+export class AddDeviceCtrl {
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv, alertSrv) {
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
-    this.$location = $location
+    this.$location = $location;
     this.device = angular.copy(defaults);
     this.other_ips = [{ip: ''}];
-   }
+  }
 
   addIP() {
     this.other_ips.push({ip: ''});
@@ -46,6 +47,5 @@ class AddDeviceCtrl {
     });
   }
 }
-AddDeviceCtrl.templateUrl = 'components/add_device.html';
 
-export {AddDeviceCtrl}
+AddDeviceCtrl.templateUrl = 'components/add_device.html';

@@ -18,7 +18,7 @@ class CallToActiontCtrl extends PanelCtrl {
     this.$q = $q;
     this.backendSrv = backendSrv;
     this.deviceStatus = '';
-    this.AllDone = false
+    this.AllDone = false;
     this.getTaskStatus();
     _.defaults(this.panel, panelDefaults);
   }
@@ -48,11 +48,10 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   refresh() {
-    this.getTaskStatus()
+    this.getTaskStatus();
   }
 }
 
 CallToActiontCtrl.templateUrl = 'panel/call-to-action/module.html';
 
-export {CallToActiontCtrl as PanelCtrl}
-
+export {CallToActiontCtrl as PanelCtrl};

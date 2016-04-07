@@ -32,7 +32,7 @@ class DeviceListCtrl extends PanelCtrl {
   }
 
   refresh() {
-    this.getDevices()
+    this.getDevices();
   }
 
   gotoDeviceDetail(device) {
@@ -42,5 +42,4 @@ class DeviceListCtrl extends PanelCtrl {
 
 DeviceListCtrl.templateUrl = 'panel/device-list/module.html';
 
-export {DeviceListCtrl as PanelCtrl}
-
+export {DeviceListCtrl as PanelCtrl};

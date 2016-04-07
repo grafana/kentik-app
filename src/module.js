@@ -16,4 +16,3 @@ export {
 	AddDeviceCtrl,
 	ConfigCtrl
 };
-

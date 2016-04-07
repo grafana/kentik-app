@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
-class DeviceDetailsCtrl {
+export class DeviceDetailsCtrl {
+
 	/** @ngInject */
   constructor($scope, $injector, $location, backendSrv, alertSrv) {
     this.backendSrv = backendSrv;
@@ -74,5 +75,3 @@ class DeviceDetailsCtrl {
 }
 
 DeviceDetailsCtrl.templateUrl = 'components/device_details.html';
-
-export {DeviceDetailsCtrl}
