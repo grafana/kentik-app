@@ -3,8 +3,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/kentik-app/css/dark.css',
-  light: 'plugins/kentik-app/css/light.css'
+  dark: 'plugins/kentik-app/css/kentik.dark.css',
+  light: 'plugins/kentik-app/css/kentik.light.css'
 });
 
 var panelDefaults = {
@@ -25,7 +25,7 @@ class DeviceListCtrl extends PanelCtrl {
 
   getDevices() {
     var self = this;
-    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/device/list").then(function(resp) {
+    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function(resp) {
       self.devices = resp.device;
       self.pageReady = true;
     });
