@@ -2,7 +2,7 @@
   "id": null,
   "title": "Kentik: Home",
   "originalTitle": "Kentik: Home",
-  "tags": [],
+  "tags": ["kentik"],
   "style": "dark",
   "timezone": "browser",
   "editable": false,
@@ -12,30 +12,6 @@
       {
         "collapse": false,
         "editable": true,
-<<<<<<< HEAD
-=======
-        "height": "125px",
-        "panels": [
-          {
-            "content": "<img src=\"public/plugins/kentik-app/img/logo_large.png\" width=\"49\" style=\"margin-top: 25px;\">",
-            "editable": true,
-            "error": false,
-            "id": 2,
-            "links": [],
-            "mode": "html",
-            "span": 12,
-            "style": {},
-            "title": "",
-            "transparent": true,
-            "type": "text"
-          }
-        ],
-        "title": ""
-      },
-      {
-        "collapse": false,
-        "editable": true,
->>>>>>> master
         "height": "330px",
         "panels": [
           {
@@ -91,7 +67,7 @@
             "query": "",
             "span": 4,
             "tags": [
-              "Kentik"
+              "kentik"
             ],
             "title": "Kentik dashboards",
             "type": "dashlist"
