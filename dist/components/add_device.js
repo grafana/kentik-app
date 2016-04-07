@@ -39,6 +39,7 @@ System.register(['lodash'], function (_export, _context) {
         flow_type: 'sflow',
         flow_rate: 5,
         other_ips: '',
+        minimize_snmp: false,
         device_ip: '',
         snmp_community: ''
       };
@@ -58,7 +59,6 @@ System.register(['lodash'], function (_export, _context) {
         _createClass(AddDeviceCtrl, [{
           key: 'addIP',
           value: function addIP() {
-            console.log("adding IP.");
             this.other_ips.push({ ip: '' });
           }
         }, {
