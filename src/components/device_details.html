@@ -1,34 +1,32 @@
 <div class="page-header">
   <h1>core_nyc_isp<a ng-click="ctrl.gotoDashboard(ctrl.device)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Kentic: Summary </br>dashboard for this Device'"></i></a></h1>
-
-  <div class="page-header-tabs">
-    <ul class="gf-tabs">
-      <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="#" ng-init="ctrl.tabIndex = 0" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 0" ng-class="{active: ctrl.tabIndex === 0}">
-          Details
-        </a>
-      </li>
-      <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="#" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 1" ng-class="{active: ctrl.tabIndex === 1}">
-          Configuration
-        </a>
-      </li>
-      <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="#" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 2" ng-class="{active: ctrl.tabIndex === 2}">
-          Installation
-        </a>
-      </li>
-    </ul>
-  </div>
+	<div class="page-header-tabs">
+		<ul class="gf-tabs">
+<!-- 			<li class="gf-tabs-item">
+				<a class="gf-tabs-link" href="#" ng-init="ctrl.tabIndex = 0" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 0" ng-class="{active: ctrl.tabIndex === 0}">
+					Details
+				</a>
+			</li> -->
+			<li class="gf-tabs-item">
+				<a class="gf-tabs-link" href="#" ng-init="ctrl.tabIndex = 1" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 1" ng-class="{active: ctrl.tabIndex === 1}">
+					Configuration
+				</a>
+			</li>
+			<li class="gf-tabs-item">
+				<a class="gf-tabs-link" href="#" ng-model="ctrl.tabIndex" ng-click="ctrl.tabIndex = 2" ng-class="{active: ctrl.tabIndex === 2}">
+					Installation
+				</a>
+			</li>
+		</ul>
+	</div>
 </div>
 
 <div class="page-body">
-  <div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 0">
-    <div>
-      Whatever stats we can get from the v1 API.
-      <span>{{ctrl.device}}</span>
-    </div>
+<!-- <div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 0">
+  <div>
+  	Whatever stats we can get from the v1 API.
   </div>
+</div> -->
 
   <div class="tab-content page-content-with-sidebar" ng-if="ctrl.tabIndex === 1">
     <form ng-if="!ctrl.collector.id" name="collectorNameForm">

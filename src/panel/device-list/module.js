@@ -3,8 +3,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/kentik-app/css/dark.css',
-  light: 'plugins/kentik-app/css/light.css'
+  dark: 'plugins/kentik-app/css/kentik.dark.css',
+  light: 'plugins/kentik-app/css/kentik.light.css'
 });
 
 var panelDefaults = {

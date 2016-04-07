@@ -12,6 +12,8 @@
       {
         "collapse": false,
         "editable": true,
+<<<<<<< HEAD
+=======
         "height": "125px",
         "panels": [
           {
@@ -33,6 +35,7 @@
       {
         "collapse": false,
         "editable": true,
+>>>>>>> master
         "height": "330px",
         "panels": [
           {
