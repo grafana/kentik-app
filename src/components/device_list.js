@@ -20,7 +20,7 @@ class DeviceListCtrl {
   }
 
   gotoDeviceDetail(device) {
-    this.$location.url("/plugins/kentik-app/pags/device-detail?device="+device.id);
+    this.$location.url("/plugins/kentik-app/page/device-details?device="+device.id);
   }
 }
 
