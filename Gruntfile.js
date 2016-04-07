@@ -13,13 +13,13 @@ module.exports = function(grunt) {
       src_to_dist: {
         cwd: 'src',
         expand: true,
-        src: ['**/*', '!**/*.js', '!**/*.scss'],
+        src: ['**/*.js', '!**/*.js', '!**/*.scss', '!img/**/*'],
         dest: 'dist'
       },
       img_to_dist: {
         cwd: 'src',
         expand: true,
-        src: ['img/*'],
+        src: ['img/**/*'],
         dest: 'dist/src/'
       },
       pluginDef: {
@@ -90,5 +90,14 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'babel', 'jshint', 'jscs']);
+  grunt.registerTask('default', [
+    'clean',
+    'sass',
+    'copy:src_to_dist',
+    'copy:img_to_dist',
+    'copy:pluginDef',
+    'babel',
+    'jshint',
+    'jscs'
+    ]);
 };

@@ -34,8 +34,8 @@
     },
     "keywords": ["kentik"],
     "logos": {
-      "small": "img/logo_small.png",
-      "large": "img/logo_large.png"
+      "small": "src/img/logo_small.png",
+      "large": "src/img/logo_large.png"
     },
     "links": [
       {"name": "Project site", "url": "http://project.com"},
