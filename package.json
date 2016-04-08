@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/raintank/kentik-app-poc/issues"
+    "url": "https://github.com/raintank/kentik-app/issues"
   },
   "devDependencies": {
     "grunt": "~0.4.5",

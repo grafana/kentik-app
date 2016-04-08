@@ -11,7 +11,7 @@
   <div class="gf-form-group">
     <div class="gf-form">
       <label class="gf-form-label width-11">Device Name</label>
-      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.device.device_name" required>
+      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.device.device_name" pattern="^[A-Za-z0-9_]{1,15}$" required>
     </div>
     <div class="gf-form">
       <label class="gf-form-label width-11">Device Type</label>
@@ -54,7 +54,7 @@
     </div>
     <div class="gf-form" ng-repeat="ip in ctrl.other_ips">
       <label class="gf-form-label width-11">Source Address</label>
-      <input class="gf-form-input max-width-15" type="text" ng-model="ip.ip">
+      <input class="gf-form-input max-width-15" type="text" ng-model="ip.ip" required>
       <a class="btn btn-inverse btn-small" ng-click="ctrl.addIP()" ng-if="$first"><i class="fa fa-plus"></i></a>
       <a class="btn btn-inverse btn-small" ng-click="ctrl.removeIP($index)" ng-if="!$first"><i class="fa fa-minus"></i></a>
     </div>
