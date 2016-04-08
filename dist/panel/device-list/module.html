@@ -35,7 +35,7 @@
 <layout-selector></layout-selector>
 
     <ol class="card-list" >
-        <li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:'device_name'" style="cursor: pointer;" ng-click="ctrl.gotoDeviceDetail()">
+        <li class="card-item-wrapper card-item-wrapper--clickable" ng-repeat="device in ctrl.devices | orderBy:'device_name'" ng-click="ctrl.gotoDeviceDetail(device)">
             <div class="card-item">
                 <div class="card-item-header card-item-header--kentik-icons card-item-header-action">
                     <a href="dashboard/db/top-talkers">
