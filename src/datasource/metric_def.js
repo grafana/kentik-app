@@ -1,7 +1,8 @@
 var metricList = [
-  {text: 'Traffic', value: 'Traffic', field: 'f_sum_both_bytes'},
+  {text: 'Traffic', value: 'Traffic', field: 'traffic'},
   {text: 'Geography Src', value: 'Geography_src', field: 'src_geo'},
   {text: 'IP Src', value: 'IP_src', field: 'ipv4_src_addr'},
+  {text: 'Src Geo Region', value: 'src_geo_region', field: 'src_geo_region'},
 ];
 
 var unitList = [
@@ -26,6 +27,13 @@ var unitList = [
     transform: function(value, row) {
       return value / row.i_duration;
     }
+  },
+  {
+    text: 'Unique Src IPs',
+    value: 'unique_src_ip',
+    field: 'uniquesrcips',
+    gfUnit: "short",
+    gfAxisLabel: "Unique Src IPs",
   },
   {
     text: 'Unique Dst IPs',
