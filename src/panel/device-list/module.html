@@ -35,7 +35,7 @@
 <layout-selector></layout-selector>
 
     <ol class="card-list" >
-        <li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:'device_name'">
+        <li class="card-item-wrapper" ng-repeat="device in ctrl.devices | orderBy:'device_name'" style="cursor: pointer;" ng-click="ctrl.gotoDeviceDetail()">
             <div class="card-item">
                 <div class="card-item-header card-item-header--kentik-icons card-item-header-action">
                     <a href="dashboard/db/top-talkers">
@@ -50,10 +50,9 @@
                         <a href="plugins/kentik-app/page/device-details?device={{device.id}}">
                             <div class="card-item-name">
                                 {{device.device_name}}
-                                <span class="small">{{device.device_type}}</span>
                             </div>
                             <div class="card-item-sub-name">
-                                {{device.device_description}}
+                                <span class="card-item-sub-name--header">{{device.device_type}}: </span> {{device.device_description}}
                             </div>
                         </a>
                     </div>
