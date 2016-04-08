@@ -161,7 +161,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
             table.columns.push({ text: metricDef.text });
             table.columns.push({ text: '95th Percentile' });
             table.columns.push({ text: 'Max' });
-            table.columns.push({ text: 'Value' });
+            table.columns.push({ text: 'Avg' });
 
             for (var i = 0; i < rows.length; i++) {
               var row = rows[i];
