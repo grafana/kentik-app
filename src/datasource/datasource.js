@@ -114,23 +114,27 @@ class KentikDatasource {
 
   processTopXData(rows, metricDef, unitDef) {
     var table = new TableModel();
-    table.columns.push({text: metricDef.text});
-    table.columns.push({text: '95th Percentile'});
-    table.columns.push({text: 'Max'});
-    table.columns.push({text: 'Avg'});
 
-    for (var i = 0; i < rows.length; i++) {
-      var row = rows[i];
+    table.columns.push({text: metricDef.text});
+
+    for (let col of unitDef.tableFields) {
+      table.columns.push({text: col.text});
+    }
+
+    for (let row of rows) {
       var value = row[unitDef.field];
       var seriesName = row[metricDef.field];
-      var p95th = parseFloat(row["p95th_both"]);
-      var max = parseFloat(row["max_both"]);
 
       if (unitDef.transform) {
         value = unitDef.transform(value, row);
       }
 
-      table.rows.push([seriesName, p95th, max, value]);
+      var values = [seriesName];
+      for (let col of unitDef.tableFields) {
+        values.push(row[col.field]);
+      }
+
+      table.rows.push(values);
     }
 
     return {data: [table]};

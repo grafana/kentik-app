@@ -16,7 +16,12 @@ var unitList = [
       // transform from bytes to bits and
       // divide by interval
       return (value / 8) / row.i_duration;
-    }
+    },
+    tableFields: [
+      {text: 'Max', field: 'max_both'},
+      {text: '95th Percentile', field: 'p95th_both'},
+      {text: 'Avg', field: 'f_sum_both_bytes'},
+    ]
   },
   {
     text: 'Packets/s',
@@ -26,7 +31,12 @@ var unitList = [
     gfAxislabel: 'Packets/s',
     transform: function(value, row) {
       return value / row.i_duration;
-    }
+    },
+    tableFields: [
+      {text: 'Max', field: 'max_both'},
+      {text: '95th Percentile', field: 'p95th_both'},
+      {text: 'Avg', field: 'f_sum_both_pkts'},
+    ]
   },
   {
     text: 'Unique Src IPs',
@@ -34,6 +44,11 @@ var unitList = [
     field: 'uniquesrcips',
     gfUnit: "short",
     gfAxisLabel: "Unique Src IPs",
+    tableFields: [
+      {text: 'Max IPs per device', field: 'max_unique_src_ips_per_device'},
+      {text: 'p95th mbps', field: 'p95th_bps'},
+      {text: 'p95th pps', field: 'p95th_pps'},
+    ]
   },
   {
     text: 'Unique Dst IPs',
@@ -41,6 +56,11 @@ var unitList = [
     field: 'uniquesrcips',
     gfUnit: "short",
     gfAxisLabel: "Unique Dst IPs",
+    tableFields: [
+      {text: 'Max IPs per device', field: 'max_unique_dst_ips_per_device'},
+      {text: 'p95th mbps', field: 'p95th_bps'},
+      {text: 'p95th pps', field: 'p95th_pps'},
+    ]
   },
 ];
 
