@@ -1,5 +1,4 @@
 {
-  "id": 57,
   "title": "Kentik Top Talkers",
   "originalTitle": "Kentik Top Talkers",
   "tags": [],
@@ -188,8 +187,10 @@
       {
         "current": {
           "tags": [],
-          "text": "",
-          "value": []
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "kentik",
         "hide": 0,
@@ -199,7 +200,7 @@
         "name": "device",
         "options": [],
         "query": "devices()",
-        "refresh": 0,
+        "refresh": 1,
         "type": "query"
       },
       {
