@@ -30,6 +30,10 @@ export class DeviceDetailsCtrl {
     });
   }
 
+  gotoDashboard(device_name) {
+    this.$location.url("/dashboard/db/kentik-top-talkers?var-device="+device_name);
+  }
+
   updateDeviceDTO() {
     var self = this;
     this.deviceDTO = {
