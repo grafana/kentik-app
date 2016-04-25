@@ -69,6 +69,11 @@ System.register(['lodash'], function (_export, _context) {
             });
           }
         }, {
+          key: 'gotoDashboard',
+          value: function gotoDashboard(device_name) {
+            this.$location.url("/dashboard/db/kentik-top-talkers?var-device=" + device_name);
+          }
+        }, {
           key: 'updateDeviceDTO',
           value: function updateDeviceDTO() {
             var self = this;
