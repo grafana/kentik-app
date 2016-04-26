@@ -220,6 +220,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
                     if (_.isString(val)) {
                       val = parseFloat(val);
                     }
+                    if (unitDef.transform) {
+                      val = unitDef.transform(value, row);
+                    }
                     values.push(val);
                   }
                 } catch (err) {

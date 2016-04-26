@@ -141,6 +141,9 @@ class KentikDatasource {
         if (_.isString(val)) {
           val = parseFloat(val);
         }
+        if (unitDef.transform) {
+          val = unitDef.transform(value, row);
+        }
         values.push(val);
       }
 
