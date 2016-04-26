@@ -59,10 +59,10 @@ class KentikDatasource {
       method: 'POST',
       url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/' + endpoint,
       data: query
-    }).then(this.processResponse.bind(this, query, endpoint));
+    }).then(this.processResponse.bind(this, query, endpoint, options));
   }
 
-  processResponse(query, endpoint, data) {
+  processResponse(query, endpoint, options, data) {
     if (!data.data) {
       return Promise.reject({message: 'no kentik data'});
     }
@@ -78,14 +78,20 @@ class KentikDatasource {
     if (endpoint === 'topXData') {
       return this.processTopXData(rows, metricDef, unitDef);
     } else {
-      return this.processTimeSeries(rows, metricDef, unitDef);
+      return this.processTimeSeries(rows, metricDef, unitDef, options);
     }
   }
 
-  processTimeSeries(rows, metricDef, unitDef) {
+  processTimeSeries(rows, metricDef, unitDef, options) {
     var seriesList = {};
+    var endIndex = rows.length;
 
-    for (var i = 0; i < rows.length; i++) {
+    // if time range is to now ignore last data point
+    if (options.rangeRaw.to === 'now') {
+      endIndex = endIndex - 1;
+    }
+
+    for (var i = 0; i < endIndex; i++) {
       var row = rows[i];
       var value = row[unitDef.field];
       var seriesName = row[metricDef.field];

@@ -98,11 +98,11 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               method: 'POST',
               url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/' + endpoint,
               data: query
-            }).then(this.processResponse.bind(this, query, endpoint));
+            }).then(this.processResponse.bind(this, query, endpoint, options));
           }
         }, {
           key: 'processResponse',
-          value: function processResponse(query, endpoint, data) {
+          value: function processResponse(query, endpoint, options, data) {
             if (!data.data) {
               return Promise.reject({ message: 'no kentik data' });
             }
@@ -118,15 +118,21 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
             if (endpoint === 'topXData') {
               return this.processTopXData(rows, metricDef, unitDef);
             } else {
-              return this.processTimeSeries(rows, metricDef, unitDef);
+              return this.processTimeSeries(rows, metricDef, unitDef, options);
             }
           }
         }, {
           key: 'processTimeSeries',
-          value: function processTimeSeries(rows, metricDef, unitDef) {
+          value: function processTimeSeries(rows, metricDef, unitDef, options) {
             var seriesList = {};
+            var endIndex = rows.length;
 
-            for (var i = 0; i < rows.length; i++) {
+            // if time range is to now ignore last data point
+            if (options.rangeRaw.to === 'now') {
+              endIndex = endIndex - 1;
+            }
+
+            for (var i = 0; i < endIndex; i++) {
               var row = rows[i];
               var value = row[unitDef.field];
               var seriesName = row[metricDef.field];
@@ -208,9 +214,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
 
                 try {
                   for (var _iterator3 = unitDef.tableFields[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var _col = _step3.value;
+                    var col = _step3.value;
 
-                    values.push(row[_col.field]);
+                    values.push(row[col.field]);
                   }
                 } catch (err) {
                   _didIteratorError3 = true;
