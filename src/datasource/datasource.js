@@ -137,7 +137,11 @@ class KentikDatasource {
 
       var values = [seriesName];
       for (let col of unitDef.tableFields) {
-        values.push(row[col.field]);
+        var val = row[col.field];
+        if (_.isString(val)) {
+          val = parseFloat(val);
+        }
+        values.push(val);
       }
 
       table.rows.push(values);
