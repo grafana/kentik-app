@@ -115,7 +115,7 @@
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 0,
+            "col": 1,
             "desc": true
           },
           "span": 12,

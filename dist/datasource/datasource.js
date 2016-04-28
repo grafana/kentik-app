@@ -214,9 +214,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
 
                 try {
                   for (var _iterator3 = unitDef.tableFields[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var _col = _step3.value;
+                    var col = _step3.value;
 
-                    var val = row[_col.field];
+                    var val = row[col.field];
                     if (_.isString(val)) {
                       val = parseFloat(val);
                     }
