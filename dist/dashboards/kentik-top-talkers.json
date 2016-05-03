@@ -32,7 +32,7 @@
             "alignAsTable": true,
             "avg": false,
             "current": false,
-            "max": true,
+            "max": false,
             "min": false,
             "rightSide": true,
             "show": true,
