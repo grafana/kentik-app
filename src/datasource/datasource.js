@@ -124,7 +124,7 @@ class KentikDatasource {
     table.columns.push({text: metricDef.text});
 
     for (let col of unitDef.tableFields) {
-      table.columns.push({text: col.text});
+      table.columns.push({text: col.text, unit: col.unit});
     }
 
     for (let row of rows) {

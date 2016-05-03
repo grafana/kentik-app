@@ -175,7 +175,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               for (var _iterator = unitDef.tableFields[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                 var col = _step.value;
 
-                table.columns.push({ text: col.text });
+                table.columns.push({ text: col.text, unit: col.unit });
               }
             } catch (err) {
               _didIteratorError = true;

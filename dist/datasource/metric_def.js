@@ -13,36 +13,36 @@ System.register([], function (_export, _context) {
         field: 'f_sum_both_bytes',
         gfUnit: "bps",
         gfAxisLabel: 'Bits/s',
-        transform: function transform(value, row) {
+        transform: function transform(value) {
           // transform from bytes to bits and
           // divide by interval
-          return value / 8 / row.i_duration;
+          return value / 8;
         },
-        tableFields: [{ text: 'Max', field: 'max_both' }, { text: '95th Percentile', field: 'p95th_both' }, { text: 'Avg', field: 'f_sum_both_bytes' }]
+        tableFields: [{ text: 'Max', field: 'max_both', unit: 'bps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps' }]
       }, {
         text: 'Packets/s',
         value: 'packets',
         field: 'f_sum_both_pkts',
         gfUnit: "pps",
         gfAxislabel: 'Packets/s',
-        transform: function transform(value, row) {
-          return value / row.i_duration;
-        },
-        tableFields: [{ text: 'Max', field: 'max_both' }, { text: '95th Percentile', field: 'p95th_both' }, { text: 'Avg', field: 'f_sum_both_pkts' }]
+        // transform: function(value, row) {
+        //   return value / row.i_duration;
+        // },
+        tableFields: [{ text: 'Max', field: 'max_both', unit: 'pps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps' }]
       }, {
         text: 'Unique Src IPs',
         value: 'unique_src_ip',
         field: 'uniquesrcips',
-        gfUnit: "short",
+        gfUnit: "none",
         gfAxisLabel: "Unique Src IPs",
-        tableFields: [{ text: 'Max IPs per device', field: 'max_unique_src_ips_per_device' }, { text: 'p95th mbps', field: 'p95th_bps' }, { text: 'p95th pps', field: 'p95th_pps' }]
+        tableFields: [{ text: 'Max IPs per device', field: 'max_unique_src_ips_per_device', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bps', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pps', unit: 'pps' }]
       }, {
         text: 'Unique Dst IPs',
         value: 'unique_dst_ip',
         field: 'uniquesrcips',
         gfUnit: "short",
         gfAxisLabel: "Unique Dst IPs",
-        tableFields: [{ text: 'Max IPs per device', field: 'max_unique_dst_ips_per_device' }, { text: 'p95th mbps', field: 'p95th_bps' }, { text: 'p95th pps', field: 'p95th_pps' }]
+        tableFields: [{ text: 'Max IPs per device', field: 'max_unique_dst_ips_per_device', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bps', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pps', unit: 'pps' }]
       }]);
 
       _export('metricList', metricList);
