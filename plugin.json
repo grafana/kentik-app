@@ -41,8 +41,8 @@
       {"name": "Kentik", "url": "http://www.kentik.com"},
       {"name": "License & Terms", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
     ],
-    "version": "1.0.2",
-    "updated": "2015-04-25"
+    "version": "1.0.3",
+    "updated": "2016-05-03"
   },
 
   "includes": [
