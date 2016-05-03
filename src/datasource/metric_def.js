@@ -5,7 +5,7 @@ var metricList = [
   {text: 'Source Geo City', value: 'src_geo_city', field: 'src_geo_city'},
   {text: 'Source As Number', value: 'AS_src', field: 'src_as'},
   {text: 'Source Interface', value: 'InterfaceID_src', field: 'input_port'},
-  {text: 'Source Port', value: 'Port_src', field: 'input_port'},
+  {text: 'Source Port', value: 'Port_src', field: 'l4_src_port'},
   {text: 'Source VLAN', value: 'VLAN_src', field: 'vlan_in'},
   {text: 'Source IP/CIDR', value: 'IP_src', field: 'ipv4_src_addr'},
   {text: 'Source Route Prefix/LEN', value: 'src_route_prefix_len', field: 'src_route_prefix_len'},
