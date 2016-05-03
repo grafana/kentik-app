@@ -129,7 +129,7 @@
               ],
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
               "decimals": 2,
-              "pattern": "/.*/",
+              "pattern": "/^(Max|95th|p95th|Avg)/",
               "thresholds": [],
               "type": "number",
               "unit": "short"
