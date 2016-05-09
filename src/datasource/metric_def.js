@@ -35,6 +35,7 @@ var metricList = [
   {text: 'Destination 3nd BGP_HOP AS Number', value: 'dst_third_asn', field: 'dst_third_asn'},
   {text: 'Destination Protocol:IP Port', value: 'dst_proto_port', field: 'dst_proto_port'},
   {text: 'Full TOS', value: 'TOS', field: 'tos'},
+  {text: 'Full Protocol', value: 'Proto', field: 'protocl'},
 ];
 
 var unitList = [
