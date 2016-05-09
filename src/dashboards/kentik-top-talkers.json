@@ -204,7 +204,7 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {"value": "Traffic", "text": "Traffic"},
         "datasource": "kentik",
         "hide": 0,
         "includeAll": false,
