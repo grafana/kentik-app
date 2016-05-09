@@ -65,7 +65,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Kentik first graph from data explorer api",
+          "title": "Kentik Network Flow Data",
           "tooltip": {
             "msResolution": false,
             "shared": true,
