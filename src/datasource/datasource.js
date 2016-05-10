@@ -76,7 +76,7 @@ class KentikDatasource {
     var unitDef = _.findWhere(unitList, {value: query.query.units});
 
     if (endpoint === 'topXData') {
-      return this.processTopXData(rows, metricDef, unitDef);
+      return this.processTopXData(rows, metricDef, unitDef, options);
     } else {
       return this.processTimeSeries(rows, metricDef, unitDef, options);
     }
@@ -118,8 +118,9 @@ class KentikDatasource {
     return { data: _.map(seriesList, value => value) };
   }
 
-  processTopXData(rows, metricDef, unitDef) {
+  processTopXData(rows, metricDef, unitDef, options) {
     var table = new TableModel();
+    var rangeSeconds = (options.range.to.valueOf() - options.range.from.valueOf()) / 1000;
 
     table.columns.push({text: metricDef.text});
 
@@ -128,22 +129,21 @@ class KentikDatasource {
     }
 
     for (let row of rows) {
-      var value = row[unitDef.field];
       var seriesName = row[metricDef.field];
-
-      if (unitDef.transform) {
-        value = unitDef.transform(value, row);
-      }
 
       var values = [seriesName];
       for (let col of unitDef.tableFields) {
         var val = row[col.field];
+        var transform = col.transform || unitDef.transform;
+
         if (_.isString(val)) {
           val = parseFloat(val);
         }
-        if (unitDef.transform) {
-          val = unitDef.transform(value, row);
+
+        if (transform) {
+          val = transform(val, row, rangeSeconds);
         }
+
         values.push(val);
       }
 

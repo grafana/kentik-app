@@ -38,6 +38,22 @@ var metricList = [
   {text: 'Full Protocol', value: 'Proto', field: 'protocl'},
 ];
 
+function toBitsPerSecond(value, row) {
+  return (value * 8) / row.i_duration;
+}
+
+function toPerSecondRate(value, row) {
+  return value / row.i_duration;
+}
+
+function totalToAvgPerSecond(value, row, rangeSeconds) {
+  return value / rangeSeconds;
+}
+
+function totalToBitsPerSecond(value, row, rangeSeconds) {
+  return (value * 8) / rangeSeconds;
+}
+
 var unitList = [
   {
     text: 'Bits/s',
@@ -45,15 +61,11 @@ var unitList = [
     field: 'f_sum_both_bytes',
     gfUnit: "bps",
     gfAxisLabel: 'Bits/s',
-    transform: function(value) {
-      // transform from bytes to bits and
-      // divide by interval
-      return (value / 8);
-    },
+    transform: toBitsPerSecond,
     tableFields: [
       {text: 'Max', field: 'max_both', unit: 'bps'},
       {text: '95th Percentile', field: 'p95th_both', unit: 'bps'},
-      {text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps'},
+      {text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond},
     ]
   },
   {
@@ -62,13 +74,11 @@ var unitList = [
     field: 'f_sum_both_pkts',
     gfUnit: "pps",
     gfAxislabel: 'Packets/s',
-    // transform: function(value, row) {
-    //   return value / row.i_duration;
-    // },
+    transform: toPerSecondRate,
     tableFields: [
       {text: 'Max', field: 'max_both', unit: 'pps'},
       {text: '95th Percentile', field: 'p95th_both', unit: 'pps'},
-      {text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps'},
+      {text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond},
     ]
   },
   {
@@ -93,7 +103,7 @@ var unitList = [
       {text: 'Max IPs per device', field: 'max_unique_dst_ips_per_device', unit: 'none'},
       {text: 'p95th mbps', field: 'p95th_bps', unit: 'bps'},
       {text: 'p95th pps', field: 'p95th_pps', unit: 'pps'},
-    ]
+   ]
   },
 ];
 

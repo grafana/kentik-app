@@ -2,6 +2,24 @@
 
 System.register([], function (_export, _context) {
   var metricList, unitList;
+
+
+  function toBitsPerSecond(value, row) {
+    return value * 8 / row.i_duration;
+  }
+
+  function toPerSecondRate(value, row) {
+    return value / row.i_duration;
+  }
+
+  function totalToAvgPerSecond(value, row, rangeSeconds) {
+    return value / rangeSeconds;
+  }
+
+  function totalToBitsPerSecond(value, row, rangeSeconds) {
+    return value * 8 / rangeSeconds;
+  }
+
   return {
     setters: [],
     execute: function () {
@@ -13,22 +31,16 @@ System.register([], function (_export, _context) {
         field: 'f_sum_both_bytes',
         gfUnit: "bps",
         gfAxisLabel: 'Bits/s',
-        transform: function transform(value) {
-          // transform from bytes to bits and
-          // divide by interval
-          return value / 8;
-        },
-        tableFields: [{ text: 'Max', field: 'max_both', unit: 'bps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps' }]
+        transform: toBitsPerSecond,
+        tableFields: [{ text: 'Max', field: 'max_both', unit: 'bps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond }]
       }, {
         text: 'Packets/s',
         value: 'packets',
         field: 'f_sum_both_pkts',
         gfUnit: "pps",
         gfAxislabel: 'Packets/s',
-        // transform: function(value, row) {
-        //   return value / row.i_duration;
-        // },
-        tableFields: [{ text: 'Max', field: 'max_both', unit: 'pps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps' }]
+        transform: toPerSecondRate,
+        tableFields: [{ text: 'Max', field: 'max_both', unit: 'pps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond }]
       }, {
         text: 'Unique Src IPs',
         value: 'unique_src_ip',

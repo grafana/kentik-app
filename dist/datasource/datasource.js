@@ -116,7 +116,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
             var unitDef = _.findWhere(unitList, { value: query.query.units });
 
             if (endpoint === 'topXData') {
-              return this.processTopXData(rows, metricDef, unitDef);
+              return this.processTopXData(rows, metricDef, unitDef, options);
             } else {
               return this.processTimeSeries(rows, metricDef, unitDef, options);
             }
@@ -162,8 +162,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
           }
         }, {
           key: 'processTopXData',
-          value: function processTopXData(rows, metricDef, unitDef) {
+          value: function processTopXData(rows, metricDef, unitDef, options) {
             var table = new TableModel();
+            var rangeSeconds = (options.range.to.valueOf() - options.range.from.valueOf()) / 1000;
 
             table.columns.push({ text: metricDef.text });
 
@@ -200,12 +201,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               for (var _iterator2 = rows[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                 var row = _step2.value;
 
-                var value = row[unitDef.field];
                 var seriesName = row[metricDef.field];
-
-                if (unitDef.transform) {
-                  value = unitDef.transform(value, row);
-                }
 
                 var values = [seriesName];
                 var _iteratorNormalCompletion3 = true;
@@ -217,12 +213,16 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
                     var col = _step3.value;
 
                     var val = row[col.field];
+                    var transform = col.transform || unitDef.transform;
+
                     if (_.isString(val)) {
                       val = parseFloat(val);
                     }
-                    if (unitDef.transform) {
-                      val = unitDef.transform(value, row);
+
+                    if (transform) {
+                      val = transform(val, row, rangeSeconds);
                     }
+
                     values.push(val);
                   }
                 } catch (err) {
