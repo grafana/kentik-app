@@ -173,6 +173,42 @@
 .message-content {
   margin-bottom: 2rem; }
 
+.kentik-empty-device-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; }
+
+.kentik-app-devicedesc-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px; }
+  .kentik-app-devicedesc-box.kentik-app-devicedesc-open {
+    height: 160px; }
+
+.kentik-collapse-blurb-box {
+  text-align: center;
+  max-width: 500px; }
+
+.kentik-collapse {
+  margin: 10px 0;
+  display: block;
+  cursor: pointer; }
+
+.kentik-collapse-secondary {
+  color: #fff;
+  font-style: italic; }
+
+.kentik-collapse:hover {
+  color: #555555; }
+
 .wp-app-advanced-box {
   height: 0px;
   overflow: hidden;

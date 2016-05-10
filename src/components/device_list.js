@@ -19,6 +19,10 @@ class DeviceListCtrl {
     this.getDevices();
   }
 
+  gotoDashboard(device) {
+    this.$location.path("/dashboard/db/kentik-top-talkers").search({"var-device": device.device_name});
+  }
+
   gotoDeviceDetail(device) {
     this.$location.url("/plugins/kentik-app/page/device-details?device="+device.id);
   }
