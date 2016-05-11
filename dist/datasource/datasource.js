@@ -210,10 +210,10 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
 
                 try {
                   for (var _iterator3 = unitDef.tableFields[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var col = _step3.value;
+                    var _col = _step3.value;
 
-                    var val = row[col.field];
-                    var transform = col.transform || unitDef.transform;
+                    var val = row[_col.field];
+                    var transform = _col.transform || unitDef.transform;
 
                     if (_.isString(val)) {
                       val = parseFloat(val);

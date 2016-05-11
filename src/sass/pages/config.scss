@@ -18,3 +18,18 @@
 .wp-app-advanced-link {
   margin: 1rem 0;
 }
+
+.kentik-enabled-box {
+  margin: $spacer 0;
+}
+
+.kentik-inline-field-margin--right {
+  margin-right: $spacer;
+}
+
+.kentik-icon-success {
+  color: $online;
+  font-size: 24px;
+  text-decoration:none;
+  vertical-align: sub;
+}

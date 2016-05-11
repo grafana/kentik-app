@@ -102,6 +102,11 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             this.getDevices();
           }
         }, {
+          key: 'gotoDashboard',
+          value: function gotoDashboard(device) {
+            this.$location.path("/dashboard/db/kentik-top-talkers").search({ "var-device": device.device_name });
+          }
+        }, {
           key: 'gotoDeviceDetail',
           value: function gotoDeviceDetail(device) {
             this.$location.url("/plugins/kentik-app/page/device-details?device=" + device.id);
@@ -111,7 +116,7 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         return DeviceListCtrl;
       }(PanelCtrl));
 
-      DeviceListCtrl.templateUrl = 'panel/device-list/module.html';
+      DeviceListCtrl.templateUrl = 'public/plugins/kentik-app/components/device_list.html';
 
       _export('PanelCtrl', DeviceListCtrl);
     }

@@ -16,27 +16,32 @@
 </div>
 
 <div ng-if="ctrl.pageReady">
-	<div ng-if="ctrl.devices.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
+	<div ng-if="ctrl.devices.length === 0" class="kentik-empty-device-list">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/kentik-app/pages/add-device">Add a device now.</a></p>
+			<p>Looks like you don’t have any devices yet.<br>
+				<a class="highlight-word" href="plugins/kentik-app/pages/add-device">Add a new device</a>
+			</p>
 		</div>
-		<div class="rt-collapse-container">
-			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an Kentik Device? <i class="fa fa-caret-down"></i></label>
-			<input id="_1" type="checkbox">
-			<div class="rt-collapse-blurb-box">
-				<p class="rt-helper-blurb">Devices in Kentik are sources of network flow data - commonly a network component such as a switch or router, or a flow generation agent on a host/server.  Once configured, Kentik will automatically begin tracking and returning direct insights from that source viewpoint into exactly which applications and endpoints are actively driving network traffic.</p>
+		<a href="#" ng-click="ctrl.showDeviceDesc = !ctrl.showDeviceDesc">
+			<span ng-hide="ctrl.showDeviceDesc">What's a device?</span>
+			<span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showDeviceDesc"></i></span>
+			<span ng-show="ctrl.showDeviceDesc">What's a device?</span>
+			<span><i class="fa fa-caret-down" ng-show="ctrl.showDeviceDesc"></i></span>
+		</a>
+		<div class="kentik-app-devicedesc-box" ng-class="{ 'kentik-app-devicedesc-open': ctrl.showDeviceDesc }">
+			<div class="kentik-collapse-blurb-box">
+				<p class="kentik-helper-blurb">Devices in Kentik are sources of network flow data - commonly a network component such as a switch or router, or a flow generation agent on a host/server. </p>
+				<p class="kentik-helper-blurb">Once configured, Kentik will automatically begin tracking and returning direct insights from that source viewpoint into exactly which applications and endpoints are actively driving network traffic.</p>
 			</div>
 		</div>
 	</div>
 </div>
 
-<section ng-if="ctrl.devices.length > 0" class="card-section" layout-mode>
-<layout-selector></layout-selector>
-
+<section ng-if="ctrl.devices.length > 0" class="card-section card-list-layout-list" layout-mode>
     <ol class="card-list" >
-				<li class="card-item-wrapper card-item-wrapper--clickable" ng-repeat="device in ctrl.devices | orderBy:'device_name'" ng-click="ctrl.gotoDeviceDetail(device)">
-            <div class="card-item">
+				<li class="card-item-wrapper card-item-wrapper--clickable" ng-repeat="device in ctrl.devices | orderBy:'device_name'">
+            <div class="card-item pointer" ng-click="ctrl.gotoDashboard(device)">
                 <div class="card-item-header card-item-header--kentik-icons card-item-header-action">
 									<a href="dashboard/db/kentik-top-talkers?var-device={{device.device_name}}">
 										<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Top Talkers</br>dashboard for {{device.device_name}}'"></i>
@@ -47,7 +52,7 @@
                 </div>
                 <div class="card-item-body">
                     <div class="card-item-details">
-                        <a href="plugins/kentik-app/page/device-details?device={{device.id}}">
+                        <a href="dashboard/db/kentik-top-talkers?var-device={{device.device_name}}">
                             <div class="card-item-name">
                                 {{device.device_name}}
                             </div>

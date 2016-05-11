@@ -36,11 +36,15 @@ class DeviceListCtrl extends PanelCtrl {
     this.getDevices();
   }
 
+  gotoDashboard(device) {
+    this.$location.path("/dashboard/db/kentik-top-talkers").search({"var-device": device.device_name});
+  }
+
   gotoDeviceDetail(device) {
     this.$location.url("/plugins/kentik-app/page/device-details?device="+device.id);
   }
 }
 
-DeviceListCtrl.templateUrl = 'panel/device-list/module.html';
+DeviceListCtrl.templateUrl = 'public/plugins/kentik-app/components/device_list.html';
 
 export {DeviceListCtrl as PanelCtrl};

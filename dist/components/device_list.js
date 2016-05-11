@@ -58,6 +58,11 @@ System.register([], function (_export, _context) {
             this.getDevices();
           }
         }, {
+          key: "gotoDashboard",
+          value: function gotoDashboard(device) {
+            this.$location.path("/dashboard/db/kentik-top-talkers").search({ "var-device": device.device_name });
+          }
+        }, {
           key: "gotoDeviceDetail",
           value: function gotoDeviceDetail(device) {
             this.$location.url("/plugins/kentik-app/page/device-details?device=" + device.id);
