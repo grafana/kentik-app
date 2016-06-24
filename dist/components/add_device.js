@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'angular'], function (_export, _context) {
+  "use strict";
+
   var _, angular, _createClass, defaults, AddDeviceCtrl;
 
   function _classCallCheck(instance, Constructor) {
