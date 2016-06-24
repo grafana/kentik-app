@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var QueryCtrl, KentikQueryCtrl;
 
   function _classCallCheck(instance, Constructor) {

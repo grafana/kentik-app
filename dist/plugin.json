@@ -34,12 +34,18 @@
     },
     "keywords": ["kentik"],
     "logos": {
-      "small": "src/img/logo_small.png",
-      "large": "src/img/logo_large.png"
+      "small": "img/logo_small.png",
+      "large": "img/logo_large.png"
     },
     "links": [
       {"name": "Kentik", "url": "http://www.kentik.com"},
       {"name": "License & Terms", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
+    ],
+    "screenshots": [
+      {"name": "Kentik Connect - Talk Talkers", "path": "img/kentik-connect-top-talkers-2.png"},
+      {"name": "Kentik Connect - Home Dashboard", "path": "img/kentik-connect-home.png"},
+      {"name": "Kentik Connect - Device Details", "path": "img/kentik-connect-device-details.png"},
+      {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"}
     ],
     "version": "1.0.4",
     "updated": "2016-05-10"
@@ -59,13 +65,6 @@
       "component": "DeviceDetailsCtrl",
       "role": "Editor",
       "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Add Device",
-      "component": "AddDeviceCtrl",
-      "role": "Editor",
-      "addToNav": true
     },
     {
       "type": "dashboard",
