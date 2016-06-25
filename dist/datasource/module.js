@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['./datasource', './config', './query_editor'], function (_export, _context) {
-  "use strict";
-
   var KentikDatasource, ConfigCtrl, KentikQueryCtrl;
   return {
     setters: [function (_datasource) {
