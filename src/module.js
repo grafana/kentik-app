@@ -1,18 +1,14 @@
 
 import {ConfigCtrl} from './config/config.js';
-import {DeviceListCtrl} from './components/device_list';
-import {DeviceDetailsCtrl} from './components/device_details';
-import {AddDeviceCtrl} from './components/add_device';
+import {EnterStatsCtrl} from './components/enter_stats';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/kentik-app/css/kentik.dark.css',
-  light: 'plugins/kentik-app/css/kentik.light.css'
+  dark: 'plugins/grafana-pool-app/css/pool.dark.css',
+  light: 'plugins/grafana-pool-app/css/pool.light.css'
 });
 
 export {
-	DeviceListCtrl,
-	DeviceDetailsCtrl,
-	AddDeviceCtrl,
+	EnterStatsCtrl,
 	ConfigCtrl
 };

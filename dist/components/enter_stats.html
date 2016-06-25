@@ -1,0 +1,74 @@
+<div class="page-header">
+  <h1>The Color of Monitoring</h1>
+</div>
+
+
+<div class="pool-flex-container-row">
+
+  <div class="pool-flex-container-column">
+    <h3>6 Ball Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/6-ball.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-5">Result</label>
+      <label class="gf-form-input width-8" for="6ballSuccess">
+      <input class="gf-form-input max-width-21 pool-radio" type="radio" value="success" name="6ball" id="6ballSuccess" ng-model="ctrl.sixBallChallenge">Success</label>
+      <label class="gf-form-input width-5" for="6ballFail">
+      <input class="gf-form-input max-width-21 pool-radio" type="radio" value="fail" name="6ball" id="6ballFail" ng-model="ctrl.sixBallChallenge">Fail</label>
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('six_ball_challenge.' + ctrl.sixBallChallenge, 1)">Record</button>
+  </div>
+
+  <div class="pool-flex-container-column">
+    <h3>3 balls, 1 Shot Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/3balls-1shot.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-5">Result</label>
+      <label class="gf-form-input width-8" for="3ball1Success">
+      <input class="gf-form-input max-width-21 pool-radio" type="radio" value="success" name="3ball1" id="3ball1Success" ng-model="ctrl.threeBallOneChallenge">Success</label>
+      <label class="gf-form-input width-5" for="3ball1Fail">
+      <input class="gf-form-input max-width-21 pool-radio" type="radio" value="fail" name="3ball1" id="3ball1Fail" ng-model="ctrl.threeBallOneChallenge">Fail</label>
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('three_ball_one_shot_challenge.' + ctrl.threeBallOneChallenge, 1)">Record</button>
+  </div>
+
+  <div class="pool-flex-container-column">
+    <h3>3 Ball Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/3-ball.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-5">Shots</label>
+      <input class="gf-form-input width-3" type="text" required ng-model="ctrl.threeBallShots">
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('three_ball_challange', ctrl.threeBallShots)">Record</button>
+  </div>
+
+  <div class="pool-flex-container-column">
+    <h3>One Turn Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/1-turn.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-6">Balls Sunk</label>
+      <input class="gf-form-input width-3" type="text" required ng-model="ctrl.oneTurnSunk">
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('one_turn_challange', ctrl.oneTurnSunk)">Record</button>
+  </div>
+
+  <div class="pool-flex-container-column">
+    <h3>Shoot in Order Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/shoot-in-order.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-9">Highest Ball Sunk</label>
+      <input class="gf-form-input width-3" type="text" required>
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.addDevice()">Record</button>
+  </div>
+
+  <div class="pool-flex-container-column">
+    <h3>Speed Shooting Challenge</h3>
+    <img class="pool-pic" src="public/plugins/grafana-pool-app/img/speed-shooting.svg">
+    <div class="gf-form gf-form-group">
+      <label class="gf-form-label width-8">Time (seconds)</label>
+      <input class="gf-form-input width-3" type="text" required>
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.addDevice()">Record</button>
+  </div>
+
+</div>

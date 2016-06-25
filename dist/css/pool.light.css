@@ -1,0 +1,21 @@
+.pool-flex-container-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around; }
+
+.pool-flex-container-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 100px;
+  width: 400px; }
+
+.pool-pic {
+  margin-bottom: 20px; }
+
+.pool-radio {
+  display: inline; }
+
+/*# sourceMappingURL=pool.light.css.map */

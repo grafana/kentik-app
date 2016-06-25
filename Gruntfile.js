@@ -77,8 +77,8 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "dist/css/kentik.dark.css": "src/sass/kentik.dark.scss",
-          "dist/css/kentik.light.css": "src/sass/kentik.light.scss",
+          "dist/css/pool.dark.css": "src/sass/pool.dark.scss",
+          "dist/css/pool.light.css": "src/sass/pool.light.scss",
         }
       }
     }

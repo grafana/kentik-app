@@ -1,5 +1,5 @@
 {
-  "name": "kentik-app",
+  "name": "grafana-pool-app",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raintank/kentik-app-poc.git"
+    "url": "git+https://github.com/mattttt/grafana-pool-app.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/raintank/kentik-app/issues"
+    "url": "https://github.com/mattttt/grafana-pool-app/issues"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -38,5 +38,5 @@
     "jshint-stylish": "^2.1.0",
     "lodash": "~4.0.0"
   },
-  "homepage": "https://github.com/raintank/kentik-app-poc#readme"
+  "homepage": "https://github.com/mattttt/grafana-pool-app"
 }
