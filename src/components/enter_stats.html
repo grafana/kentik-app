@@ -48,7 +48,7 @@
       <label class="gf-form-label width-6">Balls Sunk</label>
       <input class="gf-form-input width-3" type="text" required ng-model="ctrl.oneTurnSunk">
     </div>
-    <button type="submit" class="btn btn-success" ng-click="ctrl.record('one_turn_challange', ctrl.oneTurnSunk)">Record</button>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('one_turn_challaege', ctrl.oneTurnSunk)">Record</button>
   </div>
 
   <div class="pool-flex-container-column">
@@ -56,9 +56,9 @@
     <img class="pool-pic" src="public/plugins/grafana-pool-app/img/shoot-in-order.svg">
     <div class="gf-form gf-form-group">
       <label class="gf-form-label width-9">Highest Ball Sunk</label>
-      <input class="gf-form-input width-3" type="text" required>
+      <input class="gf-form-input width-3" type="text" required ng-model="ctrl.shootInOrder">
     </div>
-    <button type="submit" class="btn btn-success" ng-click="ctrl.addDevice()">Record</button>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('shoot_in_order_challenge', ctrl.shootInOrder)">Record</button>
   </div>
 
   <div class="pool-flex-container-column">
@@ -66,9 +66,9 @@
     <img class="pool-pic" src="public/plugins/grafana-pool-app/img/speed-shooting.svg">
     <div class="gf-form gf-form-group">
       <label class="gf-form-label width-8">Time (seconds)</label>
-      <input class="gf-form-input width-3" type="text" required>
+      <input class="gf-form-input width-3" type="text" required ng-model="ctrl.speedShooting">
     </div>
-    <button type="submit" class="btn btn-success" ng-click="ctrl.addDevice()">Record</button>
+    <button type="submit" class="btn btn-success" ng-click="ctrl.record('speed_shooting_challenge', ctrl.speedShooting)">Record</button>
   </div>
 
 </div>
