@@ -27,18 +27,19 @@
   ],
 
   "info": {
-    "description": "Kentik Connect Pro allows you to quickly and easily add network activity visibility metrics to your Grafana dashboard.",
+    "description": "Kentik Connect Pro adds network activity metrics and visibility to your Grafana dashboard.",
     "author": {
       "name": "Kentik.",
       "url": "http://kentik.com"
     },
     "keywords": ["kentik"],
     "logos": {
-      "small": "img/logo_small.png",
-      "large": "img/logo_large.png"
+      "small": "img/kentik_icon.svg",
+      "large": "img/kentik_icon.svg"
     },
     "links": [
-      {"name": "Kentik", "url": "http://www.kentik.com"},
+      {"name": "Kentik", "url": "https://www.kentik.com/?utm_source=grafana"},
+      {"name": "Get a Free Trial", "url": "https://portal.kentik.com/signup.html?ref=signup_2nd&utm_source=grafana"},
       {"name": "License & Terms", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
     ],
     "screenshots": [

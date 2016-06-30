@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['./config/config.js', './components/device_list', './components/device_details', './components/add_device', 'app/plugins/sdk'], function (_export, _context) {
+	"use strict";
+
 	var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, AddDeviceCtrl, loadPluginCss;
 	return {
 		setters: [function (_configConfigJs) {
