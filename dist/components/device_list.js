@@ -1,6 +1,8 @@
 "use strict";
 
 System.register([], function (_export, _context) {
+  "use strict";
+
   var _createClass, DeviceListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -32,7 +34,6 @@ System.register([], function (_export, _context) {
 
       _export("DeviceListCtrl", DeviceListCtrl = function () {
         /** @ngInject */
-
         function DeviceListCtrl($scope, $injector, $location, backendSrv) {
           _classCallCheck(this, DeviceListCtrl);
 

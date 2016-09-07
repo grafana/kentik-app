@@ -321,7 +321,7 @@ a.kentik-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .kentik-blurb-success {
-  color: #555555;
+  color: #b3b3b3;
   text-decoration: line-through; }
 
 .kentik-dashboard-icons-container {
@@ -350,7 +350,7 @@ a.kentik-dashboard-blurb:hover {
   color: #666766; }
 
 .pipe-separator {
-  color: #555555; }
+  color: #b3b3b3; }
 
 .rt-nav-hr {
   margin-left: -10px;
@@ -446,7 +446,7 @@ a.rt-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .rt-blurb-success {
-  color: #555555;
+  color: #b3b3b3;
   text-decoration: line-through; }
 
 .rt-dashboard-icons-container {
@@ -662,7 +662,7 @@ raintank TYPE
   font-size: 1rem; }
 
 .checkTime {
-  color: #555555;
+  color: #b3b3b3;
   font-size: 1rem; }
 
 .no-endpoints {
@@ -693,7 +693,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .offline {
-  color: #555555;
+  color: #b3b3b3;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -703,12 +703,12 @@ raintank TYPE
   text-transform: uppercase; }
 
 .disabled, .none {
-  color: #555555;
+  color: #b3b3b3;
   font-weight: 400; }
   .disabled:hover, .none:hover {
     color: #222222; }
   .disabled a, .none a {
-    color: #555555;
+    color: #b3b3b3;
     font-weight: 400; }
 
 .critical {
@@ -717,7 +717,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .nodata {
-  color: #555555;
+  color: #b3b3b3;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -798,7 +798,7 @@ raintank POSITIONING
 
 .rt-list-status, .rt-list-status-up, .rt-list-status-up:link, .rt-list-status-up:visited, .rt-list-status-warning, .rt-list-status-warning:link, .rt-list-status-warning:visited, .rt-list-status-down, .rt-list-status-down:link, .rt-list-status-down:visited, .rt-list-status-disabled, .rt-list-status-disabled:link, .rt-list-status-disabled:visited {
   font-size: 1rem;
-  color: #555555;
+  color: #b3b3b3;
   text-transform: uppercase;
   text-decoration: none; }
 
@@ -847,7 +847,7 @@ raintank POSITIONING
       color: #6f6f6f; }
 
 .rt-list-links {
-  color: #555555;
+  color: #b3b3b3;
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;

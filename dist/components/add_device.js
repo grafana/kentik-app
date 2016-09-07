@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'angular'], function (_export, _context) {
+  "use strict";
+
   var _, angular, _createClass, defaults, AddDeviceCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -48,7 +50,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
       _export('AddDeviceCtrl', AddDeviceCtrl = function () {
         /** @ngInject */
-
         function AddDeviceCtrl($scope, $injector, $location, backendSrv, alertSrv) {
           _classCallCheck(this, AddDeviceCtrl);
 

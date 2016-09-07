@@ -1,3 +1,5 @@
+/*jshint strict:false */
+
 var metricList = [
   {text: 'Traffic', value: 'Traffic', field: 'traffic'},
   {text: 'Source Country', value: 'Geography_src', field: 'src_geo'},

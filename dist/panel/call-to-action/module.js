@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _createClass, panelDefaults, CallToActiontCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -72,11 +74,10 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _inherits(CallToActiontCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function CallToActiontCtrl($scope, $injector, backendSrv) {
           _classCallCheck(this, CallToActiontCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CallToActiontCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (CallToActiontCtrl.__proto__ || Object.getPrototypeOf(CallToActiontCtrl)).call(this, $scope, $injector));
 
           _this.backendSrv = backendSrv;
           _this.deviceStatus = '';

@@ -88,6 +88,10 @@
       "name": "Kentik Device List"
     },
     {
+      "type": "panel",
+      "name": "Kentik Graph"
+    },
+    {
       "type": "datasource",
       "name": "Kentik-ds"
     }

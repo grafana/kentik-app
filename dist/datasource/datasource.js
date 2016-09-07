@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_export, _context) {
+  "use strict";
+
   var metricList, unitList, _, TableModel, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {

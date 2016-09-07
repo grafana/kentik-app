@@ -1,0 +1,13 @@
+{
+  "type": "panel",
+  "name": "Kentik Graph",
+  "id": "kentik-graph",
+
+  "info": {
+    "logos": {
+      "small": "img/icn-graph-panel.svg",
+      "large": "img/icn-graph-panel.svg"
+    }
+  }
+}
+

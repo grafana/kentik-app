@@ -16,6 +16,12 @@ module.exports = function(grunt) {
         src: ['**/*', '!**/*.js', '!**/*.scss'],
         dest: 'dist'
       },
+      graph_panel_js_to_dist: {
+        cwd: 'src',
+        expand: true,
+        src: ['panel/kentik-graph/*.js'],
+        dest: 'dist'
+      },
       pluginDef: {
         expand: true,
         src: ['README.md'],
@@ -41,11 +47,38 @@ module.exports = function(grunt) {
         files: [{
           cwd: 'src',
           expand: true,
-          src: ['**/*.js', '!src/directives/*.js', '!src/filters/*.js'],
-          dest: 'dist',
-          ext:'.js'
+          src: [
+            '**/*.js',
+            '!src/directives/*.js',
+            '!src/filters/*.js',
+            "!panel/kentik-graph/*.js"
+          ],
+          dest: 'dist'
         }]
       },
+    },
+
+    typescript: {
+      build: {
+        src: [
+          'dist/**/*.ts',
+          "!src/panel/kentik-graph/spec/**/*",
+          "!**/*.d.ts"
+        ],
+        dest: 'dist/',
+        options: {
+          module: 'system', //or commonjs
+          target: 'es5', //or es5
+          rootDir: 'dist/',
+          sourceRoot: 'dist/',
+          // keepDirectoryHierarchy: false,
+          declaration: true,
+          emitDecoratorMetadata: true,
+          experimentalDecorators: true,
+          sourceMap: true,
+          noImplicitAny: false,
+        }
+      }
     },
 
     jshint: {
@@ -89,6 +122,8 @@ module.exports = function(grunt) {
     'sass',
     'copy:src_to_dist',
     'copy:pluginDef',
+    'copy:graph_panel_js_to_dist',
+    'typescript:build',
     'babel',
     'jshint',
     'jscs'
