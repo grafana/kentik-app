@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_export, _context) {
+  "use strict";
+
   var metricList, unitList, _, TableModel, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
@@ -112,8 +114,8 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               return [];
             }
 
-            var metricDef = _.findWhere(metricList, { value: query.query.metric });
-            var unitDef = _.findWhere(unitList, { value: query.query.units });
+            var metricDef = _.find(metricList, { value: query.query.metric });
+            var unitDef = _.find(unitList, { value: query.query.units });
 
             if (endpoint === 'topXData') {
               return this.processTopXData(rows, metricDef, unitDef, options);

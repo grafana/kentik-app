@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _createClass, panelDefaults, DeviceListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -72,11 +74,10 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _inherits(DeviceListCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function DeviceListCtrl($scope, $injector, $location, backendSrv) {
           _classCallCheck(this, DeviceListCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DeviceListCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (DeviceListCtrl.__proto__ || Object.getPrototypeOf(DeviceListCtrl)).call(this, $scope, $injector));
 
           _this.$location = $location;
           _this.backendSrv = backendSrv;

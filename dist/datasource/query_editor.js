@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var QueryCtrl, KentikQueryCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -44,7 +46,7 @@ System.register(['app/plugins/sdk'], function (_export, _context) {
         function KentikQueryCtrl($scope, $injector) {
           _classCallCheck(this, KentikQueryCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(KentikQueryCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (KentikQueryCtrl.__proto__ || Object.getPrototypeOf(KentikQueryCtrl)).call(this, $scope, $injector));
 
           _this.target.mode = _this.target.mode || 'graph';
 
