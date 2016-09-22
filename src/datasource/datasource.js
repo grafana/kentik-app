@@ -4,8 +4,9 @@ import TableModel from 'app/core/table_model';
 
 class KentikDatasource {
 
-  constructor(instanceSettings, backendSrv, templateSrv)  {
+  constructor(instanceSettings, $q, backendSrv, templateSrv)  {
     this.instanceSettings = instanceSettings;
+    this.$q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
   }
@@ -173,6 +174,18 @@ class KentikDatasource {
         return {text: device.device_name, value: device.device_name};
       });
     });
+  }
+
+  getTagKeys() {
+    return this.metricFindQuery('metrics()');
+  }
+
+  getTagValues(options) {
+    if (options) {
+      return this.$q.when([]);
+    } else {
+      return this.$q.when([]);
+    }
   }
 }
 
