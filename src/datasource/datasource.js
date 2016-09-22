@@ -6,6 +6,7 @@ class KentikDatasource {
 
   constructor(instanceSettings, $q, backendSrv, templateSrv)  {
     this.instanceSettings = instanceSettings;
+    this.name = instanceSettings.name;
     this.$q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
@@ -24,13 +25,24 @@ class KentikDatasource {
     return value.join(',');
   }
 
+  convertToKentikFilter(filterObj) {
+    return {
+      filterField: _.find(metricList, {text: filterObj.key}).field,
+      operator: filterObj.operator,
+      filterValue: filterObj.value
+    };
+  }
+
   query(options) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({data: []});
     }
 
-    var target = options.targets[0];
-    var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
+    let target = options.targets[0];
+    let deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
+
+    let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
+    kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
 
     var query = {
       version: "2.01",
@@ -47,7 +59,13 @@ class KentikDatasource {
       filterSettings: {
         connector: 'All',
         filterString: '',
-        filterGroups: []
+        filterGroups: [
+          {
+            connector: 'All',
+            filterString: "",
+            filters: kentikFilters
+          }
+        ]
       }
     };
 
@@ -182,9 +200,9 @@ class KentikDatasource {
 
   getTagValues(options) {
     if (options) {
-      return this.$q.when([]);
+      return Promise.resolve([]);
     } else {
-      return this.$q.when([]);
+      return Promise.resolve([]);
     }
   }
 }
