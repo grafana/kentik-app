@@ -3,7 +3,7 @@
 System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_export, _context) {
   "use strict";
 
-  var metricList, unitList, _, TableModel, _createClass, KentikDatasource;
+  var metricList, unitList, filterFieldList, _, TableModel, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -15,6 +15,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
     setters: [function (_metric_def) {
       metricList = _metric_def.metricList;
       unitList = _metric_def.unitList;
+      filterFieldList = _metric_def.filterFieldList;
     }, function (_lodash) {
       _ = _lodash.default;
     }, function (_appCoreTable_model) {
@@ -40,10 +41,12 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
       }();
 
       _export('KentikDatasource', KentikDatasource = function () {
-        function KentikDatasource(instanceSettings, backendSrv, templateSrv) {
+        function KentikDatasource(instanceSettings, $q, backendSrv, templateSrv) {
           _classCallCheck(this, KentikDatasource);
 
           this.instanceSettings = instanceSettings;
+          this.name = instanceSettings.name;
+          this.$q = $q;
           this.backendSrv = backendSrv;
           this.templateSrv = templateSrv;
         }
@@ -63,6 +66,15 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
             return value.join(',');
           }
         }, {
+          key: 'convertToKentikFilter',
+          value: function convertToKentikFilter(filterObj) {
+            return {
+              filterField: _.find(filterFieldList, { text: filterObj.key }).field,
+              operator: filterObj.operator,
+              filterValue: filterObj.value
+            };
+          }
+        }, {
           key: 'query',
           value: function query(options) {
             if (!options.targets || options.targets.length === 0) {
@@ -71,6 +83,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
 
             var target = options.targets[0];
             var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
+
+            var kentikFilters = this.templateSrv.getAdhocFilters(this.name);
+            kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
 
             var query = {
               version: "2.01",
@@ -87,7 +102,11 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               filterSettings: {
                 connector: 'All',
                 filterString: '',
-                filterGroups: []
+                filterGroups: [{
+                  connector: 'All',
+                  filterString: "",
+                  filters: kentikFilters
+                }]
               }
             };
 
@@ -283,6 +302,20 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
                 return { text: device.device_name, value: device.device_name };
               });
             });
+          }
+        }, {
+          key: 'getTagKeys',
+          value: function getTagKeys() {
+            return Promise.resolve(filterFieldList);
+          }
+        }, {
+          key: 'getTagValues',
+          value: function getTagValues(options) {
+            if (options) {
+              return Promise.resolve([]);
+            } else {
+              return Promise.resolve([]);
+            }
           }
         }]);
 
