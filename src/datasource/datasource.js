@@ -1,4 +1,4 @@
-import {metricList, unitList} from './metric_def';
+import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
 import TableModel from 'app/core/table_model';
 
@@ -27,7 +27,7 @@ class KentikDatasource {
 
   convertToKentikFilter(filterObj) {
     return {
-      filterField: _.find(metricList, {text: filterObj.key}).field,
+      filterField: _.find(filterFieldList, {text: filterObj.key}).field,
       operator: filterObj.operator,
       filterValue: filterObj.value
     };
@@ -195,7 +195,7 @@ class KentikDatasource {
   }
 
   getTagKeys() {
-    return this.metricFindQuery('metrics()');
+    return Promise.resolve(filterFieldList);
   }
 
   getTagValues(options) {
