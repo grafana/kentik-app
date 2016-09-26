@@ -3,8 +3,6 @@
   "name": "Kentik Connect Pro",
   "id": "kentik-app",
 
-  "staticRoot": ".",
-
   "routes": [
     {
       "path": "api/v4/*",
@@ -47,8 +45,8 @@
       {"name": "Kentik Connect - Device Details", "path": "img/kentik-connect-device-details.png"},
       {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"}
     ],
-    "version": "1.0.4",
-    "updated": "2016-05-10"
+    "version": "1.0.5",
+    "updated": "2016-09-26"
   },
 
   "includes": [

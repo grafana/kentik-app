@@ -229,6 +229,15 @@
         "refresh": 1,
         "regex": "",
         "type": "query"
+      },
+      {
+
+        "datasource": "kentik",
+        "filters": [],
+        "hide": 0,
+        "label": "",
+        "name": "Filters",
+        "type": "adhoc"
       }
     ]
   },
@@ -237,6 +246,6 @@
   },
   "refresh": false,
   "schemaVersion": 12,
-  "version": 37,
+  "revision": 2,
   "links": []
 }
