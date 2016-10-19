@@ -47,13 +47,12 @@ class KentikConfigCtrl {
 
   // make sure that we can hit the Kentik API.
   validateApiConnection() {
-    var self = this;
-    var promise = this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v1/user/list');
+    var promise = this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/users');
     promise.then(() => {
-      self.apiValidated = true;
+      this.apiValidated = true;
     }, () => {
-      self.apiValidated = false;
-      self.apiError = true;
+      this.apiValidated = false;
+      this.apiError = true;
     });
     return promise;
   }

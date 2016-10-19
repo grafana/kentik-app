@@ -34,13 +34,14 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   getDevices() {
-    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(resp => {
-      if (resp.device.length > 0) {
-        this.deviceStatus = 'hasDevices';
-      } else {
-        this.deviceStatus = 'noDevices';
-      }
-    });
+    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/devices")
+      .then(resp => {
+        if (resp.devices.length > 0) {
+          this.deviceStatus = 'hasDevices';
+        } else {
+          this.deviceStatus = 'noDevices';
+        }
+      });
   }
 
   refresh() {

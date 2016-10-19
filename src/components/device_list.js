@@ -8,10 +8,9 @@ class DeviceListCtrl {
     this.getDevices();
   }
   getDevices() {
-    var self = this;
-    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function(resp) {
-      self.devices = resp.device;
-      self.pageReady = true;
+    this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/devices").then(resp => {
+      this.devices = resp.devices;
+      this.pageReady = true;
     });
   }
 

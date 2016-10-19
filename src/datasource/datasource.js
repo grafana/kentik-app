@@ -182,13 +182,13 @@ class KentikDatasource {
 
     return this.backendSrv.datasourceRequest({
       method: 'GET',
-      url: 'api/plugin-proxy/kentik-app/api/v1/device/list',
+      url: 'api/plugin-proxy/kentik-app/api/v5/devices',
     }).then(res => {
-      if (!res.data || !res.data.device) {
+      if (!res.data || !res.data.devices) {
         return [];
       }
 
-      return res.data.device.map(device => {
+      return res.data.devices.map(device => {
         return {text: device.device_name, value: device.device_name};
       });
     });
