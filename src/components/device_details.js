@@ -20,12 +20,11 @@ export class DeviceDetailsCtrl {
   }
 
   getDevice(deviceId) {
-    var self = this;
     this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/device/" + deviceId)
       .then(resp => {
-        self.device = resp.device;
-        self.updateDeviceDTO();
-        self.pageReady = true;
+        this.device = resp.device;
+        this.updateDeviceDTO();
+        this.pageReady = true;
       });
   }
 
@@ -42,8 +41,12 @@ export class DeviceDetailsCtrl {
       device_flow_type: this.device.device_flow_type,
       device_sample_rate: parseInt(this.device.device_sample_rate),
       minimize_snmp: this.device.minimize_snmp,
-      device_snmp_ip: this.device.device_snmp_ip,
+      device_snmp_ip:        this.device.device_snmp_ip,
       device_snmp_community: this.device.device_snmp_community,
+      device_bgp_type:         this.device.device_bgp_type,
+      device_bgp_password:     this.device.device_bgp_password,
+      device_bgp_neighbor_ip:  this.device.device_bgp_neighbor_ip,
+      device_bgp_neighbor_asn: parseInt(this.device.device_bgp_neighbor_asn)
     };
   }
 
@@ -54,13 +57,21 @@ export class DeviceDetailsCtrl {
     if (!this.deviceDTO.device_snmp_community) {
       delete this.deviceDTO.device_snmp_community;
     }
+    let data = {device: this.deviceDTO};
 
-    this.backendSrv.post("/api/plugin-proxy/kentik-app/api/v5/device/" + this.deviceDTO.device_id, this.deviceDTO)
+    this.backendSrv.put("/api/plugin-proxy/kentik-app/api/v5/device/" + this.deviceDTO.device_id, data)
       .then(resp => {
         if ('err' in resp) {
           this.alertSrv.set("Device Update failed.", resp.err, 'error');
         } else {
+          this.alertSrv.set("Device Updated.", this.deviceDTO.device_name, 'success', 3000);
           return this.getDevice(this.deviceDTO.device_id);
+        }
+      }, error => {
+        if ('error' in error.data) {
+          this.alertSrv.set("Device Update failed.", error.data.error, 'error');
+        } else {
+          this.alertSrv.set("Device Update failed.", error, 'error');
         }
       });
   }
