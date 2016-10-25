@@ -105,8 +105,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           value: function getDevices() {
             var _this3 = this;
 
-            return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function (resp) {
-              if (resp.device.length > 0) {
+            return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/devices").then(function (resp) {
+              if (resp.devices.length > 0) {
                 _this3.deviceStatus = 'hasDevices';
               } else {
                 _this3.deviceStatus = 'noDevices';

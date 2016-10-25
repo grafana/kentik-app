@@ -91,10 +91,11 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _createClass(DeviceListCtrl, [{
           key: 'getDevices',
           value: function getDevices() {
-            var self = this;
-            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/list").then(function (resp) {
-              self.devices = resp.device;
-              self.pageReady = true;
+            var _this2 = this;
+
+            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/devices").then(function (resp) {
+              _this2.devices = resp.devices;
+              _this2.pageReady = true;
             });
           }
         }, {

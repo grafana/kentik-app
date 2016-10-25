@@ -37,9 +37,9 @@
           <div class="gf-form">
             <label class="gf-form-label width-11">Device Type</label>
             <div class="gf-form-select-wrapper">
-              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.type">
+              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.device_type">
                 <option ng-option value="router">Router</option>
-                <option ng-option value="host">Host</option>
+                <option ng-option value="host-nprobe-basic">Host</option>
               </select>
             </div>
           </div>
@@ -50,10 +50,10 @@
             <label class="gf-form-label width-11">Description</label>
             <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.deviceDTO.device_description">
           </div>
-          <div class="gf-form" ng-if="ctrl.deviceDTO.type == 'router'">
+          <div class="gf-form" ng-if="ctrl.deviceDTO.device_type == 'router'">
             <label class="gf-form-label width-11">Flow Type</label>
             <div class="gf-form-select-wrapper">
-              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.flow_type">
+              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.device_flow_type">
                 <option value="sflow">sFlow</option>
                 <option value="netflow.v5">NetFlow v5</option>
                 <option value="netflow.v9">NetFlow v9</option>
@@ -61,17 +61,17 @@
               </select>
             </div>
           </div>
-          <div class="gf-form" ng-if="ctrl.deviceDTO.type == 'host'">
+          <div class="gf-form" ng-if="ctrl.deviceDTO.device_type == 'host-nprobe-basic'">
             <label class="gf-form-label width-11">Flow Type</label>
             <div class="gf-form-select-wrapper">
-              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.flow_type">
+              <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.device_flow_type">
                 <option value="hiresflow">HiresFlow</option>
               </select>
             </div>
           </div>
           <div class="gf-form">
             <label class="gf-form-label width-11">Sample Rate</label>
-            <input class="gf-form-input max-width-5" type="number" required ng-model="ctrl.deviceDTO.flow_rate">
+            <input class="gf-form-input max-width-5" type="number" required ng-model="ctrl.deviceDTO.device_sample_rate">
           </div>
           <div class="gf-form" ng-repeat="ip in ctrl.other_ips">
             <label class="gf-form-label width-11">Source Address</label>
@@ -80,7 +80,7 @@
             <a class="btn btn-inverse btn-small" ng-click="ctrl.removeIP($index)" ng-if="!$first"><i class="fa fa-minus"></i></a>
           </div>
         </div>
-        <div class="gf-form-group" ng-if="ctrl.deviceDTO.type == 'router'">
+        <div class="gf-form-group" ng-if="ctrl.deviceDTO.device_type == 'router'">
           <div class="gf-form">
             <label class="gf-form-label width-11">SNMP Polling</label>
             <div class="gf-form-select-wrapper">
@@ -88,13 +88,13 @@
               </select>
             </div>
           </div>
-          <div class="gf-form" ng-if="ctrl.deviceDTO.type == 'router'">
+          <div class="gf-form" ng-if="ctrl.deviceDTO.device_type == 'router'">
             <label class="gf-form-label width-11">SNMP Community</label>
-            <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceDTO.snmp_community">
+            <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceDTO.device_snmp_community">
           </div>
-          <div class="gf-form" ng-if="ctrl.deviceDTO.type == 'router'">
+          <div class="gf-form" ng-if="ctrl.deviceDTO.device_type == 'router'">
             <label class="gf-form-label width-11">Device IP</label>
-            <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceDTO.device_ip">
+            <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceDTO.device_snmp_ip">
           </div>
         </div>
         <div class="gf-form-group">

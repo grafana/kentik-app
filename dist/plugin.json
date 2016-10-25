@@ -7,6 +7,15 @@
 
   "routes": [
     {
+      "path": "api/v5/*",
+      "method": "*",
+      "url": "https://grafana-api.kentik.com/api/v5",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    },
+    {
       "path": "api/v4/*",
       "method": "*",
       "url": "https://grafanav4api.kentik.com/api/v4/",

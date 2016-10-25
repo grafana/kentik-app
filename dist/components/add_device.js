@@ -38,14 +38,15 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
       defaults = {
         device_name: '',
-        type: 'router',
+        device_type: 'router',
         device_description: '',
-        flow_type: 'sflow',
-        flow_rate: 5,
-        other_ips: '',
+        device_flow_type: 'sflow',
+        device_sample_rate: 5,
+        sending_ips: '',
         minimize_snmp: false,
-        device_ip: '',
-        snmp_community: ''
+        device_bgp_type: 'none',
+        device_snmp_ip: '',
+        device_snmp_community: ''
       };
 
       _export('AddDeviceCtrl', AddDeviceCtrl = function () {
@@ -57,35 +58,34 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.alertSrv = alertSrv;
           this.$location = $location;
           this.device = angular.copy(defaults);
-          this.other_ips = [{ ip: '' }];
+          this.sending_ips = [{ ip: '' }];
         }
 
         _createClass(AddDeviceCtrl, [{
           key: 'addIP',
           value: function addIP() {
-            this.other_ips.push({ ip: '' });
+            this.sending_ips.push({ ip: '' });
           }
         }, {
           key: 'removeIP',
           value: function removeIP(index) {
-            this.other_ips.splice(index, 1);
+            this.sending_ips.splice(index, 1);
           }
         }, {
           key: 'addDevice',
           value: function addDevice() {
             var _this = this;
 
-            var self = this;
             var ips = [];
-            _.forEach(this.other_ips, function (ip) {
+            _.forEach(this.sending_ips, function (ip) {
               ips.push(ip.ip);
             });
-            this.device.other_ips = ips.join();
-            this.backendSrv.post("/api/plugin-proxy/kentik-app/api/v1/device/create", this.device).then(function (resp) {
+            this.device.sending_ips = ips.join();
+            this.backendSrv.post("/api/plugin-proxy/kentik-app/api/v5/device", this.device).then(function (resp) {
               if ('err' in resp) {
                 _this.alertSrv.set("Device Add failed.", resp.err, 'error');
               } else {
-                self.$location.url("/plugins/kentik-app/page/device-list");
+                _this.$location.url("/plugins/kentik-app/page/device-list");
               }
             });
           }

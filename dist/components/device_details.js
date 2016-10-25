@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-System.register(['lodash'], function (_export, _context) {
+System.register([], function (_export, _context) {
   "use strict";
 
-  var _, _createClass, DeviceDetailsCtrl;
+  var _createClass, DeviceDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,9 +12,7 @@ System.register(['lodash'], function (_export, _context) {
   }
 
   return {
-    setters: [function (_lodash) {
-      _ = _lodash.default;
-    }],
+    setters: [],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -34,7 +32,7 @@ System.register(['lodash'], function (_export, _context) {
         };
       }();
 
-      _export('DeviceDetailsCtrl', DeviceDetailsCtrl = function () {
+      _export("DeviceDetailsCtrl", DeviceDetailsCtrl = function () {
 
         /** @ngInject */
         function DeviceDetailsCtrl($scope, $injector, $location, backendSrv, alertSrv) {
@@ -50,74 +48,75 @@ System.register(['lodash'], function (_export, _context) {
         }
 
         _createClass(DeviceDetailsCtrl, [{
-          key: 'addIP',
+          key: "addIP",
           value: function addIP() {
             this.other_ips.push({ ip: '' });
           }
         }, {
-          key: 'removeIP',
+          key: "removeIP",
           value: function removeIP(index) {
             this.other_ips.splice(index, 1);
           }
         }, {
-          key: 'getDevice',
+          key: "getDevice",
           value: function getDevice(deviceId) {
-            var self = this;
-            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v1/device/" + deviceId).then(function (resp) {
-              self.device = resp.device[0];
-              self.updateDeviceDTO();
-              self.pageReady = true;
+            var _this = this;
+
+            this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/device/" + deviceId).then(function (resp) {
+              _this.device = resp.device;
+              _this.updateDeviceDTO();
+              _this.pageReady = true;
             });
           }
         }, {
-          key: 'gotoDashboard',
+          key: "gotoDashboard",
           value: function gotoDashboard(device_name) {
             this.$location.url("/dashboard/db/kentik-top-talkers?var-device=" + device_name);
           }
         }, {
-          key: 'updateDeviceDTO',
+          key: "updateDeviceDTO",
           value: function updateDeviceDTO() {
-            var self = this;
             this.deviceDTO = {
               device_id: this.device.id,
               device_name: this.device.device_name,
-              type: this.device.device_type,
+              device_type: this.device.device_type,
               device_description: this.device.device_description,
-              flow_type: this.device.device_flow_type,
-              flow_rate: parseInt(this.device.device_sample_rate),
-              other_ips: this.device.device_chf_interface,
+              device_flow_type: this.device.device_flow_type,
+              device_sample_rate: parseInt(this.device.device_sample_rate),
               minimize_snmp: this.device.minimize_snmp,
-              device_ip: this.device.device_snmp_ip,
-              snmp_community: this.device.device_snmp_community
+              device_snmp_ip: this.device.device_snmp_ip,
+              device_snmp_community: this.device.device_snmp_community,
+              device_bgp_type: this.device.device_bgp_type,
+              device_bgp_password: this.device.device_bgp_password,
+              device_bgp_neighbor_ip: this.device.device_bgp_neighbor_ip,
+              device_bgp_neighbor_asn: parseInt(this.device.device_bgp_neighbor_asn)
             };
-            this.other_ips = [];
-            _.forEach(this.deviceDTO.other_ips.split(','), function (ip) {
-              self.other_ips.push({ ip: ip });
-            });
           }
         }, {
-          key: 'update',
+          key: "update",
           value: function update() {
-            var _this = this;
+            var _this2 = this;
 
-            var self = this;
-            var ips = [];
-            _.forEach(this.other_ips, function (ip) {
-              ips.push(ip.ip);
-            });
-            if (!this.deviceDTO.device_ip) {
-              delete this.deviceDTO.device_ip;
+            if (!this.deviceDTO.device_snmp_ip) {
+              delete this.deviceDTO.device_snmp_ip;
             }
-            if (!this.deviceDTO.snmp_community) {
-              delete this.deviceDTO.snmp_community;
+            if (!this.deviceDTO.device_snmp_community) {
+              delete this.deviceDTO.device_snmp_community;
             }
+            var data = { device: this.deviceDTO };
 
-            this.deviceDTO.other_ips = ips.join();
-            this.backendSrv.post("/api/plugin-proxy/kentik-app/api/v1/device/" + this.deviceDTO.device_id, this.deviceDTO).then(function (resp) {
+            this.backendSrv.put("/api/plugin-proxy/kentik-app/api/v5/device/" + this.deviceDTO.device_id, data).then(function (resp) {
               if ('err' in resp) {
-                _this.alertSrv.set("Device Update failed.", resp.err, 'error');
+                _this2.alertSrv.set("Device Update failed.", resp.err, 'error');
               } else {
-                return self.getDevice(self.deviceDTO.device_id);
+                _this2.alertSrv.set("Device Updated.", _this2.deviceDTO.device_name, 'success', 3000);
+                return _this2.getDevice(_this2.deviceDTO.device_id);
+              }
+            }, function (error) {
+              if ('error' in error.data) {
+                _this2.alertSrv.set("Device Update failed.", error.data.error, 'error');
+              } else {
+                _this2.alertSrv.set("Device Update failed.", error, 'error');
               }
             });
           }
@@ -126,7 +125,7 @@ System.register(['lodash'], function (_export, _context) {
         return DeviceDetailsCtrl;
       }());
 
-      _export('DeviceDetailsCtrl', DeviceDetailsCtrl);
+      _export("DeviceDetailsCtrl", DeviceDetailsCtrl);
 
       DeviceDetailsCtrl.templateUrl = 'components/device_details.html';
     }

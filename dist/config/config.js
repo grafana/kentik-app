@@ -86,13 +86,14 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
         }, {
           key: 'validateApiConnection',
           value: function validateApiConnection() {
-            var self = this;
-            var promise = this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v1/user/list');
+            var _this = this;
+
+            var promise = this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/users');
             promise.then(function () {
-              self.apiValidated = true;
+              _this.apiValidated = true;
             }, function () {
-              self.apiValidated = false;
-              self.apiError = true;
+              _this.apiValidated = false;
+              _this.apiError = true;
             });
             return promise;
           }
