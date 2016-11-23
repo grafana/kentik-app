@@ -44,32 +44,19 @@ class KentikDatasource {
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
 
-    var query = {
-      version: "2.01",
-      query: {
-        device_name: deviceNames,
-        time_type: 'fixed', // or fixed
-        lookback_seconds: 3600,
-        starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-        metric: this.templateSrv.replace(target.metric),
-        fast_data: "Auto", // or Fast or Full
-        units: this.templateSrv.replace(target.unit)
+    let query_options = {
+      deviceNames: deviceNames,
+      range: {
+        from: options.range.from,
+        to: options.range.to
       },
-      filterSettings: {
-        connector: 'All',
-        filterString: '',
-        filterGroups: [
-          {
-            connector: 'All',
-            filterString: "",
-            filters: kentikFilters
-          }
-        ]
-      }
+      metric: this.templateSrv.replace(target.metric),
+      unit: this.templateSrv.replace(target.unit),
+      kentikFilters: kentikFilters
     };
+    let query = this.kentik.formatV4Query(query_options);
 
-    var endpoint = 'timeSeriesData';
+    let endpoint = 'timeSeriesData';
     if (target.mode === 'table') {
       endpoint = 'topXData';
     }
