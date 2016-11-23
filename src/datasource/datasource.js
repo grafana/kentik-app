@@ -1,15 +1,15 @@
 import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
 import TableModel from 'app/core/table_model';
+import './kentikAPI';
 
 class KentikDatasource {
 
-  constructor(instanceSettings, $q, backendSrv, templateSrv)  {
+  constructor(instanceSettings, templateSrv, kentikAPISrv)  {
     this.instanceSettings = instanceSettings;
     this.name = instanceSettings.name;
-    this.$q = $q;
-    this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.kentik = kentikAPISrv;
   }
 
   interpolateDeviceField(value, variable) {
@@ -74,11 +74,8 @@ class KentikDatasource {
       endpoint = 'topXData';
     }
 
-    return this.backendSrv.datasourceRequest({
-      method: 'POST',
-      url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/' + endpoint,
-      data: query
-    }).then(this.processResponse.bind(this, query, endpoint, options));
+    return this.kentik.invokeQuery(query, endpoint)
+    .then(this.processResponse.bind(this, query, endpoint, options));
   }
 
   processResponse(query, endpoint, options, data) {
@@ -180,15 +177,9 @@ class KentikDatasource {
       return Promise.resolve(unitList);
     }
 
-    return this.backendSrv.datasourceRequest({
-      method: 'GET',
-      url: 'api/plugin-proxy/kentik-app/api/v5/devices',
-    }).then(res => {
-      if (!res.data || !res.data.devices) {
-        return [];
-      }
-
-      return res.data.devices.map(device => {
+    return this.kentik.getDevices()
+    .then(devices => {
+      return devices.map(device => {
         return {text: device.device_name, value: device.device_name};
       });
     });
