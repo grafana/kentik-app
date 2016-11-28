@@ -55,14 +55,16 @@ class KentikDatasource {
       kentikFilters: kentikFilters
     };
     let query = this.kentik.formatV4Query(query_options);
+    query = this.kentik.formatV5Query(query_options);
 
     let endpoint = 'timeSeriesData';
+    endpoint = 'topXdata';
     if (target.mode === 'table') {
-      endpoint = 'topXData';
+      endpoint = 'topXdata';
     }
 
-    return this.kentik.invokeQuery(query, endpoint)
-    .then(this.processResponse.bind(this, query, endpoint, options));
+    return this.kentik.invokeV5Query(query, endpoint)
+    .then(this.processV5Response.bind(this, query, target.mode, options));
   }
 
   processResponse(query, endpoint, options, data) {
@@ -83,6 +85,83 @@ class KentikDatasource {
     } else {
       return this.processTimeSeries(rows, metricDef, unitDef, options);
     }
+  }
+
+  processV5Response(query, mode, options, data) {
+    if (!data.data.results) {
+      return Promise.reject({message: 'no kentik data'});
+    }
+
+    var bucketData = data.data.results[0].data;
+    if (bucketData.length === 0) {
+      return [];
+    }
+
+    var metricDef = _.find(metricList, {value: query.queries[0].query.dimension[0]});
+    var unitDef = _.find(unitList, {value: query.queries[0].query.metric});
+
+    if (mode === 'table') {
+      return this.processTableData(bucketData, metricDef, unitDef);
+    } else {
+      return this.processV5TimeSeries(bucketData, query, options);
+    }
+  }
+
+  processV5TimeSeries(bucketData, query) {
+    let seriesList = [];
+    let endIndex = query.queries[0].query.topx;
+    if (bucketData.length < endIndex) {
+      endIndex = bucketData.length;
+    }
+
+    for (let i = 0; i < endIndex; i++) {
+      let series = bucketData[i];
+      let timeseries = _.find(series.timeSeries, series => {
+        return series.flow && series.flow.length;
+      });
+      let seriesName = series.key;
+
+      if (timeseries) {
+        let grafana_series = {
+          target: seriesName,
+          datapoints: timeseries.flow.map(point => {
+            return [point[1], point[0]];
+          })
+        };
+        seriesList.push(grafana_series);
+      }
+    }
+
+    return { data: seriesList };
+  }
+
+  processTableData(bucketData, metricDef, unitDef) {
+    var table = new TableModel();
+
+    table.columns.push({text: metricDef.text});
+
+    for (let col of unitDef.tableFields) {
+      table.columns.push({text: col.text, unit: col.unit});
+    }
+
+    bucketData.forEach(row => {
+      var seriesName = row.key;
+
+      var values = [seriesName];
+      for (let col of unitDef.tableFields) {
+        var val = row[col.field];
+
+        if (_.isString(val)) {
+          val = parseFloat(val);
+        }
+
+        values.push(val);
+      }
+
+      table.rows.push(values);
+    });
+
+    return {data: [table]};
   }
 
   processTimeSeries(rows, metricDef, unitDef, options) {
