@@ -77,22 +77,8 @@ class KentikAPI {
             "outsort": unitDef.field,
             "aggregates": [],
             "filter_string": "",
-            "filters_obj": {},
-            // "query_title": "Top Dest AS Number by Max Bits/s",
-            // "viz_type": "stackedArea",
-            // "update_frequency": 0,
-            // "show_overlay": true,
-            // "overlay_day": -7,
-            // "sync_axes": false,
-            // "pps_threshold": 500,
-            // "all_selected": false,
-            // "host_selected": false,
-            // "num_device": 1,
-            // "saved_filters": [],
-            // "descriptor": "Total",
-            // "isEditing": false,
+            "filters_obj": {}
           },
-          // "bucket": "Left +Y Axis",
           "bucketIndex": 0,
           "isOverlay": false
         }

@@ -132,7 +132,6 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
                   "filter_string": "",
                   "filters_obj": {}
                 },
-                // "bucket": "Left +Y Axis",
                 "bucketIndex": 0,
                 "isOverlay": false
               }]
