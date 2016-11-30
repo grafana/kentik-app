@@ -67,6 +67,11 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
         }, {
           key: 'convertToKentikFilter',
           value: function convertToKentikFilter(filterObj) {
+            // Use Kentik 'not equal' style
+            if (filterObj.operator === '!=') {
+              filterObj.operator = '<>';
+            }
+
             return {
               filterField: _.find(filterFieldList, { text: filterObj.key }).field,
               operator: filterObj.operator,
