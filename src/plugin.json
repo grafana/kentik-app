@@ -49,7 +49,7 @@
       {"name": "License & Terms", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
     ],
     "screenshots": [
-      {"name": "Kentik Connect - Talk Talkers", "path": "img/kentik-connect-top-talkers-2.png"},
+      {"name": "Kentik Connect - Top Talkers", "path": "img/kentik-connect-top-talkers-2.png"},
       {"name": "Kentik Connect - Home Dashboard", "path": "img/kentik-connect-home.png"},
       {"name": "Kentik Connect - Device Details", "path": "img/kentik-connect-device-details.png"},
       {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"}
