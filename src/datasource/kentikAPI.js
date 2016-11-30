@@ -114,20 +114,11 @@ class KentikAPI {
     query.queries[0].query.aggregates.push(...aggs);
 
     // Add filters
-    if (options.kentikFilters.length) {
+    if (options.kentikFilterGroups.length) {
       query.queries[0].query.filters_obj = {
         "connector": "All",
         "custom": false,
-        "filterGroups": [
-          {
-            "connector": "All",
-            "filters": options.kentikFilters,
-            "filterString": "",
-            "metric": null,
-            "not": false,
-            "id": "c255"
-          }
-        ],
+        "filterGroups": options.kentikFilterGroups,
         "filterString": ""
       };
     }

@@ -157,18 +157,11 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
             (_query$queries$0$quer = query.queries[0].query.aggregates).push.apply(_query$queries$0$quer, _toConsumableArray(aggs));
 
             // Add filters
-            if (options.kentikFilters.length) {
+            if (options.kentikFilterGroups.length) {
               query.queries[0].query.filters_obj = {
                 "connector": "All",
                 "custom": false,
-                "filterGroups": [{
-                  "connector": "All",
-                  "filters": options.kentikFilters,
-                  "filterString": "",
-                  "metric": null,
-                  "not": false,
-                  "id": "c255"
-                }],
+                "filterGroups": options.kentikFilterGroups,
                 "filterString": ""
               };
             }

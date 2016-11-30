@@ -33,6 +33,28 @@ class KentikDatasource {
     };
   }
 
+  convertToKentikFilterGroup(filters) {
+    if (filters.length) {
+      let kentikFilters = _.map(filters, this.convertToKentikFilter);
+      let connector = 'All';
+      if (filters[0].condition && (
+          filters[0].condition.toLowerCase() === 'or' ||
+          filters[0].condition.toLowerCase() === 'any')) {
+        connector = 'Any';
+      }
+      return [{
+        "connector": connector,
+        "filters": kentikFilters,
+        "filterString": "",
+        "metric": null,
+        "not": false,
+        "id": "c255"
+      }];
+    } else {
+      return [];
+    }
+  }
+
   query(options) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({data: []});
@@ -42,7 +64,7 @@ class KentikDatasource {
     let deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
+    kentikFilters = this.convertToKentikFilterGroup(kentikFilters);
 
     let query_options = {
       deviceNames: deviceNames,
@@ -52,7 +74,7 @@ class KentikDatasource {
       },
       metric: this.templateSrv.replace(target.metric),
       unit: this.templateSrv.replace(target.unit),
-      kentikFilters: kentikFilters
+      kentikFilterGroups: kentikFilters
     };
     let query = this.kentik.formatQuery(query_options);
 

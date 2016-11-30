@@ -74,6 +74,27 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
             };
           }
         }, {
+          key: 'convertToKentikFilterGroup',
+          value: function convertToKentikFilterGroup(filters) {
+            if (filters.length) {
+              var kentikFilters = _.map(filters, this.convertToKentikFilter);
+              var connector = 'All';
+              if (filters[0].condition && (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')) {
+                connector = 'Any';
+              }
+              return [{
+                "connector": connector,
+                "filters": kentikFilters,
+                "filterString": "",
+                "metric": null,
+                "not": false,
+                "id": "c255"
+              }];
+            } else {
+              return [];
+            }
+          }
+        }, {
           key: 'query',
           value: function query(options) {
             if (!options.targets || options.targets.length === 0) {
@@ -84,7 +105,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
             var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
             var kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-            kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
+            kentikFilters = this.convertToKentikFilterGroup(kentikFilters);
 
             var query_options = {
               deviceNames: deviceNames,
@@ -94,7 +115,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
               },
               metric: this.templateSrv.replace(target.metric),
               unit: this.templateSrv.replace(target.unit),
-              kentikFilters: kentikFilters
+              kentikFilterGroups: kentikFilters
             };
             var query = this.kentik.formatQuery(query_options);
 
