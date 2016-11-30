@@ -1,15 +1,15 @@
 import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
 import TableModel from 'app/core/table_model';
+import './kentikAPI';
 
 class KentikDatasource {
 
-  constructor(instanceSettings, $q, backendSrv, templateSrv)  {
+  constructor(instanceSettings, templateSrv, kentikAPISrv)  {
     this.instanceSettings = instanceSettings;
     this.name = instanceSettings.name;
-    this.$q = $q;
-    this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.kentik = kentikAPISrv;
   }
 
   interpolateDeviceField(value, variable) {
@@ -44,102 +44,72 @@ class KentikDatasource {
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
 
-    var query = {
-      version: "2.01",
-      query: {
-        device_name: deviceNames,
-        time_type: 'fixed', // or fixed
-        lookback_seconds: 3600,
-        starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-        metric: this.templateSrv.replace(target.metric),
-        fast_data: "Auto", // or Fast or Full
-        units: this.templateSrv.replace(target.unit)
+    let query_options = {
+      deviceNames: deviceNames,
+      range: {
+        from: options.range.from,
+        to: options.range.to
       },
-      filterSettings: {
-        connector: 'All',
-        filterString: '',
-        filterGroups: [
-          {
-            connector: 'All',
-            filterString: "",
-            filters: kentikFilters
-          }
-        ]
-      }
+      metric: this.templateSrv.replace(target.metric),
+      unit: this.templateSrv.replace(target.unit),
+      kentikFilters: kentikFilters
     };
+    let query = this.kentik.formatQuery(query_options);
 
-    var endpoint = 'timeSeriesData';
-    if (target.mode === 'table') {
-      endpoint = 'topXData';
-    }
-
-    return this.backendSrv.datasourceRequest({
-      method: 'POST',
-      url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/' + endpoint,
-      data: query
-    }).then(this.processResponse.bind(this, query, endpoint, options));
+    return this.kentik.invokeQuery(query)
+    .then(this.processResponse.bind(this, query, target.mode, options));
   }
 
-  processResponse(query, endpoint, options, data) {
-    if (!data.data) {
+  processResponse(query, mode, options, data) {
+    if (!data.data.results) {
       return Promise.reject({message: 'no kentik data'});
     }
 
-    var rows = data.data;
-    if (rows.length === 0) {
+    var bucketData = data.data.results[0].data;
+    if (bucketData.length === 0) {
       return [];
     }
 
-    var metricDef = _.find(metricList, {value: query.query.metric});
-    var unitDef = _.find(unitList, {value: query.query.units});
+    var metricDef = _.find(metricList, {value: query.queries[0].query.dimension[0]});
+    var unitDef = _.find(unitList, {value: query.queries[0].query.metric});
 
-    if (endpoint === 'topXData') {
-      return this.processTopXData(rows, metricDef, unitDef, options);
+    if (mode === 'table') {
+      return this.processTableData(bucketData, metricDef, unitDef);
     } else {
-      return this.processTimeSeries(rows, metricDef, unitDef, options);
+      return this.processTimeSeries(bucketData, query, options);
     }
   }
 
-  processTimeSeries(rows, metricDef, unitDef, options) {
-    var seriesList = {};
-    var endIndex = rows.length;
-
-    // if time range is to now ignore last data point
-    if (options.rangeRaw.to === 'now') {
-      endIndex = endIndex - 1;
+  processTimeSeries(bucketData, query) {
+    let seriesList = [];
+    let endIndex = query.queries[0].query.topx;
+    if (bucketData.length < endIndex) {
+      endIndex = bucketData.length;
     }
 
-    for (var i = 0; i < endIndex; i++) {
-      var row = rows[i];
-      var value = row[unitDef.field];
-      var seriesName = row[metricDef.field];
-      var series = seriesList[seriesName];
+    for (let i = 0; i < endIndex; i++) {
+      let series = bucketData[i];
+      let timeseries = _.find(series.timeSeries, series => {
+        return series.flow && series.flow.length;
+      });
+      let seriesName = series.key;
 
-      if (!series) {
-        series = seriesList[seriesName] = {
+      if (timeseries) {
+        let grafana_series = {
           target: seriesName,
-          datapoints: [],
-          unit: unitDef.gfUnit,
-          axisLabel: unitDef.gfAxisLabel
+          datapoints: timeseries.flow.map(point => {
+            return [point[1], point[0]];
+          })
         };
+        seriesList.push(grafana_series);
       }
-
-      if (unitDef.transform) {
-        value = unitDef.transform(value, row);
-      }
-
-      var time = new Date(row.i_start_time).getTime();
-      series.datapoints.push([value, time]);
     }
 
-    // turn seriesList hash to array
-    return { data: _.map(seriesList, value => value) };
+    return { data: seriesList };
   }
 
-  processTopXData(rows, metricDef, unitDef, options) {
+  processTableData(bucketData, metricDef, unitDef) {
     var table = new TableModel();
-    var rangeSeconds = (options.range.to.valueOf() - options.range.from.valueOf()) / 1000;
 
     table.columns.push({text: metricDef.text});
 
@@ -147,27 +117,22 @@ class KentikDatasource {
       table.columns.push({text: col.text, unit: col.unit});
     }
 
-    for (let row of rows) {
-      var seriesName = row[metricDef.field];
+    bucketData.forEach(row => {
+      var seriesName = row.key;
 
       var values = [seriesName];
       for (let col of unitDef.tableFields) {
         var val = row[col.field];
-        var transform = col.transform || unitDef.transform;
 
         if (_.isString(val)) {
           val = parseFloat(val);
-        }
-
-        if (transform) {
-          val = transform(val, row, rangeSeconds);
         }
 
         values.push(val);
       }
 
       table.rows.push(values);
-    }
+    });
 
     return {data: [table]};
   }
@@ -180,15 +145,9 @@ class KentikDatasource {
       return Promise.resolve(unitList);
     }
 
-    return this.backendSrv.datasourceRequest({
-      method: 'GET',
-      url: 'api/plugin-proxy/kentik-app/api/v5/devices',
-    }).then(res => {
-      if (!res.data || !res.data.devices) {
-        return [];
-      }
-
-      return res.data.devices.map(device => {
+    return this.kentik.getDevices()
+    .then(devices => {
+      return devices.map(device => {
         return {text: device.device_name, value: device.device_name};
       });
     });

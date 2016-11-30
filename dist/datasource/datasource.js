@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_export, _context) {
+System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'], function (_export, _context) {
   "use strict";
 
   var metricList, unitList, filterFieldList, _, TableModel, _createClass, KentikDatasource;
@@ -20,7 +20,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
       _ = _lodash.default;
     }, function (_appCoreTable_model) {
       TableModel = _appCoreTable_model.default;
-    }],
+    }, function (_kentikAPI) {}],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -41,14 +41,13 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
       }();
 
       _export('KentikDatasource', KentikDatasource = function () {
-        function KentikDatasource(instanceSettings, $q, backendSrv, templateSrv) {
+        function KentikDatasource(instanceSettings, templateSrv, kentikAPISrv) {
           _classCallCheck(this, KentikDatasource);
 
           this.instanceSettings = instanceSettings;
           this.name = instanceSettings.name;
-          this.$q = $q;
-          this.backendSrv = backendSrv;
           this.templateSrv = templateSrv;
+          this.kentik = kentikAPISrv;
         }
 
         _createClass(KentikDatasource, [{
@@ -87,105 +86,74 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
             var kentikFilters = this.templateSrv.getAdhocFilters(this.name);
             kentikFilters = _.map(kentikFilters, this.convertToKentikFilter);
 
-            var query = {
-              version: "2.01",
-              query: {
-                device_name: deviceNames,
-                time_type: 'fixed', // or fixed
-                lookback_seconds: 3600,
-                starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-                ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-                metric: this.templateSrv.replace(target.metric),
-                fast_data: "Auto", // or Fast or Full
-                units: this.templateSrv.replace(target.unit)
+            var query_options = {
+              deviceNames: deviceNames,
+              range: {
+                from: options.range.from,
+                to: options.range.to
               },
-              filterSettings: {
-                connector: 'All',
-                filterString: '',
-                filterGroups: [{
-                  connector: 'All',
-                  filterString: "",
-                  filters: kentikFilters
-                }]
-              }
+              metric: this.templateSrv.replace(target.metric),
+              unit: this.templateSrv.replace(target.unit),
+              kentikFilters: kentikFilters
             };
+            var query = this.kentik.formatQuery(query_options);
 
-            var endpoint = 'timeSeriesData';
-            if (target.mode === 'table') {
-              endpoint = 'topXData';
-            }
-
-            return this.backendSrv.datasourceRequest({
-              method: 'POST',
-              url: 'api/plugin-proxy/kentik-app/api/v4/dataExplorer/' + endpoint,
-              data: query
-            }).then(this.processResponse.bind(this, query, endpoint, options));
+            return this.kentik.invokeQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
           }
         }, {
           key: 'processResponse',
-          value: function processResponse(query, endpoint, options, data) {
-            if (!data.data) {
+          value: function processResponse(query, mode, options, data) {
+            if (!data.data.results) {
               return Promise.reject({ message: 'no kentik data' });
             }
 
-            var rows = data.data;
-            if (rows.length === 0) {
+            var bucketData = data.data.results[0].data;
+            if (bucketData.length === 0) {
               return [];
             }
 
-            var metricDef = _.find(metricList, { value: query.query.metric });
-            var unitDef = _.find(unitList, { value: query.query.units });
+            var metricDef = _.find(metricList, { value: query.queries[0].query.dimension[0] });
+            var unitDef = _.find(unitList, { value: query.queries[0].query.metric });
 
-            if (endpoint === 'topXData') {
-              return this.processTopXData(rows, metricDef, unitDef, options);
+            if (mode === 'table') {
+              return this.processTableData(bucketData, metricDef, unitDef);
             } else {
-              return this.processTimeSeries(rows, metricDef, unitDef, options);
+              return this.processTimeSeries(bucketData, query, options);
             }
           }
         }, {
           key: 'processTimeSeries',
-          value: function processTimeSeries(rows, metricDef, unitDef, options) {
-            var seriesList = {};
-            var endIndex = rows.length;
-
-            // if time range is to now ignore last data point
-            if (options.rangeRaw.to === 'now') {
-              endIndex = endIndex - 1;
+          value: function processTimeSeries(bucketData, query) {
+            var seriesList = [];
+            var endIndex = query.queries[0].query.topx;
+            if (bucketData.length < endIndex) {
+              endIndex = bucketData.length;
             }
 
             for (var i = 0; i < endIndex; i++) {
-              var row = rows[i];
-              var value = row[unitDef.field];
-              var seriesName = row[metricDef.field];
-              var series = seriesList[seriesName];
+              var series = bucketData[i];
+              var timeseries = _.find(series.timeSeries, function (series) {
+                return series.flow && series.flow.length;
+              });
+              var seriesName = series.key;
 
-              if (!series) {
-                series = seriesList[seriesName] = {
+              if (timeseries) {
+                var grafana_series = {
                   target: seriesName,
-                  datapoints: [],
-                  unit: unitDef.gfUnit,
-                  axisLabel: unitDef.gfAxisLabel
+                  datapoints: timeseries.flow.map(function (point) {
+                    return [point[1], point[0]];
+                  })
                 };
+                seriesList.push(grafana_series);
               }
-
-              if (unitDef.transform) {
-                value = unitDef.transform(value, row);
-              }
-
-              var time = new Date(row.i_start_time).getTime();
-              series.datapoints.push([value, time]);
             }
 
-            // turn seriesList hash to array
-            return { data: _.map(seriesList, function (value) {
-                return value;
-              }) };
+            return { data: seriesList };
           }
         }, {
-          key: 'processTopXData',
-          value: function processTopXData(rows, metricDef, unitDef, options) {
+          key: 'processTableData',
+          value: function processTableData(bucketData, metricDef, unitDef) {
             var table = new TableModel();
-            var rangeSeconds = (options.range.to.valueOf() - options.range.from.valueOf()) / 1000;
 
             table.columns.push({ text: metricDef.text });
 
@@ -214,69 +182,43 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               }
             }
 
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
+            bucketData.forEach(function (row) {
+              var seriesName = row.key;
 
-            try {
-              for (var _iterator2 = rows[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var row = _step2.value;
+              var values = [seriesName];
+              var _iteratorNormalCompletion2 = true;
+              var _didIteratorError2 = false;
+              var _iteratorError2 = undefined;
 
-                var seriesName = row[metricDef.field];
-
-                var values = [seriesName];
-                var _iteratorNormalCompletion3 = true;
-                var _didIteratorError3 = false;
-                var _iteratorError3 = undefined;
-
-                try {
-                  for (var _iterator3 = unitDef.tableFields[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var _col = _step3.value;
-
-                    var val = row[_col.field];
-                    var transform = _col.transform || unitDef.transform;
-
-                    if (_.isString(val)) {
-                      val = parseFloat(val);
-                    }
-
-                    if (transform) {
-                      val = transform(val, row, rangeSeconds);
-                    }
-
-                    values.push(val);
-                  }
-                } catch (err) {
-                  _didIteratorError3 = true;
-                  _iteratorError3 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                      _iterator3.return();
-                    }
-                  } finally {
-                    if (_didIteratorError3) {
-                      throw _iteratorError3;
-                    }
-                  }
-                }
-
-                table.rows.push(values);
-              }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
-            } finally {
               try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
+                for (var _iterator2 = unitDef.tableFields[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                  var col = _step2.value;
+
+                  var val = row[col.field];
+
+                  if (_.isString(val)) {
+                    val = parseFloat(val);
+                  }
+
+                  values.push(val);
                 }
+              } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
               } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
+                try {
+                  if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
+                  }
+                } finally {
+                  if (_didIteratorError2) {
+                    throw _iteratorError2;
+                  }
                 }
               }
-            }
+
+              table.rows.push(values);
+            });
 
             return { data: [table] };
           }
@@ -290,15 +232,8 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model'], function (_e
               return Promise.resolve(unitList);
             }
 
-            return this.backendSrv.datasourceRequest({
-              method: 'GET',
-              url: 'api/plugin-proxy/kentik-app/api/v5/devices'
-            }).then(function (res) {
-              if (!res.data || !res.data.devices) {
-                return [];
-              }
-
-              return res.data.devices.map(function (device) {
+            return this.kentik.getDevices().then(function (devices) {
+              return devices.map(function (device) {
                 return { text: device.device_name, value: device.device_name };
               });
             });

@@ -84,25 +84,25 @@ var unitList = [
   {
     text: 'Unique Src IPs',
     value: 'unique_src_ip',
-    field: 'uniquesrcips',
+    field: 'f_countdistinct_ipv4_src_addr',
     gfUnit: 'none',
     gfAxisLabel: 'Unique Src IPs',
     tableFields: [
-      {text: 'Max IPs per device', field: 'max_unique_src_ips_per_device', unit: 'none'},
-      {text: 'p95th mbps', field: 'p95th_bps', unit: 'bps'},
-      {text: 'p95th pps', field: 'p95th_pps', unit: 'pps'},
+      {text: 'Max IPs per device', field: 'f_countdistinct_ipv4_src_addr', unit: 'none'},
+      {text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps'},
+      {text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps'},
     ]
   },
   {
     text: 'Unique Dst IPs',
     value: 'unique_dst_ip',
-    field: 'uniquesrcips',
+    field: 'f_countdistinct_ipv4_dst_addr',
     gfUnit: 'short',
     gfAxisLabel: 'Unique Dst IPs',
     tableFields: [
-      {text: 'Max IPs per device', field: 'max_unique_dst_ips_per_device', unit: 'none'},
-      {text: 'p95th mbps', field: 'p95th_bps', unit: 'bps'},
-      {text: 'p95th pps', field: 'p95th_pps', unit: 'pps'},
+      {text: 'Max IPs per device', field: 'f_countdistinct_ipv4_dst_addr', unit: 'none'},
+      {text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps'},
+      {text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps'},
    ]
   },
 ];
