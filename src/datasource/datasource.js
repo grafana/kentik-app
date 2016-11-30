@@ -54,40 +54,13 @@ class KentikDatasource {
       unit: this.templateSrv.replace(target.unit),
       kentikFilters: kentikFilters
     };
-    let query = this.kentik.formatV4Query(query_options);
-    query = this.kentik.formatV5Query(query_options);
+    let query = this.kentik.formatQuery(query_options);
 
-    let endpoint = 'timeSeriesData';
-    endpoint = 'topXdata';
-    if (target.mode === 'table') {
-      endpoint = 'topXdata';
-    }
-
-    return this.kentik.invokeV5Query(query, endpoint)
-    .then(this.processV5Response.bind(this, query, target.mode, options));
+    return this.kentik.invokeQuery(query)
+    .then(this.processResponse.bind(this, query, target.mode, options));
   }
 
-  processResponse(query, endpoint, options, data) {
-    if (!data.data) {
-      return Promise.reject({message: 'no kentik data'});
-    }
-
-    var rows = data.data;
-    if (rows.length === 0) {
-      return [];
-    }
-
-    var metricDef = _.find(metricList, {value: query.query.metric});
-    var unitDef = _.find(unitList, {value: query.query.units});
-
-    if (endpoint === 'topXData') {
-      return this.processTopXData(rows, metricDef, unitDef, options);
-    } else {
-      return this.processTimeSeries(rows, metricDef, unitDef, options);
-    }
-  }
-
-  processV5Response(query, mode, options, data) {
+  processResponse(query, mode, options, data) {
     if (!data.data.results) {
       return Promise.reject({message: 'no kentik data'});
     }
@@ -103,11 +76,11 @@ class KentikDatasource {
     if (mode === 'table') {
       return this.processTableData(bucketData, metricDef, unitDef);
     } else {
-      return this.processV5TimeSeries(bucketData, query, options);
+      return this.processTimeSeries(bucketData, query, options);
     }
   }
 
-  processV5TimeSeries(bucketData, query) {
+  processTimeSeries(bucketData, query) {
     let seriesList = [];
     let endIndex = query.queries[0].query.topx;
     if (bucketData.length < endIndex) {
@@ -160,77 +133,6 @@ class KentikDatasource {
 
       table.rows.push(values);
     });
-
-    return {data: [table]};
-  }
-
-  processTimeSeries(rows, metricDef, unitDef, options) {
-    var seriesList = {};
-    var endIndex = rows.length;
-
-    // if time range is to now ignore last data point
-    if (options.rangeRaw.to === 'now') {
-      endIndex = endIndex - 1;
-    }
-
-    for (var i = 0; i < endIndex; i++) {
-      var row = rows[i];
-      var value = row[unitDef.field];
-      var seriesName = row[metricDef.field];
-      var series = seriesList[seriesName];
-
-      if (!series) {
-        series = seriesList[seriesName] = {
-          target: seriesName,
-          datapoints: [],
-          unit: unitDef.gfUnit,
-          axisLabel: unitDef.gfAxisLabel
-        };
-      }
-
-      if (unitDef.transform) {
-        value = unitDef.transform(value, row);
-      }
-
-      var time = new Date(row.i_start_time).getTime();
-      series.datapoints.push([value, time]);
-    }
-
-    // turn seriesList hash to array
-    return { data: _.map(seriesList, value => value) };
-  }
-
-  processTopXData(rows, metricDef, unitDef, options) {
-    var table = new TableModel();
-    var rangeSeconds = (options.range.to.valueOf() - options.range.from.valueOf()) / 1000;
-
-    table.columns.push({text: metricDef.text});
-
-    for (let col of unitDef.tableFields) {
-      table.columns.push({text: col.text, unit: col.unit});
-    }
-
-    for (let row of rows) {
-      var seriesName = row[metricDef.field];
-
-      var values = [seriesName];
-      for (let col of unitDef.tableFields) {
-        var val = row[col.field];
-        var transform = col.transform || unitDef.transform;
-
-        if (_.isString(val)) {
-          val = parseFloat(val);
-        }
-
-        if (transform) {
-          val = transform(val, row, rangeSeconds);
-        }
-
-        values.push(val);
-      }
-
-      table.rows.push(values);
-    }
 
     return {data: [table]};
   }

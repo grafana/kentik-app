@@ -19,39 +19,7 @@ class KentikAPI {
     });
   }
 
-  formatV4Query(options) {
-    let query = {
-      version: "2.01",
-      query: {
-        device_name: options.deviceNames,
-        time_type: 'fixed', // or fixed
-        lookback_seconds: 3600,
-        starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-        metric: options.metric,
-        fast_data: "Auto", // or Fast or Full
-        units: options.unit
-      },
-      filterSettings: {
-        connector: 'All',
-        filterString: '',
-        filterGroups: [
-          {
-            connector: 'All',
-            filterString: "",
-            filters: options.kentikFilters
-          }
-        ]
-      }
-    };
-    return query;
-  }
-
-  invokeQuery(query, endpoint = 'timeSeriesData') {
-    return this._post('/api/v4/dataExplorer/' + endpoint, query);
-  }
-
-  formatV5Query(options) {
+  formatQuery(options) {
     var unitDef = _.find(unitList, {value: options.unit});
     let query = {
       "queries": [
@@ -167,8 +135,8 @@ class KentikAPI {
     return query;
   }
 
-  invokeV5Query(query, endpoint = 'topXdata') {
-    return this._post('/api/v5/query/' + endpoint, query);
+  invokeQuery(query) {
+    return this._post('/api/v5/query/topXdata', query);
   }
 
   _get(url) {

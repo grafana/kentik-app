@@ -70,42 +70,8 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
             });
           }
         }, {
-          key: 'formatV4Query',
-          value: function formatV4Query(options) {
-            var query = {
-              version: "2.01",
-              query: {
-                device_name: options.deviceNames,
-                time_type: 'fixed', // or fixed
-                lookback_seconds: 3600,
-                starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-                ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-                metric: options.metric,
-                fast_data: "Auto", // or Fast or Full
-                units: options.unit
-              },
-              filterSettings: {
-                connector: 'All',
-                filterString: '',
-                filterGroups: [{
-                  connector: 'All',
-                  filterString: "",
-                  filters: options.kentikFilters
-                }]
-              }
-            };
-            return query;
-          }
-        }, {
-          key: 'invokeQuery',
-          value: function invokeQuery(query) {
-            var endpoint = arguments.length <= 1 || arguments[1] === undefined ? 'timeSeriesData' : arguments[1];
-
-            return this._post('/api/v4/dataExplorer/' + endpoint, query);
-          }
-        }, {
-          key: 'formatV5Query',
-          value: function formatV5Query(options) {
+          key: 'formatQuery',
+          value: function formatQuery(options) {
             var _query$queries$0$quer;
 
             var unitDef = _.find(unitList, { value: options.unit });
@@ -210,11 +176,9 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
             return query;
           }
         }, {
-          key: 'invokeV5Query',
-          value: function invokeV5Query(query) {
-            var endpoint = arguments.length <= 1 || arguments[1] === undefined ? 'topXdata' : arguments[1];
-
-            return this._post('/api/v5/query/' + endpoint, query);
+          key: 'invokeQuery',
+          value: function invokeQuery(query) {
+            return this._post('/api/v5/query/topXdata', query);
           }
         }, {
           key: '_get',
