@@ -169,9 +169,24 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
             return query;
           }
         }, {
+          key: 'getFieldValues',
+          value: function getFieldValues(field) {
+            var query = 'SELECT DISTINCT ' + field + ' FROM all_devices ORDER BY ' + field + ' ASC';
+            return this.invokeSQLQuery(query);
+          }
+        }, {
           key: 'invokeQuery',
           value: function invokeQuery(query) {
             return this._post('/api/v5/query/topXdata', query);
+          }
+        }, {
+          key: 'invokeSQLQuery',
+          value: function invokeSQLQuery(query) {
+            var data = {
+              "query": query
+            };
+
+            return this._post('/api/v5/query/sql', data);
           }
         }, {
           key: '_get',
@@ -188,6 +203,12 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
               method: 'POST',
               url: this.baseUrl + url,
               data: data
+            }).then(function (response) {
+              if (response.data) {
+                return response.data;
+              } else {
+                return [];
+              }
             });
           }
         }]);

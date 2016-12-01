@@ -88,11 +88,11 @@ class KentikDatasource {
   }
 
   processResponse(query, mode, options, data) {
-    if (!data.data.results) {
+    if (!data.results) {
       return Promise.reject({message: 'no kentik data'});
     }
 
-    var bucketData = data.data.results[0].data;
+    var bucketData = data.results[0].data;
     if (bucketData.length === 0) {
       return [];
     }
@@ -186,7 +186,13 @@ class KentikDatasource {
 
   getTagValues(options) {
     if (options) {
-      return Promise.resolve([]);
+      let field = _.find(filterFieldList, {text: options.key}).field;
+      return this.kentik.getFieldValues(field)
+      .then(result => {
+        return result.rows.map(row => {
+          return {text: row[field].toString()};
+        });
+      });
     } else {
       return Promise.resolve([]);
     }

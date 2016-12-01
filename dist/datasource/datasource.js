@@ -3,7 +3,7 @@
 System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'], function (_export, _context) {
   "use strict";
 
-  var metricList, unitList, filterFieldList, _, TableModel, _createClass, KentikDatasource;
+  var metricList, unitList, filterFieldList, _, TableModel, _typeof, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -22,6 +22,12 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
       TableModel = _appCoreTable_model.default;
     }, function (_kentikAPI) {}],
     execute: function () {
+      _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+      } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+      };
+
       _createClass = function () {
         function defineProperties(target, props) {
           for (var i = 0; i < props.length; i++) {
@@ -129,11 +135,11 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
         }, {
           key: 'processResponse',
           value: function processResponse(query, mode, options, data) {
-            if (!data.data.results) {
+            if (!data.results) {
               return Promise.reject({ message: 'no kentik data' });
             }
 
-            var bucketData = data.data.results[0].data;
+            var bucketData = data.results[0].data;
             if (bucketData.length === 0) {
               return [];
             }
@@ -272,8 +278,21 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
         }, {
           key: 'getTagValues',
           value: function getTagValues(options) {
+            var _this = this;
+
             if (options) {
-              return Promise.resolve([]);
+              var _ret = function () {
+                var field = _.find(filterFieldList, { text: options.key }).field;
+                return {
+                  v: _this.kentik.getFieldValues(field).then(function (result) {
+                    return result.rows.map(function (row) {
+                      return { text: row[field].toString() };
+                    });
+                  })
+                };
+              }();
+
+              if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
             } else {
               return Promise.resolve([]);
             }

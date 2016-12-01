@@ -126,8 +126,21 @@ class KentikAPI {
     return query;
   }
 
+  getFieldValues(field) {
+    let query = `SELECT DISTINCT ${field} FROM all_devices ORDER BY ${field} ASC`;
+    return this.invokeSQLQuery(query);
+  }
+
   invokeQuery(query) {
     return this._post('/api/v5/query/topXdata', query);
+  }
+
+  invokeSQLQuery(query) {
+    let data = {
+      "query": query
+    };
+
+    return this._post('/api/v5/query/sql', data);
   }
 
   _get(url) {
@@ -142,6 +155,13 @@ class KentikAPI {
       method: 'POST',
       url: this.baseUrl + url,
       data: data
+    })
+    .then(response => {
+      if (response.data) {
+        return response.data;
+      } else {
+        return [];
+      }
     });
   }
 }
