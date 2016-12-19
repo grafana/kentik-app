@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'], function (_export, _context) {
+System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProxy'], function (_export, _context) {
   "use strict";
 
   var metricList, unitList, filterFieldList, _, TableModel, _typeof, _createClass, KentikDatasource;
@@ -20,7 +20,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
       _ = _lodash.default;
     }, function (_appCoreTable_model) {
       TableModel = _appCoreTable_model.default;
-    }, function (_kentikAPI) {}],
+    }, function (_kentikProxy) {}],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
@@ -47,13 +47,13 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikAPI'
       }();
 
       _export('KentikDatasource', KentikDatasource = function () {
-        function KentikDatasource(instanceSettings, templateSrv, kentikAPISrv) {
+        function KentikDatasource(instanceSettings, templateSrv, kentikProxySrv) {
           _classCallCheck(this, KentikDatasource);
 
           this.instanceSettings = instanceSettings;
           this.name = instanceSettings.name;
           this.templateSrv = templateSrv;
-          this.kentik = kentikAPISrv;
+          this.kentik = kentikProxySrv;
         }
 
         _createClass(KentikDatasource, [{

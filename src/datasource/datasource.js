@@ -1,15 +1,15 @@
 import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
 import TableModel from 'app/core/table_model';
-import './kentikAPI';
+import './kentikProxy';
 
 class KentikDatasource {
 
-  constructor(instanceSettings, templateSrv, kentikAPISrv)  {
+  constructor(instanceSettings, templateSrv, kentikProxySrv)  {
     this.instanceSettings = instanceSettings;
     this.name = instanceSettings.name;
     this.templateSrv = templateSrv;
-    this.kentik = kentikAPISrv;
+    this.kentik = kentikProxySrv;
   }
 
   interpolateDeviceField(value, variable) {
