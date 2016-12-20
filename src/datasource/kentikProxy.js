@@ -8,6 +8,7 @@ function getUTCTimestamp() {
   return ts.getTime() + ts.getTimezoneOffset() * 60 * 1000;
 }
 
+// Get hash of Kentik query
 function getHash(queryObj) {
   let query = _.cloneDeep(queryObj);
   query.starting_time = null;
@@ -15,6 +16,7 @@ function getHash(queryObj) {
   return JSON.stringify(query);
 }
 
+// Prevent too frequent queries
 function getMaxRefreshInterval(query) {
   let interval = Date.parse(query.ending_time) - Date.parse(query.starting_time);
   if (interval > moment.duration(1, 'months')) {
@@ -40,7 +42,7 @@ class KentikProxy {
   }
 
   invokeQuery(query) {
-    let cached_query = _.cloneDeep(query.queries[0].query);
+    let cached_query = _.cloneDeep(query);
     let hash = getHash(cached_query);
 
     if (this.shouldInvoke(query)) {
@@ -64,8 +66,9 @@ class KentikProxy {
     }
   }
 
+  // Decide, is query shold be invoked or get data from cahce?
   shouldInvoke(query) {
-    let kentik_query = query.queries[0].query;
+    let kentik_query = query;
     let hash = getHash(kentik_query);
     let timestamp = getUTCTimestamp();
 
@@ -85,7 +88,7 @@ class KentikProxy {
       (this.cache[hash] && (
         timestamp - cache_ending_time > max_refresh_interval ||
         starting_time < cache_starting_time ||
-        Math.abs(query_range - cached_query_range) > 60 * 1000
+        Math.abs(query_range - cached_query_range) > 60 * 1000 // is time range changed?
       ))
     );
   }

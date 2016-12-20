@@ -97,8 +97,8 @@ class KentikDatasource {
       return [];
     }
 
-    var metricDef = _.find(metricList, {value: query.queries[0].query.dimension[0]});
-    var unitDef = _.find(unitList, {value: query.queries[0].query.metric});
+    var metricDef = _.find(metricList, {value: query.dimension[0]});
+    var unitDef = _.find(unitList, {value: query.metric});
 
     if (mode === 'table') {
       return this.processTableData(bucketData, metricDef, unitDef);
@@ -109,7 +109,7 @@ class KentikDatasource {
 
   processTimeSeries(bucketData, query) {
     let seriesList = [];
-    let endIndex = query.queries[0].query.topx;
+    let endIndex = query.topx;
     if (bucketData.length < endIndex) {
       endIndex = bucketData.length;
     }

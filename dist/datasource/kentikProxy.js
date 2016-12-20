@@ -16,6 +16,7 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
     return ts.getTime() + ts.getTimezoneOffset() * 60 * 1000;
   }
 
+  // Get hash of Kentik query
   function getHash(queryObj) {
     var query = _.cloneDeep(queryObj);
     query.starting_time = null;
@@ -23,6 +24,7 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
     return JSON.stringify(query);
   }
 
+  // Prevent too frequent queries
   function getMaxRefreshInterval(query) {
     var interval = Date.parse(query.ending_time) - Date.parse(query.starting_time);
     if (interval > moment.duration(1, 'months')) {
@@ -81,7 +83,7 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
           value: function invokeQuery(query) {
             var _this = this;
 
-            var cached_query = _.cloneDeep(query.queries[0].query);
+            var cached_query = _.cloneDeep(query);
             var hash = getHash(cached_query);
 
             if (this.shouldInvoke(query)) {
@@ -106,7 +108,7 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
         }, {
           key: 'shouldInvoke',
           value: function shouldInvoke(query) {
-            var kentik_query = query.queries[0].query;
+            var kentik_query = query;
             var hash = getHash(kentik_query);
             var timestamp = getUTCTimestamp();
 
@@ -120,7 +122,8 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
 
             var max_refresh_interval = getMaxRefreshInterval(kentik_query);
 
-            return !this.cache[hash] || timestamp - ending_time > max_refresh_interval || this.cache[hash] && (timestamp - cache_ending_time > max_refresh_interval || starting_time < cache_starting_time || Math.abs(query_range - cached_query_range) > 60 * 1000);
+            return !this.cache[hash] || timestamp - ending_time > max_refresh_interval || this.cache[hash] && (timestamp - cache_ending_time > max_refresh_interval || starting_time < cache_starting_time || Math.abs(query_range - cached_query_range) > 60 * 1000 // is time range changed?
+            );
           }
         }]);
 

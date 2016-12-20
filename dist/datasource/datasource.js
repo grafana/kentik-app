@@ -144,8 +144,8 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               return [];
             }
 
-            var metricDef = _.find(metricList, { value: query.queries[0].query.dimension[0] });
-            var unitDef = _.find(unitList, { value: query.queries[0].query.metric });
+            var metricDef = _.find(metricList, { value: query.dimension[0] });
+            var unitDef = _.find(unitList, { value: query.metric });
 
             if (mode === 'table') {
               return this.processTableData(bucketData, metricDef, unitDef);
@@ -157,7 +157,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
           key: 'processTimeSeries',
           value: function processTimeSeries(bucketData, query) {
             var seriesList = [];
-            var endIndex = query.queries[0].query.topx;
+            var endIndex = query.topx;
             if (bucketData.length < endIndex) {
               endIndex = bucketData.length;
             }

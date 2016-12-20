@@ -5,18 +5,6 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
 
   var angular, _, unitList, _createClass, KentikAPI;
 
-  function _toConsumableArray(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-        arr2[i] = arr[i];
-      }
-
-      return arr2;
-    } else {
-      return Array.from(arr);
-    }
-  }
-
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -72,38 +60,34 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
         }, {
           key: 'formatQuery',
           value: function formatQuery(options) {
-            var _query$queries$0$quer;
-
             var unitDef = _.find(unitList, { value: options.unit });
             var query = {
-              "queries": [{
-                "query": {
-                  "dimension": [options.metric],
-                  "metric": options.unit,
-                  "matrixBy": [],
-                  "cidr": 32,
-                  "cidr6": 128,
-                  "topx": 8, // Visualization depth (8 by default)
-                  "depth": 100,
-                  "fastData": "Auto",
-                  "lookback_seconds": 0,
-                  "time_format": "UTC",
-                  starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-                  ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-                  "device_name": options.deviceNames,
-                  "bucket": "",
-                  "bucketIndex": -1,
-                  "outsort": unitDef.field,
-                  "aggregates": [],
-                  "filter_string": "",
-                  "filters_obj": {}
-                },
-                "bucketIndex": 0,
-                "isOverlay": false
-              }]
+              "dimension": [options.metric],
+              "metric": options.unit,
+              "matrixBy": [],
+              "cidr": 32,
+              "cidr6": 128,
+              "topx": 8, // Visualization depth (8 by default)
+              "depth": 100,
+              "fastData": "Auto",
+              "lookback_seconds": 0,
+              "time_format": "UTC",
+              starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
+              ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+              "device_name": options.deviceNames,
+              "bucket": "",
+              "bucketIndex": -1,
+              "outsort": unitDef.field,
+              "aggregates": this.formatAggs(unitDef),
+              "filter_string": "",
+              "filters_obj": this.formatFilters(options.kentikFilterGroups)
             };
 
-            // Add aggregates
+            return query;
+          }
+        }, {
+          key: 'formatAggs',
+          value: function formatAggs(unitDef) {
             var aggs = [];
             if (unitDef.field === "f_countdistinct_ipv4_src_addr" || unitDef.field === "f_countdistinct_ipv4_dst_addr") {
               aggs = [{
@@ -154,19 +138,22 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
                 "sample_rate": 1
               }];
             }
-            (_query$queries$0$quer = query.queries[0].query.aggregates).push.apply(_query$queries$0$quer, _toConsumableArray(aggs));
-
-            // Add filters
-            if (options.kentikFilterGroups.length) {
-              query.queries[0].query.filters_obj = {
+            return aggs;
+          }
+        }, {
+          key: 'formatFilters',
+          value: function formatFilters(kentikFilterGroups) {
+            var filters_obj = {};
+            if (kentikFilterGroups.length) {
+              filters_obj = {
                 "connector": "All",
                 "custom": false,
-                "filterGroups": options.kentikFilterGroups,
+                "filterGroups": kentikFilterGroups,
                 "filterString": ""
               };
             }
 
-            return query;
+            return filters_obj;
           }
         }, {
           key: 'getFieldValues',
@@ -177,7 +164,15 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
         }, {
           key: 'invokeQuery',
           value: function invokeQuery(query) {
-            return this._post('/api/v5/query/topXdata', query);
+            var kentik_v5_query = {
+              "queries": [{
+                "query": query,
+                "bucketIndex": 0,
+                "isOverlay": false
+              }]
+            };
+
+            return this._post('/api/v5/query/topXdata', kentik_v5_query);
           }
         }, {
           key: 'invokeSQLQuery',
