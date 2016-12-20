@@ -69,13 +69,13 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
 
           this.kentikAPI = kentikAPISrv;
           this.cache = {};
+          this.cacheUpdateInterval = 5 * 60 * 1000; // 5 min by default
           this.requestCachingIntervals = {
             '1d': 0
           };
 
           this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
           this.formatQuery = this.kentikAPI.formatQuery.bind(this.kentikAPI);
-          this.getFieldValues = this.kentikAPI.getFieldValues.bind(this.kentikAPI);
         }
 
         _createClass(KentikProxy, [{
@@ -124,6 +124,26 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
 
             return !this.cache[hash] || timestamp - ending_time > max_refresh_interval || this.cache[hash] && (timestamp - cache_ending_time > max_refresh_interval || starting_time < cache_starting_time || Math.abs(query_range - cached_query_range) > 60 * 1000 // is time range changed?
             );
+          }
+        }, {
+          key: 'getFieldValues',
+          value: function getFieldValues(field) {
+            var _this2 = this;
+
+            var ts = getUTCTimestamp();
+            if (this.cache[field] && ts - this.cache[field].ts < this.cacheUpdateInterval) {
+              return Promise.resolve(this.cache[field].value);
+            } else {
+              return this.kentikAPI.getFieldValues(field).then(function (result) {
+                ts = getUTCTimestamp();
+                _this2.cache[field] = {
+                  ts: ts,
+                  value: result
+                };
+
+                return result;
+              });
+            }
           }
         }]);
 

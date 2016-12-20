@@ -32,13 +32,13 @@ class KentikProxy {
   constructor(backendSrv, kentikAPISrv) {
     this.kentikAPI = kentikAPISrv;
     this.cache = {};
+    this.cacheUpdateInterval = 5 * 60 * 1000; // 5 min by default
     this.requestCachingIntervals = {
       '1d': 0
     };
 
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
     this.formatQuery = this.kentikAPI.formatQuery.bind(this.kentikAPI);
-    this.getFieldValues = this.kentikAPI.getFieldValues.bind(this.kentikAPI);
   }
 
   invokeQuery(query) {
@@ -91,6 +91,24 @@ class KentikProxy {
         Math.abs(query_range - cached_query_range) > 60 * 1000 // is time range changed?
       ))
     );
+  }
+
+  getFieldValues(field) {
+    let ts = getUTCTimestamp();
+    if (this.cache[field] && ts - this.cache[field].ts < this.cacheUpdateInterval) {
+      return Promise.resolve(this.cache[field].value);
+    } else {
+      return this.kentikAPI.getFieldValues(field)
+      .then(result => {
+        ts = getUTCTimestamp();
+        this.cache[field] = {
+          ts: ts,
+          value: result
+        };
+
+        return result;
+      });
+    }
   }
 }
 
