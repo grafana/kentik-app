@@ -94,12 +94,12 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
                   query: cached_query,
                   result: result
                 };
-                console.log('Invoke query', cached_query, result);
+                console.log('Invoke Kentik query');
                 return result;
               });
             } else {
               // Get from cache
-              console.log('Get from cache');
+              console.log('Get result from cache');
               return Promise.resolve(this.cache[hash].result);
             }
           }
@@ -107,14 +107,20 @@ System.register(['angular', 'lodash', 'moment', './kentikAPI'], function (_expor
           key: 'shouldInvoke',
           value: function shouldInvoke(query) {
             var kentik_query = query.queries[0].query;
-
+            var hash = getHash(kentik_query);
             var timestamp = getUTCTimestamp();
+
+            var starting_time = Date.parse(kentik_query.starting_time);
             var ending_time = Date.parse(kentik_query.ending_time);
+            var query_range = ending_time - starting_time;
+
+            var cache_starting_time = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
+            var cache_ending_time = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
+            var cached_query_range = cache_ending_time - cache_starting_time;
+
             var max_refresh_interval = getMaxRefreshInterval(kentik_query);
 
-            var hash = getHash(kentik_query);
-
-            return !this.cache[hash] || timestamp - ending_time > max_refresh_interval || this.cache[hash] && timestamp - Date.parse(this.cache[hash].query.ending_time) > max_refresh_interval || this.cache[hash] && Date.parse(kentik_query.starting_time) < Date.parse(this.cache[hash].query.starting_time);
+            return !this.cache[hash] || timestamp - ending_time > max_refresh_interval || this.cache[hash] && (timestamp - cache_ending_time > max_refresh_interval || starting_time < cache_starting_time || Math.abs(query_range - cached_query_range) > 60 * 1000);
           }
         }]);
 

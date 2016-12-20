@@ -54,30 +54,39 @@ class KentikProxy {
           query: cached_query,
           result: result
         };
-        console.log('Invoke query', cached_query, result);
+        console.log('Invoke Kentik query');
         return result;
       });
     } else {
       // Get from cache
-      console.log('Get from cache');
+      console.log('Get result from cache');
       return Promise.resolve(this.cache[hash].result);
     }
   }
 
   shouldInvoke(query) {
     let kentik_query = query.queries[0].query;
-
-    let timestamp = getUTCTimestamp();
-    let ending_time = Date.parse(kentik_query.ending_time);
-    let max_refresh_interval = getMaxRefreshInterval(kentik_query);
-
     let hash = getHash(kentik_query);
+    let timestamp = getUTCTimestamp();
+
+    let starting_time = Date.parse(kentik_query.starting_time);
+    let ending_time = Date.parse(kentik_query.ending_time);
+    let query_range = ending_time - starting_time;
+
+    let cache_starting_time = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
+    let cache_ending_time = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
+    let cached_query_range = cache_ending_time - cache_starting_time;
+
+    let max_refresh_interval = getMaxRefreshInterval(kentik_query);
 
     return (
       !this.cache[hash] ||
       timestamp - ending_time > max_refresh_interval ||
-      (this.cache[hash] && timestamp - Date.parse(this.cache[hash].query.ending_time) > max_refresh_interval) ||
-      (this.cache[hash] && Date.parse(kentik_query.starting_time) < Date.parse(this.cache[hash].query.starting_time))
+      (this.cache[hash] && (
+        timestamp - cache_ending_time > max_refresh_interval ||
+        starting_time < cache_starting_time ||
+        Math.abs(query_range - cached_query_range) > 60 * 1000
+      ))
     );
   }
 }
