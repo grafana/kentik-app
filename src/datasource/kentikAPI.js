@@ -20,40 +20,35 @@ class KentikAPI {
   }
 
   formatQuery(options) {
-    var unitDef = _.find(unitList, {value: options.unit});
+    let unitDef = _.find(unitList, {value: options.unit});
     let query = {
-      "queries": [
-        {
-          "query": {
-            "dimension": [
-              options.metric
-            ],
-            "metric": options.unit,
-            "matrixBy": [],
-            "cidr": 32,
-            "cidr6": 128,
-            "topx": 8, // Visualization depth (8 by default)
-            "depth": 100,
-            "fastData": "Auto",
-            "lookback_seconds": 0,
-            "time_format": "UTC",
-            starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-            ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-            "device_name": options.deviceNames,
-            "bucket": "",
-            "bucketIndex": -1,
-            "outsort": unitDef.field,
-            "aggregates": [],
-            "filter_string": "",
-            "filters_obj": {}
-          },
-          "bucketIndex": 0,
-          "isOverlay": false
-        }
-      ]
+      "dimension": [
+        options.metric
+      ],
+      "metric": options.unit,
+      "matrixBy": [],
+      "cidr": 32,
+      "cidr6": 128,
+      "topx": 8, // Visualization depth (8 by default)
+      "depth": 100,
+      "fastData": "Auto",
+      "lookback_seconds": 0,
+      "time_format": "UTC",
+      starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
+      ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+      "device_name": options.deviceNames,
+      "bucket": "",
+      "bucketIndex": -1,
+      "outsort": unitDef.field,
+      "aggregates": this.formatAggs(unitDef),
+      "filter_string": "",
+      "filters_obj": this.formatFilters(options.kentikFilterGroups)
     };
 
-    // Add aggregates
+    return query;
+  }
+
+  formatAggs(unitDef) {
     let aggs = [];
     if (unitDef.field === "f_countdistinct_ipv4_src_addr" ||
         unitDef.field === "f_countdistinct_ipv4_dst_addr") {
@@ -111,19 +106,21 @@ class KentikAPI {
         "sample_rate": 1
       }];
     }
-    query.queries[0].query.aggregates.push(...aggs);
+    return aggs;
+  }
 
-    // Add filters
-    if (options.kentikFilterGroups.length) {
-      query.queries[0].query.filters_obj = {
+  formatFilters(kentikFilterGroups) {
+    let filters_obj = {};
+    if (kentikFilterGroups.length) {
+      filters_obj = {
         "connector": "All",
         "custom": false,
-        "filterGroups": options.kentikFilterGroups,
+        "filterGroups": kentikFilterGroups,
         "filterString": ""
       };
     }
 
-    return query;
+    return filters_obj;
   }
 
   getFieldValues(field) {
@@ -132,7 +129,17 @@ class KentikAPI {
   }
 
   invokeQuery(query) {
-    return this._post('/api/v5/query/topXdata', query);
+    let kentik_v5_query = {
+      "queries": [
+        {
+          "query": query,
+          "bucketIndex": 0,
+          "isOverlay": false
+        }
+      ]
+    };
+
+    return this._post('/api/v5/query/topXdata', kentik_v5_query);
   }
 
   invokeSQLQuery(query) {
