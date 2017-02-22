@@ -50,7 +50,7 @@ class KentikAPI {
 
   formatAggs(unitDef) {
     let aggs = [];
-    if (unitDef.field === "f_countdistinct_ipv4_src_addr" ||
+    if (unitDef.field === "f_countdistinct_inet_src_addr" ||
         unitDef.field === "f_countdistinct_ipv4_dst_addr") {
       aggs = [
       {

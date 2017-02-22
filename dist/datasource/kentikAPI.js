@@ -89,7 +89,7 @@ System.register(['angular', 'lodash', './metric_def'], function (_export, _conte
           key: 'formatAggs',
           value: function formatAggs(unitDef) {
             var aggs = [];
-            if (unitDef.field === "f_countdistinct_ipv4_src_addr" || unitDef.field === "f_countdistinct_ipv4_dst_addr") {
+            if (unitDef.field === "f_countdistinct_inet_src_addr" || unitDef.field === "f_countdistinct_ipv4_dst_addr") {
               aggs = [{
                 "name": unitDef.field,
                 "column": unitDef.field,
