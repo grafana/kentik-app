@@ -31,8 +31,17 @@ class KentikDatasource {
       filterObj.operator = '<>';
     }
 
+    // If no field definition found assume that custom field is used.
+    let filterField;
+    let filterFieldDef = _.find(filterFieldList, {text: filterObj.key});
+    if (filterFieldDef) {
+      filterField = filterFieldDef.field;
+    } else {
+      filterField = filterObj.key;
+    }
+
     return {
-      filterField: _.find(filterFieldList, {text: filterObj.key}).field,
+      filterField: filterField,
       operator: filterObj.operator,
       filterValue: filterObj.value
     };

@@ -72,8 +72,17 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               filterObj.operator = '<>';
             }
 
+            // If no field definition found assume that custom field is used.
+            var filterField = void 0;
+            var filterFieldDef = _.find(filterFieldList, { text: filterObj.key });
+            if (filterFieldDef) {
+              filterField = filterFieldDef.field;
+            } else {
+              filterField = filterObj.key;
+            }
+
             return {
-              filterField: _.find(filterFieldList, { text: filterObj.key }).field,
+              filterField: filterField,
               operator: filterObj.operator,
               filterValue: filterObj.value
             };
