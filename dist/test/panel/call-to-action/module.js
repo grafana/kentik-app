@@ -85,4 +85,3 @@ var CallToActiontCtrl = function (_PanelCtrl) {
 
 CallToActiontCtrl.templateUrl = 'panel/call-to-action/module.html';
 exports.PanelCtrl = CallToActiontCtrl;
-//# sourceMappingURL=module.js.map

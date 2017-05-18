@@ -128,4 +128,3 @@ var KentikConfigCtrl = function () {
 KentikConfigCtrl.template = _config2.default;
 
 exports.ConfigCtrl = KentikConfigCtrl;
-//# sourceMappingURL=config.js.map

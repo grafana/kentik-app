@@ -24,4 +24,3 @@ exports.DeviceListCtrl = _device_list.DeviceListCtrl;
 exports.DeviceDetailsCtrl = _device_details.DeviceDetailsCtrl;
 exports.AddDeviceCtrl = _add_device.AddDeviceCtrl;
 exports.ConfigCtrl = _config.ConfigCtrl;
-//# sourceMappingURL=module.js.map

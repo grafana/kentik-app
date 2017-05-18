@@ -33,4 +33,3 @@ var KentikQueryCtrl = function (_QueryCtrl) {
 KentikQueryCtrl.templateUrl = 'datasource/query_editor.html';
 
 exports.KentikQueryCtrl = KentikQueryCtrl;
-//# sourceMappingURL=query_editor.js.map

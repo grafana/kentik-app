@@ -11,4 +11,3 @@ var ConfigCtrl = exports.ConfigCtrl = function ConfigCtrl() {
 };
 
 ConfigCtrl.templateUrl = 'datasource/config.html';
-//# sourceMappingURL=config.js.map

@@ -53,4 +53,3 @@ var DeviceListCtrl = function () {
 DeviceListCtrl.templateUrl = 'components/device_list.html';
 
 exports.DeviceListCtrl = DeviceListCtrl;
-//# sourceMappingURL=device_list.js.map

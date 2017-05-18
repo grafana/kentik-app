@@ -136,4 +136,3 @@ var KentikProxy = function () {
 }();
 
 _angular2.default.module('grafana.services').service('kentikProxySrv', KentikProxy);
-//# sourceMappingURL=kentikProxy.js.map

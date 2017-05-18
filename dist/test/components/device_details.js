@@ -102,4 +102,3 @@ var DeviceDetailsCtrl = exports.DeviceDetailsCtrl = function () {
 }();
 
 DeviceDetailsCtrl.templateUrl = 'components/device_details.html';
-//# sourceMappingURL=device_details.js.map

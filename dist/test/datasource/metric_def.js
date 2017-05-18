@@ -60,4 +60,3 @@ var filterFieldList = [{ text: 'Source City', field: 'src_geo_city' }, { text: '
 exports.metricList = metricList;
 exports.unitList = unitList;
 exports.filterFieldList = filterFieldList;
-//# sourceMappingURL=metric_def.js.map

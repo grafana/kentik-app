@@ -78,4 +78,3 @@ var AddDeviceCtrl = exports.AddDeviceCtrl = function () {
 }();
 
 AddDeviceCtrl.templateUrl = 'components/add_device.html';
-//# sourceMappingURL=add_device.js.map

@@ -70,4 +70,3 @@ _chai2.default.should();
 _chai2.default.use(_sinonChai2.default);
 global.assert = _chai2.default.assert;
 global.expect = _chai2.default.expect;
-//# sourceMappingURL=test-main.js.map

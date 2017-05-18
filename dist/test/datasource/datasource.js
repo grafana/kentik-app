@@ -278,4 +278,3 @@ var KentikDatasource = function () {
 }();
 
 exports.KentikDatasource = KentikDatasource;
-//# sourceMappingURL=datasource.js.map

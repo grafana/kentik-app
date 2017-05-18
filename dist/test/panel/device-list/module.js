@@ -81,4 +81,3 @@ var DeviceListCtrl = function (_PanelCtrl) {
 DeviceListCtrl.templateUrl = 'public/plugins/kentik-app/components/device_list.html';
 
 exports.PanelCtrl = DeviceListCtrl;
-//# sourceMappingURL=module.js.map

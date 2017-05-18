@@ -14,4 +14,3 @@ var _query_editor = require('./query_editor');
 exports.Datasource = _datasource.KentikDatasource;
 exports.ConfigCtrl = _config.ConfigCtrl;
 exports.QueryCtrl = _query_editor.KentikQueryCtrl;
-//# sourceMappingURL=module.js.map

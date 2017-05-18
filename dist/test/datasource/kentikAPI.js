@@ -189,4 +189,3 @@ var KentikAPI = function () {
 }();
 
 _angular2.default.module('grafana.services').service('kentikAPISrv', KentikAPI);
-//# sourceMappingURL=kentikAPI.js.map

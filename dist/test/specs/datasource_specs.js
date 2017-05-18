@@ -41,4 +41,3 @@ describe('KentikDatasource', function () {
     });
   });
 });
-//# sourceMappingURL=datasource_specs.js.map
