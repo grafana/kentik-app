@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/datasource/config.js"],"names":["ConfigCtrl","templateUrl"],"mappings":";;;;;;;;IACaA,U,WAAAA,U;;;;AAGbA,WAAWC,WAAX,GAAyB,wBAAzB","file":"config.js","sourcesContent":["\nexport class ConfigCtrl {\n}\n\nConfigCtrl.templateUrl = 'datasource/config.html';\n"]}

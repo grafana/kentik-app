@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     watch: {
       rebuild_all: {
         files: ['src/**/*', 'readme.md'],
-        tasks: ['default'],
+        tasks: ['watchTask'],
         options: {spawn: false}
       },
     },
@@ -35,9 +35,11 @@ module.exports = function(grunt) {
       options: {
         sourceMap: true,
         presets:  ["es2015"],
-        plugins: ['transform-es2015-modules-systemjs', "transform-es2015-for-of"],
       },
       dist: {
+        options: {
+          plugins: ['transform-es2015-modules-systemjs', "transform-es2015-for-of"]
+        },
         files: [{
           cwd: 'src',
           expand: true,
@@ -46,6 +48,36 @@ module.exports = function(grunt) {
           ext:'.js'
         }]
       },
+      distTestNoSystemJs: {
+        files: [{
+          cwd: 'src',
+          expand: true,
+          src: ['**/*.js'],
+          dest: 'dist/test',
+          ext: '.js'
+        }]
+      },
+      distTestsSpecsNoSystemJs: {
+        files: [{
+          expand: true,
+          cwd: 'specs',
+          src: ['**/*.js'],
+          dest: 'dist/test/specs',
+          ext: '.js'
+        }]
+      }
+    },
+
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: [
+          'dist/test/specs/test-main.js',
+          'dist/test/specs/*_specs.js'
+        ]
+      }
     },
 
     jshint: {
@@ -89,8 +121,19 @@ module.exports = function(grunt) {
     'sass',
     'copy:src_to_dist',
     'copy:pluginDef',
+    'jshint',
+    'jscs',
+    'babel',
+    'mochaTest'
+  ]);
+
+  grunt.registerTask('watchTask', [
+    'clean',
+    'sass',
+    'copy:src_to_dist',
+    'copy:pluginDef',
     'babel',
     'jshint',
     'jscs'
-    ]);
+  ]);
 };

@@ -4,3 +4,11 @@ node_modules
 tmp/*
 npm-debug.log
 
+# Editor junk
+*.sublime-project
+*.sublime-workspace
+*.swp
+.idea/
+*.iml
+*.tmp
+.vscode/
