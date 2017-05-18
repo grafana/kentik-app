@@ -37,6 +37,7 @@ describe('KentikDatasource', function () {
 
       var filterGroup = ctx.ds.convertToKentikFilterGroup(filters);
       expect(filterGroup).to.eql(expectedGroup);
+      done();
     });
   });
 });

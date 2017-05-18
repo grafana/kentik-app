@@ -31,6 +31,7 @@ describe('KentikDatasource', () => {
 
       let filterGroup = ctx.ds.convertToKentikFilterGroup(filters);
       expect(filterGroup).to.eql(expectedGroup);
+      done();
     });
   });
 

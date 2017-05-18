@@ -99,10 +99,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               return [{
                 "connector": connector,
                 "filters": kentikFilters,
-                "filterString": "",
-                "metric": null,
-                "not": false,
-                "id": "c255"
+                "not": false
               }];
             } else {
               return [];

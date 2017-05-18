@@ -59,10 +59,7 @@ class KentikDatasource {
       return [{
         "connector": connector,
         "filters": kentikFilters,
-        "filterString": "",
-        "metric": null,
         "not": false,
-        "id": "c255"
       }];
     } else {
       return [];

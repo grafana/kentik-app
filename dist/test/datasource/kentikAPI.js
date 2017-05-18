@@ -50,14 +50,13 @@ var KentikAPI = function () {
         "fastData": "Auto",
         "lookback_seconds": 0,
         "time_format": "UTC",
-        starting_time: options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ending_time: options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+        "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
+        "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
         "device_name": options.deviceNames,
         "bucket": "",
         "bucketIndex": -1,
         "outsort": unitDef.field,
         "aggregates": this.formatAggs(unitDef),
-        "filter_string": "",
         "filters_obj": this.formatFilters(options.kentikFilterGroups)
       };
 

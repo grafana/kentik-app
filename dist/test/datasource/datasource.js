@@ -82,10 +82,7 @@ var KentikDatasource = function () {
         return [{
           "connector": connector,
           "filters": kentikFilters,
-          "filterString": "",
-          "metric": null,
-          "not": false,
-          "id": "c255"
+          "not": false
         }];
       } else {
         return [];
