@@ -12,6 +12,8 @@ var _metric_def = require('./metric_def');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var KENTIK_TIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
+
 function formatMetricAggs(unitDef) {
   var aggs = [{
     "name": "avg_both",
@@ -97,6 +99,9 @@ function formatFilters(kentikFilterGroups) {
 
 function buildTopXdataQuery(options) {
   var unitDef = _lodash2.default.find(_metric_def.unitList, { value: options.unit });
+  var starting_time = options.range.from.utc().format(KENTIK_TIME_FORMAT);
+  var ending_time = options.range.to.utc().format(KENTIK_TIME_FORMAT);
+
   var query = {
     "dimension": [options.metric],
     "metric": options.unit,
@@ -108,8 +113,8 @@ function buildTopXdataQuery(options) {
     "fastData": "Auto",
     "lookback_seconds": 0,
     "time_format": "UTC",
-    "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-    "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+    "starting_time": starting_time,
+    "ending_time": ending_time,
     "device_name": options.deviceNames,
     "outsort": unitDef.outsort,
     "aggregates": formatAggs(unitDef),

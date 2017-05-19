@@ -3,7 +3,7 @@
 System.register(['lodash', './metric_def'], function (_export, _context) {
   "use strict";
 
-  var _, unitList, filterFieldList;
+  var _, unitList, filterFieldList, KENTIK_TIME_FORMAT;
 
   function formatMetricAggs(unitDef) {
     var aggs = [{
@@ -90,6 +90,9 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
 
   function buildTopXdataQuery(options) {
     var unitDef = _.find(unitList, { value: options.unit });
+    var starting_time = options.range.from.utc().format(KENTIK_TIME_FORMAT);
+    var ending_time = options.range.to.utc().format(KENTIK_TIME_FORMAT);
+
     var query = {
       "dimension": [options.metric],
       "metric": options.unit,
@@ -101,8 +104,8 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
       "fastData": "Auto",
       "lookback_seconds": 0,
       "time_format": "UTC",
-      "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-      "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
+      "starting_time": starting_time,
+      "ending_time": ending_time,
       "device_name": options.deviceNames,
       "outsort": unitDef.outsort,
       "aggregates": formatAggs(unitDef),
@@ -159,6 +162,8 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
       filterFieldList = _metric_def.filterFieldList;
     }],
     execute: function () {
+      KENTIK_TIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
+
       _export('default', {
         buildTopXdataQuery: buildTopXdataQuery,
         formatAggs: formatAggs,
