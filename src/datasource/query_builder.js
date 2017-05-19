@@ -7,9 +7,7 @@ function formatMetricAggs(unitDef) {
       "name": unitDef.field, // avg_bits_per_sec
       "column": unitDef.field,
       "fn": "average",
-      "properName": "Average",
       "raw": true, // Set to get timeseries data
-      "sortable": true,
       "sample_rate": 1
     },
     {
@@ -17,17 +15,12 @@ function formatMetricAggs(unitDef) {
       "column": unitDef.field,
       "fn": "percentile",
       "rank": 95,
-      "properName": "95th Percentile",
-      "sortable": true,
       "sample_rate": 1
     },
     {
       "name": "max_both",
       "column": unitDef.field,
       "fn": "max",
-      "properName": "Max",
-      "sortable": true,
-      "raw": true,
       "sample_rate": 1
     }
   ];
@@ -55,8 +48,8 @@ function formatUniqueIpAggs(unitDef) {
       "name": unitDef.field,
       "column": unitDef.field,
       "fn": "max",
-      "raw": true,
-      "sample_rate": 1
+      "sample_rate": 1,
+      "raw": true
     },
     {
       "name": "p95th_bits_per_sec",
@@ -94,9 +87,7 @@ function formatFilters(kentikFilterGroups) {
   if (kentikFilterGroups.length) {
     filters_obj = {
       "connector": "All",
-      "custom": false,
-      "filterGroups": kentikFilterGroups,
-      "filterString": ""
+      "filterGroups": kentikFilterGroups
     };
   }
 
@@ -121,8 +112,6 @@ function buildTopXdataQuery(options) {
     "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
     "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
     "device_name": options.deviceNames,
-    "bucket": "",
-    "bucketIndex": -1,
     "outsort": unitDef.field,
     "aggregates": formatAggs(unitDef),
     "filters_obj": formatFilters(options.kentikFilterGroups)
