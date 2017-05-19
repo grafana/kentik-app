@@ -43,7 +43,7 @@ var unitList = [{
   text: 'Unique Src IPs',
   value: 'unique_src_ip',
   field: 'f_hll(inet_src_addr,0.0001)',
-  outsort: "max_ips",
+  outsort: "avg_ips",
   gfUnit: 'short',
   gfAxisLabel: 'Unique Src IPs',
   tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'max_ips', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]
@@ -51,7 +51,7 @@ var unitList = [{
   text: 'Unique Dst IPs',
   value: 'unique_dst_ip',
   field: 'f_hll(inet_dst_addr,0.0001)',
-  outsort: "max_ips",
+  outsort: "avg_ips",
   gfUnit: 'short',
   gfAxisLabel: 'Unique Dst IPs',
   tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'max_ips', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]

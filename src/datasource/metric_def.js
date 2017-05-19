@@ -87,7 +87,7 @@ var unitList = [
     text: 'Unique Src IPs',
     value: 'unique_src_ip',
     field: 'f_hll(inet_src_addr,0.0001)',
-    outsort: "max_ips",
+    outsort: "avg_ips",
     gfUnit: 'short',
     gfAxisLabel: 'Unique Src IPs',
     tableFields: [
@@ -102,7 +102,7 @@ var unitList = [
     text: 'Unique Dst IPs',
     value: 'unique_dst_ip',
     field: 'f_hll(inet_dst_addr,0.0001)',
-    outsort: "max_ips",
+    outsort: "avg_ips",
     gfUnit: 'short',
     gfAxisLabel: 'Unique Dst IPs',
     tableFields: [

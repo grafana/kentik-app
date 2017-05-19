@@ -36,7 +36,7 @@
             "min": false,
             "rightSide": true,
             "show": true,
-            "sort": "max",
+            "sort": "avg",
             "sortDesc": true,
             "total": false,
             "values": true
@@ -115,7 +115,7 @@
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 3,
+            "col": 1,
             "desc": true
           },
           "span": 12,
