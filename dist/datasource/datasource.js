@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProxy'], function (_export, _context) {
+System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProxy', './query_builder'], function (_export, _context) {
   "use strict";
 
-  var metricList, unitList, filterFieldList, _, TableModel, _createClass, KentikDatasource;
+  var metricList, unitList, filterFieldList, _, TableModel, queryBuilder, _createClass, KentikDatasource;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -20,7 +20,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
       _ = _lodash.default;
     }, function (_appCoreTable_model) {
       TableModel = _appCoreTable_model.default;
-    }, function (_kentikProxy) {}],
+    }, function (_kentikProxy) {}, function (_query_builder) {
+      queryBuilder = _query_builder.default;
+    }],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -65,47 +67,6 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
             return value.join(',');
           }
         }, {
-          key: 'convertToKentikFilter',
-          value: function convertToKentikFilter(filterObj) {
-            // Use Kentik 'not equal' style
-            if (filterObj.operator === '!=') {
-              filterObj.operator = '<>';
-            }
-
-            // If no field definition found assume that custom field is used.
-            var filterField = void 0;
-            var filterFieldDef = _.find(filterFieldList, { text: filterObj.key });
-            if (filterFieldDef) {
-              filterField = filterFieldDef.field;
-            } else {
-              filterField = filterObj.key;
-            }
-
-            return {
-              filterField: filterField,
-              operator: filterObj.operator,
-              filterValue: filterObj.value
-            };
-          }
-        }, {
-          key: 'convertToKentikFilterGroup',
-          value: function convertToKentikFilterGroup(filters) {
-            if (filters.length) {
-              var kentikFilters = _.map(filters, this.convertToKentikFilter);
-              var connector = 'All';
-              if (filters[0].condition && (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')) {
-                connector = 'Any';
-              }
-              return [{
-                "connector": connector,
-                "filters": kentikFilters,
-                "not": false
-              }];
-            } else {
-              return [];
-            }
-          }
-        }, {
           key: 'query',
           value: function query(options) {
             if (!options.targets || options.targets.length === 0) {
@@ -116,7 +77,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
             var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
             var kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-            kentikFilters = this.convertToKentikFilterGroup(kentikFilters);
+            kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
 
             var query_options = {
               deviceNames: deviceNames,
@@ -128,9 +89,9 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               unit: this.templateSrv.replace(target.unit),
               kentikFilterGroups: kentikFilters
             };
-            var query = this.kentik.formatQuery(query_options);
+            var query = queryBuilder.buildTopXdataQuery(query_options);
 
-            return this.kentik.invokeQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
+            return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
           }
         }, {
           key: 'processResponse',
@@ -214,7 +175,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               }
             }
 
-            bucketData.forEach(function (row) {
+            _.forEach(bucketData, function (row) {
               var seriesName = row.key;
 
               var values = [seriesName];

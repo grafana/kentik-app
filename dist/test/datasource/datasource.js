@@ -19,6 +19,10 @@ var _table_model2 = _interopRequireDefault(_table_model);
 
 require('./kentikProxy');
 
+var _query_builder = require('./query_builder');
+
+var _query_builder2 = _interopRequireDefault(_query_builder);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48,47 +52,6 @@ var KentikDatasource = function () {
       return value.join(',');
     }
   }, {
-    key: 'convertToKentikFilter',
-    value: function convertToKentikFilter(filterObj) {
-      // Use Kentik 'not equal' style
-      if (filterObj.operator === '!=') {
-        filterObj.operator = '<>';
-      }
-
-      // If no field definition found assume that custom field is used.
-      var filterField = void 0;
-      var filterFieldDef = _lodash2.default.find(_metric_def.filterFieldList, { text: filterObj.key });
-      if (filterFieldDef) {
-        filterField = filterFieldDef.field;
-      } else {
-        filterField = filterObj.key;
-      }
-
-      return {
-        filterField: filterField,
-        operator: filterObj.operator,
-        filterValue: filterObj.value
-      };
-    }
-  }, {
-    key: 'convertToKentikFilterGroup',
-    value: function convertToKentikFilterGroup(filters) {
-      if (filters.length) {
-        var kentikFilters = _lodash2.default.map(filters, this.convertToKentikFilter);
-        var connector = 'All';
-        if (filters[0].condition && (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')) {
-          connector = 'Any';
-        }
-        return [{
-          "connector": connector,
-          "filters": kentikFilters,
-          "not": false
-        }];
-      } else {
-        return [];
-      }
-    }
-  }, {
     key: 'query',
     value: function query(options) {
       if (!options.targets || options.targets.length === 0) {
@@ -99,7 +62,7 @@ var KentikDatasource = function () {
       var deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
       var kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-      kentikFilters = this.convertToKentikFilterGroup(kentikFilters);
+      kentikFilters = _query_builder2.default.convertToKentikFilterGroup(kentikFilters);
 
       var query_options = {
         deviceNames: deviceNames,
@@ -111,9 +74,9 @@ var KentikDatasource = function () {
         unit: this.templateSrv.replace(target.unit),
         kentikFilterGroups: kentikFilters
       };
-      var query = this.kentik.formatQuery(query_options);
+      var query = _query_builder2.default.buildTopXdataQuery(query_options);
 
-      return this.kentik.invokeQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
+      return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
     }
   }, {
     key: 'processResponse',
@@ -197,7 +160,7 @@ var KentikDatasource = function () {
         }
       }
 
-      bucketData.forEach(function (row) {
+      _lodash2.default.forEach(bucketData, function (row) {
         var seriesName = row.key;
 
         var values = [seriesName];

@@ -38,16 +38,15 @@ class KentikProxy {
     };
 
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
-    this.formatQuery = this.kentikAPI.formatQuery.bind(this.kentikAPI);
   }
 
-  invokeQuery(query) {
+  invokeTopXDataQuery(query) {
     let cached_query = _.cloneDeep(query);
     let hash = getHash(cached_query);
 
     if (this.shouldInvoke(query)) {
       // Invoke query
-      return this.kentikAPI.invokeQuery(query)
+      return this.kentikAPI.invokeTopXDataQuery(query)
       .then(result => {
         let timestamp = getUTCTimestamp();
 

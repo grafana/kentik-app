@@ -6,17 +6,13 @@ var _angular = require('angular');
 
 var _angular2 = _interopRequireDefault(_angular);
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _metric_def = require('./metric_def');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var KentikAPI = function () {
+
+  /** @ngInject */
   function KentikAPI(backendSrv) {
     _classCallCheck(this, KentikAPI);
 
@@ -36,117 +32,16 @@ var KentikAPI = function () {
       });
     }
   }, {
-    key: 'formatQuery',
-    value: function formatQuery(options) {
-      var unitDef = _lodash2.default.find(_metric_def.unitList, { value: options.unit });
-      var query = {
-        "dimension": [options.metric],
-        "metric": options.unit,
-        "matrixBy": [],
-        "cidr": 32,
-        "cidr6": 128,
-        "topx": 8, // Visualization depth (8 by default)
-        "depth": 100,
-        "fastData": "Auto",
-        "lookback_seconds": 0,
-        "time_format": "UTC",
-        "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
-        "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
-        "device_name": options.deviceNames,
-        "bucket": "",
-        "bucketIndex": -1,
-        "outsort": unitDef.field,
-        "aggregates": this.formatAggs(unitDef),
-        "filters_obj": this.formatFilters(options.kentikFilterGroups)
-      };
-
-      return query;
-    }
-  }, {
-    key: 'formatAggs',
-    value: function formatAggs(unitDef) {
-      var aggs = [];
-      if (unitDef.field === "f_countdistinct_inet_src_addr" || unitDef.field === "f_countdistinct_inet_dst_addr") {
-        aggs = [{
-          "name": unitDef.field,
-          "column": unitDef.field,
-          "fn": "max",
-          "properName": "Max",
-          "sortable": true,
-          "raw": true,
-          "sample_rate": 1
-        }, {
-          "name": "p95th_bits_per_sec",
-          "column": "f_sum_both_bytes",
-          "fn": "percentile",
-          "rank": 95,
-          "sample_rate": 1
-        }, {
-          "name": "p95th_pkts_per_sec",
-          "column": "f_sum_both_pkts",
-          "fn": "percentile",
-          "rank": 95,
-          "sample_rate": 1
-        }];
-      } else {
-        aggs = [{
-          "name": unitDef.field, // avg_bits_per_sec
-          "column": unitDef.field,
-          "fn": "average",
-          "properName": "Average",
-          "raw": true, // Set to get timeseries data
-          "sortable": true,
-          "sample_rate": 1
-        }, {
-          "name": "p95th_both",
-          "column": unitDef.field,
-          "fn": "percentile",
-          "rank": 95,
-          "properName": "95th Percentile",
-          "sortable": true,
-          "sample_rate": 1
-        }, {
-          "name": "max_both",
-          "column": unitDef.field,
-          "fn": "max",
-          "properName": "Max",
-          "sortable": true,
-          "raw": true,
-          "sample_rate": 1
-        }];
-      }
-      return aggs;
-    }
-  }, {
-    key: 'formatFilters',
-    value: function formatFilters(kentikFilterGroups) {
-      var filters_obj = {};
-      if (kentikFilterGroups.length) {
-        filters_obj = {
-          "connector": "All",
-          "custom": false,
-          "filterGroups": kentikFilterGroups,
-          "filterString": ""
-        };
-      }
-
-      return filters_obj;
-    }
-  }, {
     key: 'getFieldValues',
     value: function getFieldValues(field) {
       var query = 'SELECT DISTINCT ' + field + ' FROM all_devices ORDER BY ' + field + ' ASC';
       return this.invokeSQLQuery(query);
     }
   }, {
-    key: 'invokeQuery',
-    value: function invokeQuery(query) {
+    key: 'invokeTopXDataQuery',
+    value: function invokeTopXDataQuery(query) {
       var kentik_v5_query = {
-        "queries": [{
-          "query": query,
-          "bucketIndex": 0,
-          "isOverlay": false
-        }]
+        "queries": [{ "query": query, "bucketIndex": 0 }]
       };
 
       return this._post('/api/v5/query/topXdata', kentik_v5_query);

@@ -57,12 +57,11 @@ var KentikProxy = function () {
     };
 
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
-    this.formatQuery = this.kentikAPI.formatQuery.bind(this.kentikAPI);
   }
 
   _createClass(KentikProxy, [{
-    key: 'invokeQuery',
-    value: function invokeQuery(query) {
+    key: 'invokeTopXDataQuery',
+    value: function invokeTopXDataQuery(query) {
       var _this = this;
 
       var cached_query = _lodash2.default.cloneDeep(query);
@@ -70,7 +69,7 @@ var KentikProxy = function () {
 
       if (this.shouldInvoke(query)) {
         // Invoke query
-        return this.kentikAPI.invokeQuery(query).then(function (result) {
+        return this.kentikAPI.invokeTopXDataQuery(query).then(function (result) {
           var timestamp = getUTCTimestamp();
 
           _this.cache[hash] = {

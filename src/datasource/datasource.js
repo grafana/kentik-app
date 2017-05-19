@@ -2,6 +2,7 @@ import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
 import TableModel from 'app/core/table_model';
 import './kentikProxy';
+import queryBuilder from './query_builder';
 
 class KentikDatasource {
 
@@ -25,47 +26,6 @@ class KentikDatasource {
     return value.join(',');
   }
 
-  convertToKentikFilter(filterObj) {
-    // Use Kentik 'not equal' style
-    if (filterObj.operator === '!=') {
-      filterObj.operator = '<>';
-    }
-
-    // If no field definition found assume that custom field is used.
-    let filterField;
-    let filterFieldDef = _.find(filterFieldList, {text: filterObj.key});
-    if (filterFieldDef) {
-      filterField = filterFieldDef.field;
-    } else {
-      filterField = filterObj.key;
-    }
-
-    return {
-      filterField: filterField,
-      operator: filterObj.operator,
-      filterValue: filterObj.value
-    };
-  }
-
-  convertToKentikFilterGroup(filters) {
-    if (filters.length) {
-      let kentikFilters = _.map(filters, this.convertToKentikFilter);
-      let connector = 'All';
-      if (filters[0].condition && (
-          filters[0].condition.toLowerCase() === 'or' ||
-          filters[0].condition.toLowerCase() === 'any')) {
-        connector = 'Any';
-      }
-      return [{
-        "connector": connector,
-        "filters": kentikFilters,
-        "not": false,
-      }];
-    } else {
-      return [];
-    }
-  }
-
   query(options) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({data: []});
@@ -75,7 +35,7 @@ class KentikDatasource {
     let deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    kentikFilters = this.convertToKentikFilterGroup(kentikFilters);
+    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
 
     let query_options = {
       deviceNames: deviceNames,
@@ -87,9 +47,9 @@ class KentikDatasource {
       unit: this.templateSrv.replace(target.unit),
       kentikFilterGroups: kentikFilters
     };
-    let query = this.kentik.formatQuery(query_options);
+    let query = queryBuilder.buildTopXdataQuery(query_options);
 
-    return this.kentik.invokeQuery(query)
+    return this.kentik.invokeTopXDataQuery(query)
     .then(this.processResponse.bind(this, query, target.mode, options));
   }
 
@@ -150,7 +110,7 @@ class KentikDatasource {
       table.columns.push({text: col.text, unit: col.unit});
     }
 
-    bucketData.forEach(row => {
+    _.forEach(bucketData, row => {
       var seriesName = row.key;
 
       var values = [seriesName];
