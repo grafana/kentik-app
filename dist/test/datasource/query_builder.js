@@ -12,57 +12,80 @@ var _metric_def = require('./metric_def');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function formatMetricAggs(unitDef) {
+  var aggs = [{
+    "name": unitDef.field, // avg_bits_per_sec
+    "column": unitDef.field,
+    "fn": "average",
+    "properName": "Average",
+    "raw": true, // Set to get timeseries data
+    "sortable": true,
+    "sample_rate": 1
+  }, {
+    "name": "p95th_both",
+    "column": unitDef.field,
+    "fn": "percentile",
+    "rank": 95,
+    "properName": "95th Percentile",
+    "sortable": true,
+    "sample_rate": 1
+  }, {
+    "name": "max_both",
+    "column": unitDef.field,
+    "fn": "max",
+    "properName": "Max",
+    "sortable": true,
+    "raw": true,
+    "sample_rate": 1
+  }];
+
+  return aggs;
+}
+
+function formatUniqueIpAggs(unitDef) {
+  var aggs = [{
+    "name": "avg_ips",
+    "column": unitDef.field,
+    "fn": "average",
+    "raw": true,
+    "sample_rate": 1
+  }, {
+    "name": "p95th_ips",
+    "column": unitDef.field,
+    "fn": "percentile",
+    "rank": 95,
+    "sample_rate": 1
+  }, {
+    "name": unitDef.field,
+    "column": unitDef.field,
+    "fn": "max",
+    "raw": true,
+    "sample_rate": 1
+  }, {
+    "name": "p95th_bits_per_sec",
+    "column": "f_sum_both_bytes",
+    "fn": "percentile",
+    "rank": 95,
+    "sample_rate": 1
+  }, {
+    "name": "p95th_pkts_per_sec",
+    "column": "f_sum_both_pkts",
+    "fn": "percentile",
+    "rank": 95,
+    "sample_rate": 1
+  }];
+
+  return aggs;
+}
+
 function formatAggs(unitDef) {
   var aggs = [];
-  if (unitDef.field === "f_countdistinct_inet_src_addr" || unitDef.field === "f_countdistinct_inet_dst_addr") {
-    aggs = [{
-      "name": unitDef.field,
-      "column": unitDef.field,
-      "fn": "max",
-      "properName": "Max",
-      "sortable": true,
-      "raw": true,
-      "sample_rate": 1
-    }, {
-      "name": "p95th_bits_per_sec",
-      "column": "f_sum_both_bytes",
-      "fn": "percentile",
-      "rank": 95,
-      "sample_rate": 1
-    }, {
-      "name": "p95th_pkts_per_sec",
-      "column": "f_sum_both_pkts",
-      "fn": "percentile",
-      "rank": 95,
-      "sample_rate": 1
-    }];
+  if (unitDef.value === "unique_src_ip" || unitDef.value === "unique_dst_ip") {
+    aggs = formatUniqueIpAggs(unitDef);
   } else {
-    aggs = [{
-      "name": unitDef.field, // avg_bits_per_sec
-      "column": unitDef.field,
-      "fn": "average",
-      "properName": "Average",
-      "raw": true, // Set to get timeseries data
-      "sortable": true,
-      "sample_rate": 1
-    }, {
-      "name": "p95th_both",
-      "column": unitDef.field,
-      "fn": "percentile",
-      "rank": 95,
-      "properName": "95th Percentile",
-      "sortable": true,
-      "sample_rate": 1
-    }, {
-      "name": "max_both",
-      "column": unitDef.field,
-      "fn": "max",
-      "properName": "Max",
-      "sortable": true,
-      "raw": true,
-      "sample_rate": 1
-    }];
+    aggs = formatMetricAggs(unitDef);
   }
+
   return aggs;
 }
 
