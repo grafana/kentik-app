@@ -63,9 +63,9 @@ var unitList = [
     gfAxisLabel: 'Bits/s',
     transform: toBitsPerSecond,
     tableFields: [
-      {text: 'Max', field: 'max_both', unit: 'bps'},
-      {text: '95th Percentile', field: 'p95th_both', unit: 'bps'},
       {text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond},
+      {text: '95th Percentile', field: 'p95th_both', unit: 'bps'},
+      {text: 'Max', field: 'max_both', unit: 'bps'},
     ]
   },
   {
@@ -76,9 +76,9 @@ var unitList = [
     gfAxislabel: 'Packets/s',
     transform: toPerSecondRate,
     tableFields: [
-      {text: 'Max', field: 'max_both', unit: 'pps'},
-      {text: '95th Percentile', field: 'p95th_both', unit: 'pps'},
       {text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond},
+      {text: '95th Percentile', field: 'p95th_both', unit: 'pps'},
+      {text: 'Max', field: 'max_both', unit: 'pps'},
     ]
   },
   {

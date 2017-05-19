@@ -34,7 +34,7 @@ System.register([], function (_export, _context) {
         gfUnit: 'bps',
         gfAxisLabel: 'Bits/s',
         transform: toBitsPerSecond,
-        tableFields: [{ text: 'Max', field: 'max_both', unit: 'bps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond }]
+        tableFields: [{ text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Max', field: 'max_both', unit: 'bps' }]
       }, {
         text: 'Packets/s',
         value: 'packets',
@@ -42,7 +42,7 @@ System.register([], function (_export, _context) {
         gfUnit: 'pps',
         gfAxislabel: 'Packets/s',
         transform: toPerSecondRate,
-        tableFields: [{ text: 'Max', field: 'max_both', unit: 'pps' }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond }]
+        tableFields: [{ text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Max', field: 'max_both', unit: 'pps' }]
       }, {
         text: 'Unique Src IPs',
         value: 'unique_src_ip',
