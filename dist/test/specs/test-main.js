@@ -39,6 +39,12 @@ var datemathMock = {
 var momentMock = {
   duration: function duration(num, str) {
     return 60;
+  },
+  utc: function utc(time) {
+    return time;
+  },
+  format: function format(time) {
+    return time;
   }
 };
 

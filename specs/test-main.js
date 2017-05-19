@@ -25,7 +25,9 @@ var datemathMock = {
 var momentMock = {
   duration: function (num, str) {
     return 60;
-  }
+  },
+  utc: (time) => time,
+  format: (time) => time
 };
 
 var subjectMock = {};
