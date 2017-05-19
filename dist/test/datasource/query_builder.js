@@ -83,12 +83,13 @@ function formatAggs(unitDef) {
 }
 
 function formatFilters(kentikFilterGroups) {
-  var filters_obj = {};
+  var filters_obj = {
+    "connector": "All",
+    "filterGroups": []
+  };
+
   if (kentikFilterGroups.length) {
-    filters_obj = {
-      "connector": "All",
-      "filterGroups": kentikFilterGroups
-    };
+    filters_obj.filterGroups = kentikFilterGroups;
   }
 
   return filters_obj;
@@ -102,7 +103,7 @@ function buildTopXdataQuery(options) {
     "matrixBy": [],
     "cidr": 32,
     "cidr6": 128,
-    "topx": 8, // Visualization depth (8 by default)
+    "topx": "8", // Visualization depth (8 by default)
     "depth": 100,
     "fastData": "Auto",
     "lookback_seconds": 0,
