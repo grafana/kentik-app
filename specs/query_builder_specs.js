@@ -41,15 +41,17 @@ describe('Kentik Query Builder', () => {
   });
 
   describe('When building topXData query', () => {
-    it('should build proper Bits/s query', (done) => {
-      let query_options = {
+    beforeEach(() => {
+      ctx.query_options = {
         unit: "bytes",
         metric: "src_geo_region",
         deviceNames: "cat2_demo",
         range: ctx.range,
         kentikFilterGroups: []
       };
+    });
 
+    it('should build proper topXData query', (done) => {
       let expectedQuery = {
         "metric": "bytes",
         "dimension": [
@@ -95,8 +97,78 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(query_options);
+      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery).to.eql(expectedQuery);
+      done();
+    });
+
+    it('should build proper Bits/s query', (done) => {
+      ctx.query_options.unit = "bytes";
+
+      let expectedQuery = {
+        "metric": "bytes",
+        "aggregates": [
+          {
+            "name": "avg_both",
+            "column": "f_sum_both_bytes",
+            "fn": "average",
+            "raw": true,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_both",
+            "column": "f_sum_both_bytes",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "max_both",
+            "column": "f_sum_both_bytes",
+            "fn": "max",
+            "sample_rate": 1
+          }
+        ]
+      };
+
+      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
+      done();
+    });
+
+    it('should build proper Packets/s query', (done) => {
+      ctx.query_options.unit = "packets";
+
+      let expectedQuery = {
+        "metric": "packets",
+        "aggregates": [
+          {
+            "name": "avg_both",
+            "column": "f_sum_both_pkts",
+            "fn": "average",
+            "raw": true,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_both",
+            "column": "f_sum_both_pkts",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "max_both",
+            "column": "f_sum_both_pkts",
+            "fn": "max",
+            "sample_rate": 1
+          }
+        ]
+      };
+
+      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
       done();
     });
   });

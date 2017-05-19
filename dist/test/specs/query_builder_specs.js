@@ -64,15 +64,17 @@ describe('Kentik Query Builder', function () {
   });
 
   describe('When building topXData query', function () {
-    it('should build proper Bits/s query', function (done) {
-      var query_options = {
+    beforeEach(function () {
+      ctx.query_options = {
         unit: "bytes",
         metric: "src_geo_region",
         deviceNames: "cat2_demo",
         range: ctx.range,
         kentikFilterGroups: []
       };
+    });
 
+    it('should build proper topXData query', function (done) {
       var expectedQuery = {
         "metric": "bytes",
         "dimension": ["src_geo_region"],
@@ -112,8 +114,70 @@ describe('Kentik Query Builder', function () {
         }]
       };
 
-      var topXDataQuery = _query_builder2.default.buildTopXdataQuery(query_options);
+      var topXDataQuery = _query_builder2.default.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery).to.eql(expectedQuery);
+      done();
+    });
+
+    it('should build proper Bits/s query', function (done) {
+      ctx.query_options.unit = "bytes";
+
+      var expectedQuery = {
+        "metric": "bytes",
+        "aggregates": [{
+          "name": "avg_both",
+          "column": "f_sum_both_bytes",
+          "fn": "average",
+          "raw": true,
+          "sample_rate": 1
+        }, {
+          "name": "p95th_both",
+          "column": "f_sum_both_bytes",
+          "fn": "percentile",
+          "rank": 95,
+          "sample_rate": 1
+        }, {
+          "name": "max_both",
+          "column": "f_sum_both_bytes",
+          "fn": "max",
+          "sample_rate": 1
+        }]
+      };
+
+      var topXDataQuery = _query_builder2.default.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
+      done();
+    });
+
+    it('should build proper Packets/s query', function (done) {
+      ctx.query_options.unit = "packets";
+
+      var expectedQuery = {
+        "metric": "packets",
+        "aggregates": [{
+          "name": "avg_both",
+          "column": "f_sum_both_pkts",
+          "fn": "average",
+          "raw": true,
+          "sample_rate": 1
+        }, {
+          "name": "p95th_both",
+          "column": "f_sum_both_pkts",
+          "fn": "percentile",
+          "rank": 95,
+          "sample_rate": 1
+        }, {
+          "name": "max_both",
+          "column": "f_sum_both_pkts",
+          "fn": "max",
+          "sample_rate": 1
+        }]
+      };
+
+      var topXDataQuery = _query_builder2.default.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
       done();
     });
   });
