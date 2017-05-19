@@ -7,7 +7,7 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
 
   function formatMetricAggs(unitDef) {
     var aggs = [{
-      "name": unitDef.field, // avg_bits_per_sec
+      "name": "avg_both",
       "column": unitDef.field,
       "fn": "average",
       "raw": true, // Set to get timeseries data
@@ -42,7 +42,7 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
       "rank": 95,
       "sample_rate": 1
     }, {
-      "name": unitDef.field,
+      "name": "max_ips",
       "column": unitDef.field,
       "fn": "max",
       "sample_rate": 1,
@@ -103,7 +103,7 @@ System.register(['lodash', './metric_def'], function (_export, _context) {
       "starting_time": options.range.from.utc().format("YYYY-MM-DD HH:mm:ss"),
       "ending_time": options.range.to.utc().format("YYYY-MM-DD HH:mm:ss"),
       "device_name": options.deviceNames,
-      "outsort": unitDef.field,
+      "outsort": unitDef.outsort,
       "aggregates": formatAggs(unitDef),
       "filters_obj": formatFilters(options.kentikFilterGroups)
     };

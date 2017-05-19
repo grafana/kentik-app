@@ -90,7 +90,7 @@ class KentikDatasource {
       if (timeseries) {
         let grafana_series = {
           target: seriesName,
-          datapoints: timeseries.flow.map(point => {
+          datapoints: _.map(timeseries.flow, point => {
             return [point[1], point[0]];
           })
         };

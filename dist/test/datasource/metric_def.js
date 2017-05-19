@@ -25,32 +25,36 @@ var unitList = [{
   text: 'Bits/s',
   value: 'bytes',
   field: 'f_sum_both_bytes',
+  outsort: 'avg_both',
   gfUnit: 'bps',
   gfAxisLabel: 'Bits/s',
   transform: toBitsPerSecond,
-  tableFields: [{ text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Max', field: 'max_both', unit: 'bps' }]
+  tableFields: [{ text: 'Avg', field: 'avg_both', unit: 'bps', transform: totalToBitsPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'bps' }, { text: 'Max', field: 'max_both', unit: 'bps' }]
 }, {
   text: 'Packets/s',
   value: 'packets',
   field: 'f_sum_both_pkts',
+  outsort: 'avg_both',
   gfUnit: 'pps',
   gfAxislabel: 'Packets/s',
   transform: toPerSecondRate,
-  tableFields: [{ text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Max', field: 'max_both', unit: 'pps' }]
+  tableFields: [{ text: 'Avg', field: 'avg_both', unit: 'pps', transform: totalToAvgPerSecond }, { text: '95th Percentile', field: 'p95th_both', unit: 'pps' }, { text: 'Max', field: 'max_both', unit: 'pps' }]
 }, {
   text: 'Unique Src IPs',
   value: 'unique_src_ip',
   field: 'f_hll(inet_src_addr,0.0001)',
-  gfUnit: 'none',
+  outsort: "max_ips",
+  gfUnit: 'short',
   gfAxisLabel: 'Unique Src IPs',
-  tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'f_hll(inet_src_addr,0.0001)', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]
+  tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'max_ips', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]
 }, {
   text: 'Unique Dst IPs',
   value: 'unique_dst_ip',
   field: 'f_hll(inet_dst_addr,0.0001)',
+  outsort: "max_ips",
   gfUnit: 'short',
   gfAxisLabel: 'Unique Dst IPs',
-  tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'f_hll(inet_dst_addr,0.0001)', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]
+  tableFields: [{ text: 'Average', field: 'avg_ips', unit: 'none' }, { text: 'p95th', field: 'p95th_ips', unit: 'none' }, { text: 'Max', field: 'max_ips', unit: 'none' }, { text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' }, { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' }]
 }];
 
 var filterFieldList = [{ text: 'Source City', field: 'src_geo_city' }, { text: 'Source Region', field: 'src_geo_region' }, { text: 'Source Country', field: 'src_geo' }, { text: 'Source AS Number', field: 'src_as' }, { text: 'Source AS Name', field: 'src_as_name' }, { text: 'Source Flow Tag', field: 'src_flow_tags' }, { text: 'Source IP Port', field: 'l4_src_port' }, { text: 'Source MAC Address', field: 'src_eth_mac' }, { text: 'Source VLAN', field: 'vlan_in' }, { text: 'Source IP Address', field: 'inet_src_addr' }, { text: 'Source Interface ID', field: 'input_port' }, { text: 'Source Interface Name', field: 'i_input_interface_description' }, { text: 'Source Interface Description', field: 'i_input_snmp_alias' }, { text: 'Source Route Prefix', field: 'ipv4_src_route_prefix' }, { text: 'Source Route LEN', field: 'src_route_length' }, { text: 'Source BGP AS_PATH', field: 'src_bgp_aspath' }, { text: 'Source BGP Community', field: 'src_bgp_community' }, { text: 'Source Next Hop IP/CIDR', field: 'ipv4_src_next_hop' }, { text: 'Source Next Hop AS Number', field: 'src_nexthop_as' }, { text: 'Source Next Hop AS Name', field: 'src_nexthop_as_name' }, { text: 'Source 2nd BGP_HOP AS Number', field: 'src_second_asn' }, { text: 'Source 2nd BGP_HOP AS Name', field: 'src_second_asn_name' }, { text: 'Source 3nd BGP_HOP AS Number', field: 'src_third_asn' }, { text: 'Source 3nd BGP_HOP AS Name', field: 'src_third_asn_name' }, { text: 'Destination City', field: 'dst_geo_city' }, { text: 'Destination Region', field: 'dst_geo_region' }, { text: 'Destination Country', field: 'dst_geo' }, { text: 'Destination AS Number', field: 'dst_as' }, { text: 'Destination AS Name', field: 'dst_as_name' }, { text: 'Destination Flow Tag', field: 'dst_flow_tags' }, { text: 'Destination IP Port', field: 'l4_dst_port' }, { text: 'Destination MAC Address', field: 'dst_eth_mac' }, { text: 'Destination VLAN', field: 'vlan_out' }, { text: 'Destination IP Address', field: 'inet_dst_addr' }, { text: 'Destination Interface ID', field: 'output_port' }, { text: 'Destination Interface Name', field: 'i_output_interface_description' }, { text: 'Destination Interface Description', field: 'i_output_snmp_alias' }, { text: 'Destination Route Prefix', field: 'ipv4_dst_route_prefix' }, { text: 'Destination Route LEN', field: 'dst_route_length' }, { text: 'Destination BGP AS_PATH', field: 'dst_bgp_aspath' }, { text: 'Destination BGP Community', field: 'dst_bgp_community' }, { text: 'Destination Next Hop IP/CIDR', field: 'ipv4_dst_next_hop' }, { text: 'Destination Next Hop AS Number', field: 'dst_nexthop_as' }, { text: 'Destination Next Hop AS Name', field: 'dst_nexthop_as_name' }, { text: 'Destination 2nd BGP_HOP AS Number', field: 'dst_second_asn' }, { text: 'Destination 2nd BGP_HOP AS Name', field: 'dst_second_asn_name' }, { text: 'Destination 3nd BGP_HOP AS Number', field: 'dst_third_asn' }, { text: 'Destination 3nd BGP_HOP AS Name', field: 'dst_third_asn_name' }, { text: 'TCP Flags', field: 'tcp_flags' }, { text: 'TCP Flags (raw)', field: 'tcp_flags_raw' }, { text: 'Protocol', field: 'protocol' },

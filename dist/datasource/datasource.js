@@ -133,7 +133,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               if (timeseries) {
                 var grafana_series = {
                   target: seriesName,
-                  datapoints: timeseries.flow.map(function (point) {
+                  datapoints: _.map(timeseries.flow, function (point) {
                     return [point[1], point[0]];
                   })
                 };

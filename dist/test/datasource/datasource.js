@@ -118,7 +118,7 @@ var KentikDatasource = function () {
         if (timeseries) {
           var grafana_series = {
             target: seriesName,
-            datapoints: timeseries.flow.map(function (point) {
+            datapoints: _lodash2.default.map(timeseries.flow, function (point) {
               return [point[1], point[0]];
             })
           };

@@ -59,11 +59,12 @@ var unitList = [
     text: 'Bits/s',
     value: 'bytes',
     field: 'f_sum_both_bytes',
+    outsort: 'avg_both',
     gfUnit: 'bps',
     gfAxisLabel: 'Bits/s',
     transform: toBitsPerSecond,
     tableFields: [
-      {text: 'Avg', field: 'f_sum_both_bytes', unit: 'bps', transform: totalToBitsPerSecond},
+      {text: 'Avg', field: 'avg_both', unit: 'bps', transform: totalToBitsPerSecond},
       {text: '95th Percentile', field: 'p95th_both', unit: 'bps'},
       {text: 'Max', field: 'max_both', unit: 'bps'},
     ]
@@ -72,11 +73,12 @@ var unitList = [
     text: 'Packets/s',
     value: 'packets',
     field: 'f_sum_both_pkts',
+    outsort: 'avg_both',
     gfUnit: 'pps',
     gfAxislabel: 'Packets/s',
     transform: toPerSecondRate,
     tableFields: [
-      {text: 'Avg', field: 'f_sum_both_pkts', unit: 'pps', transform: totalToAvgPerSecond},
+      {text: 'Avg', field: 'avg_both', unit: 'pps', transform: totalToAvgPerSecond},
       {text: '95th Percentile', field: 'p95th_both', unit: 'pps'},
       {text: 'Max', field: 'max_both', unit: 'pps'},
     ]
@@ -85,12 +87,13 @@ var unitList = [
     text: 'Unique Src IPs',
     value: 'unique_src_ip',
     field: 'f_hll(inet_src_addr,0.0001)',
-    gfUnit: 'none',
+    outsort: "max_ips",
+    gfUnit: 'short',
     gfAxisLabel: 'Unique Src IPs',
     tableFields: [
       {text: 'Average', field: 'avg_ips', unit: 'none'},
       {text: 'p95th', field: 'p95th_ips', unit: 'none' },
-      {text: 'Max', field: 'f_hll(inet_src_addr,0.0001)', unit: 'none'},
+      {text: 'Max', field: 'max_ips', unit: 'none'},
       {text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps'},
       {text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps'},
     ]
@@ -99,12 +102,13 @@ var unitList = [
     text: 'Unique Dst IPs',
     value: 'unique_dst_ip',
     field: 'f_hll(inet_dst_addr,0.0001)',
+    outsort: "max_ips",
     gfUnit: 'short',
     gfAxisLabel: 'Unique Dst IPs',
     tableFields: [
       {text: 'Average', field: 'avg_ips', unit: 'none' },
       {text: 'p95th', field: 'p95th_ips', unit: 'none' },
-      {text: 'Max', field: 'f_hll(inet_dst_addr,0.0001)', unit: 'none' },
+      {text: 'Max', field: 'max_ips', unit: 'none' },
       {text: 'p95th mbps', field: 'p95th_bits_per_sec', unit: 'bps' },
       {text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' },
    ]
