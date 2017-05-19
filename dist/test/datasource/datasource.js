@@ -76,7 +76,11 @@ var KentikDatasource = function () {
       };
       var query = _query_builder2.default.buildTopXdataQuery(query_options);
 
-      return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
+      return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options)).then(function (result) {
+        return {
+          data: result
+        };
+      });
     }
   }, {
     key: 'processResponse',
@@ -126,7 +130,7 @@ var KentikDatasource = function () {
         }
       }
 
-      return { data: seriesList };
+      return seriesList;
     }
   }, {
     key: 'processTableData',
@@ -198,7 +202,7 @@ var KentikDatasource = function () {
         table.rows.push(values);
       });
 
-      return { data: [table] };
+      return [table];
     }
   }, {
     key: 'metricFindQuery',

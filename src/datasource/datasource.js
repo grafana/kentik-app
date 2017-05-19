@@ -50,7 +50,12 @@ class KentikDatasource {
     let query = queryBuilder.buildTopXdataQuery(query_options);
 
     return this.kentik.invokeTopXDataQuery(query)
-    .then(this.processResponse.bind(this, query, target.mode, options));
+    .then(this.processResponse.bind(this, query, target.mode, options))
+    .then(result => {
+      return {
+        data: result
+      };
+    });
   }
 
   processResponse(query, mode, options, data) {
@@ -98,7 +103,7 @@ class KentikDatasource {
       }
     }
 
-    return { data: seriesList };
+    return seriesList;
   }
 
   processTableData(bucketData, metricDef, unitDef) {
@@ -127,7 +132,7 @@ class KentikDatasource {
       table.rows.push(values);
     });
 
-    return {data: [table]};
+    return [table];
   }
 
   metricFindQuery(query) {

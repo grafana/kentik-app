@@ -91,7 +91,11 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
             };
             var query = queryBuilder.buildTopXdataQuery(query_options);
 
-            return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options));
+            return this.kentik.invokeTopXDataQuery(query).then(this.processResponse.bind(this, query, target.mode, options)).then(function (result) {
+              return {
+                data: result
+              };
+            });
           }
         }, {
           key: 'processResponse',
@@ -141,7 +145,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               }
             }
 
-            return { data: seriesList };
+            return seriesList;
           }
         }, {
           key: 'processTableData',
@@ -213,7 +217,7 @@ System.register(['./metric_def', 'lodash', 'app/core/table_model', './kentikProx
               table.rows.push(values);
             });
 
-            return { data: [table] };
+            return [table];
           }
         }, {
           key: 'metricFindQuery',
