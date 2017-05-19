@@ -115,7 +115,7 @@
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 1,
+            "col": 3,
             "desc": true
           },
           "span": 12,
@@ -129,7 +129,7 @@
               ],
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
               "decimals": 2,
-              "pattern": "/^(Max|95th|p95th|Avg)/",
+              "pattern": "/^(Max|95th|p95th|Avg|Average)/",
               "thresholds": [],
               "type": "number",
               "unit": "short"
@@ -243,6 +243,6 @@
   },
   "refresh": false,
   "schemaVersion": 12,
-  "revision": 3,
+  "revision": 4,
   "links": []
 }
