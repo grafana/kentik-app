@@ -46,6 +46,13 @@ class KentikAPI {
     return this.backendSrv.datasourceRequest({
       method: 'GET',
       url: this.baseUrl + url,
+    }).catch(error => {
+      console.log(error);
+      if (error.err) {
+        return Promise.reject(error.err);
+      } else {
+        return Promise.reject(error);
+      }
     });
   }
 
@@ -60,6 +67,13 @@ class KentikAPI {
         return response.data;
       } else {
         return [];
+      }
+    }).catch(error => {
+      console.log(error);
+      if (error.err) {
+        return Promise.reject(error.err);
+      } else {
+        return Promise.reject(error);
       }
     });
   }

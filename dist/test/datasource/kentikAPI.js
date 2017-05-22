@@ -61,6 +61,13 @@ var KentikAPI = function () {
       return this.backendSrv.datasourceRequest({
         method: 'GET',
         url: this.baseUrl + url
+      }).catch(function (error) {
+        console.log(error);
+        if (error.err) {
+          return Promise.reject(error.err);
+        } else {
+          return Promise.reject(error);
+        }
       });
     }
   }, {
@@ -75,6 +82,13 @@ var KentikAPI = function () {
           return response.data;
         } else {
           return [];
+        }
+      }).catch(function (error) {
+        console.log(error);
+        if (error.err) {
+          return Promise.reject(error.err);
+        } else {
+          return Promise.reject(error);
         }
       });
     }

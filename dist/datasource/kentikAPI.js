@@ -85,6 +85,13 @@ System.register(['angular'], function (_export, _context) {
             return this.backendSrv.datasourceRequest({
               method: 'GET',
               url: this.baseUrl + url
+            }).catch(function (error) {
+              console.log(error);
+              if (error.err) {
+                return Promise.reject(error.err);
+              } else {
+                return Promise.reject(error);
+              }
             });
           }
         }, {
@@ -99,6 +106,13 @@ System.register(['angular'], function (_export, _context) {
                 return response.data;
               } else {
                 return [];
+              }
+            }).catch(function (error) {
+              console.log(error);
+              if (error.err) {
+                return Promise.reject(error.err);
+              } else {
+                return Promise.reject(error);
               }
             });
           }
