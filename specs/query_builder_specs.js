@@ -171,6 +171,106 @@ describe('Kentik Query Builder', () => {
       expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
       done();
     });
+
+    it('should build proper Unique Src IPs query', (done) => {
+      ctx.query_options.unit = "unique_src_ip";
+
+      let expectedQuery = {
+        "metric": "unique_src_ip",
+        "aggregates": [
+          {
+            "name": "avg_ips",
+            "column": "f_hll(inet_src_addr,0.0001)",
+            "fn": "average",
+            "raw": true,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_ips",
+            "column": "f_hll(inet_src_addr,0.0001)",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "max_ips",
+            "column": "f_hll(inet_src_addr,0.0001)",
+            "fn": "max",
+            "sample_rate": 1,
+            "raw": true
+          },
+          {
+            "name": "p95th_bits_per_sec",
+            "column": "f_sum_both_bytes",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_pkts_per_sec",
+            "column": "f_sum_both_pkts",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          }
+        ]
+      };
+
+      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
+      done();
+    });
+
+    it('should build proper Unique Dst IPs query', (done) => {
+      ctx.query_options.unit = "unique_dst_ip";
+
+      let expectedQuery = {
+        "metric": "unique_dst_ip",
+        "aggregates": [
+          {
+            "name": "avg_ips",
+            "column": "f_hll(inet_dst_addr,0.0001)",
+            "fn": "average",
+            "raw": true,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_ips",
+            "column": "f_hll(inet_dst_addr,0.0001)",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "max_ips",
+            "column": "f_hll(inet_dst_addr,0.0001)",
+            "fn": "max",
+            "sample_rate": 1,
+            "raw": true
+          },
+          {
+            "name": "p95th_bits_per_sec",
+            "column": "f_sum_both_bytes",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          },
+          {
+            "name": "p95th_pkts_per_sec",
+            "column": "f_sum_both_pkts",
+            "fn": "percentile",
+            "rank": 95,
+            "sample_rate": 1
+          }
+        ]
+      };
+
+      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      expect(topXDataQuery.metric).to.equal(expectedQuery.metric);
+      expect(topXDataQuery.aggregates).to.eql(expectedQuery.aggregates);
+      done();
+    });
   });
 
 });
