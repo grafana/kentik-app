@@ -1,6 +1,6 @@
 import {metricList, unitList, filterFieldList} from './metric_def';
 import _ from 'lodash';
-import TableModel from 'app/core/table_model';
+import TableModel from 'grafana/app/core/table_model';
 import './kentikProxy';
 import queryBuilder from './query_builder';
 
