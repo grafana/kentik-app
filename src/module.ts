@@ -1,9 +1,9 @@
 
-import {ConfigCtrl} from './config/config.js';
+import {ConfigCtrl} from './config/config';
 import {DeviceListCtrl} from './components/device_list';
 import {DeviceDetailsCtrl} from './components/device_details';
 import {AddDeviceCtrl} from './components/add_device';
-import {loadPluginCss} from 'app/plugins/sdk';
+import {loadPluginCss} from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',

@@ -18,7 +18,7 @@ function getHash(queryObj) {
 
 // Prevent too frequent queries
 function getMaxRefreshInterval(query) {
-  let interval = Date.parse(query.ending_time) - Date.parse(query.starting_time);
+  let interval: any = Date.parse(query.ending_time) - Date.parse(query.starting_time);
   if (interval > moment.duration(1, 'months')) {
     return 60 * 60 * 1000; // 1 hour
   } else if (interval > moment.duration(1, 'day')) {
@@ -29,6 +29,12 @@ function getMaxRefreshInterval(query) {
 }
 
 class KentikProxy {
+  kentikAPI: any;
+  cache: {};
+  cacheUpdateInterval: number;
+  requestCachingIntervals: { '1d': number; };
+  getDevices: any;
+  
   constructor(backendSrv, kentikAPISrv) {
     this.kentikAPI = kentikAPISrv;
     this.cache = {};

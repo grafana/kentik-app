@@ -3,6 +3,7 @@
 node_modules
 tmp/*
 npm-debug.log
+dist/
 
 # Editor junk
 *.sublime-project

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import {PanelCtrl} from 'app/plugins/sdk';
-import {loadPluginCss} from 'app/plugins/sdk';
+import {PanelCtrl} from 'grafana/app/plugins/sdk';
+import {loadPluginCss} from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -12,11 +12,13 @@ var panelDefaults = {
 };
 
 class CallToActiontCtrl extends PanelCtrl {
+  deviceStatus: string;
+  AllDone: boolean;
+  static templateUrl: string;
 
   /** @ngInject */
-  constructor($scope, $injector, backendSrv) {
+  constructor($scope, $injector, public backendSrv: any) {
     super($scope, $injector);
-    this.backendSrv = backendSrv;
     this.deviceStatus = '';
     this.AllDone = false;
     this.getTaskStatus();

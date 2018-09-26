@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import {PanelCtrl} from 'app/plugins/sdk';
-import {loadPluginCss} from 'app/plugins/sdk';
+import {PanelCtrl} from 'grafana/app/plugins/sdk';
+import {loadPluginCss} from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -12,12 +12,13 @@ var panelDefaults = {
 };
 
 class DeviceListCtrl extends PanelCtrl {
+  devices: any[];
+  pageReady: boolean;
+  static templateUrl: any;
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv) {
+  constructor($scope, $injector, public $location: any, public backendSrv: any) {
     super($scope, $injector);
-    this.$location = $location;
-    this.backendSrv = backendSrv;
     this.devices = [];
     this.pageReady = false;
     this.getDevices();

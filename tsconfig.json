@@ -21,6 +21,5 @@
     "noImplicitAny": false,
     "noUnusedLocals": false,
     "baseUrl": "./src",
-    "allowJs": true
   }
 }

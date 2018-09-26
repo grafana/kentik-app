@@ -5,11 +5,11 @@ import './kentikProxy';
 import queryBuilder from './query_builder';
 
 class KentikDatasource {
+  name: string;
+  kentik: any;
 
-  constructor(instanceSettings, templateSrv, kentikProxySrv)  {
-    this.instanceSettings = instanceSettings;
+  constructor(public instanceSettings: any, public templateSrv: any, kentikProxySrv: any)  {
     this.name = instanceSettings.name;
-    this.templateSrv = templateSrv;
     this.kentik = kentikProxySrv;
   }
 
@@ -78,7 +78,7 @@ class KentikDatasource {
     }
   }
 
-  processTimeSeries(bucketData, query) {
+  processTimeSeries(bucketData, query, options?: any) {
     let seriesList = [];
     let endIndex = query.topx;
     if (bucketData.length < endIndex) {

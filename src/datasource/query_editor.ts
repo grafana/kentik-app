@@ -1,6 +1,8 @@
 import {QueryCtrl} from 'grafana/app/plugins/sdk';
 
 class KentikQueryCtrl extends QueryCtrl {
+  static templateUrl: string;
+  queryModes: any[];
 
   constructor($scope, $injector) {
     super($scope, $injector);

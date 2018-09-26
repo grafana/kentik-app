@@ -15,11 +15,12 @@ var defaults = {
 };
 
 export class AddDeviceCtrl {
+  device: any;
+  sending_ips: any[];
+  static templateUrl: string;
+  
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv, alertSrv) {
-    this.backendSrv = backendSrv;
-    this.alertSrv = alertSrv;
-    this.$location = $location;
+  constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
     this.device = angular.copy(defaults);
     this.sending_ips = [{ip: ''}];
   }

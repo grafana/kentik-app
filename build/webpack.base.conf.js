@@ -12,7 +12,7 @@ function resolve(dir) {
 module.exports = {
   target: 'node',
   context: resolve('src'),
-  entry: './datasource/module.js',
+  entry: './module.ts',
   output: {
     filename: "module.js",
     path: resolve('dist'),
@@ -34,8 +34,11 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: '../README.md' },
       { from: 'plugin.json' },
+      { from: 'components/*' },
+      { from: 'dashboards/*' },
+      { from: 'datasource/*' },
       { from: 'img/*' },
-      { from: 'components/*' }
+      { from: 'panel/*' }
     ]),
     new CleanWebpackPlugin(['dist'], {
       root: resolve('.')
@@ -43,7 +46,7 @@ module.exports = {
     new ngAnnotatePlugin()
   ],
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".html", ".css"]
   },
   module: {
     rules: [
@@ -53,6 +56,18 @@ module.exports = {
           "ts-loader"
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader'
+        }
+      },
+      {
+        test: /\.css$/,
+        use: {
+          loader: 'css-loader'
+        }
       }
     ]
   }
