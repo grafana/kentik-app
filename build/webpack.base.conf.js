@@ -2,8 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+
+const ExtractTextPluginLight = new ExtractTextPlugin('./css/kentik.light.css');
+const ExtractTextPluginDark = new ExtractTextPlugin('./css/kentik.dark.css');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -36,17 +40,19 @@ module.exports = {
       { from: 'plugin.json' },
       { from: 'components/*' },
       { from: 'dashboards/*' },
-      { from: 'datasource/*' },
       { from: 'img/*' },
-      { from: 'panel/*' }
     ]),
+
+    ExtractTextPluginLight,
+    ExtractTextPluginDark,
+
     new CleanWebpackPlugin(['dist'], {
       root: resolve('.')
     }),
     new ngAnnotatePlugin()
   ],
   resolve: {
-    extensions: [".ts", ".html", ".css"]
+    extensions: [".ts", ".html", ".scss"]
   },
   module: {
     rules: [
@@ -64,10 +70,18 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: {
-          loader: 'css-loader'
-        }
+        test: /\.light\.(s?)css$/,
+        use: ExtractTextPluginLight.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
+      },
+      {
+        test: /\.dark\.(s?)css$/,
+        use: ExtractTextPluginDark.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
       }
     ]
   }
