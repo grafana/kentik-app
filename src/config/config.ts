@@ -102,4 +102,3 @@ KentikConfigCtrl.template = configTemplate;
 export {
   KentikConfigCtrl as ConfigCtrl
 };
-
