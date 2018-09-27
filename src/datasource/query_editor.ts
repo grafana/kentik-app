@@ -4,6 +4,7 @@ class KentikQueryCtrl extends QueryCtrl {
   static templateUrl: string;
   queryModes: any[];
 
+  /** @ngInject */
   constructor($scope, $injector) {
     super($scope, $injector);
 

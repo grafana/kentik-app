@@ -8,6 +8,7 @@ class KentikDatasource {
   name: string;
   kentik: any;
 
+  /** @ngInject */
   constructor(public instanceSettings: any, public templateSrv: any, kentikProxySrv: any)  {
     this.name = instanceSettings.name;
     this.kentik = kentikProxySrv;

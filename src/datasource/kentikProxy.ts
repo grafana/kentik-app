@@ -34,7 +34,8 @@ class KentikProxy {
   cacheUpdateInterval: number;
   requestCachingIntervals: { '1d': number; };
   getDevices: any;
-  
+
+  /** @ngInject */
   constructor(backendSrv, kentikAPISrv) {
     this.kentikAPI = kentikAPISrv;
     this.cache = {};
