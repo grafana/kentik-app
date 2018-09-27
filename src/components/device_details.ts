@@ -1,9 +1,9 @@
 export class DeviceDetailsCtrl {
+  static templateUrl: string;
   device: any;
   deviceDTO: any;
   pageReady: boolean;
   other_ips: any;
-  static templateUrl: string;
 
 	/** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {

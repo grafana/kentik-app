@@ -12,9 +12,9 @@ var panelDefaults = {
 };
 
 class CallToActiontCtrl extends PanelCtrl {
+  static templateUrl: string;
   deviceStatus: string;
   AllDone: boolean;
-  static templateUrl: string;
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any) {

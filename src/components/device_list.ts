@@ -1,8 +1,8 @@
 class DeviceListCtrl {
+  static templateUrl: string;
   devices: any[];
   pageReady: boolean;
-  static templateUrl: string;
-  
+
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any) {
     this.devices = [];

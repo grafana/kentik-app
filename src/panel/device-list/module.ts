@@ -12,9 +12,9 @@ var panelDefaults = {
 };
 
 class DeviceListCtrl extends PanelCtrl {
+  static templateUrl: any;
   devices: any[];
   pageReady: boolean;
-  static templateUrl: any;
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any) {
