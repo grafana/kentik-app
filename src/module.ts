@@ -1,3 +1,5 @@
+import './sass/kentik.dark.scss';
+import './sass/kentik.light.scss';
 
 import {ConfigCtrl} from './config/config';
 import {DeviceListCtrl} from './components/device_list';

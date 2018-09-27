@@ -52,7 +52,7 @@ module.exports = {
     new ngAnnotatePlugin()
   ],
   resolve: {
-    extensions: [".ts", ".html", ".scss"]
+    extensions: [".js", ".ts", ".html", ".scss"]
   },
   module: {
     rules: [
@@ -70,14 +70,14 @@ module.exports = {
         }
       },
       {
-        test: /\.light\.(s?)css$/,
+        test: /\.light\.scss$/,
         use: ExtractTextPluginLight.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader']
         })
       },
       {
-        test: /\.dark\.(s?)css$/,
+        test: /\.dark\.scss$/,
         use: ExtractTextPluginDark.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader']

@@ -41,6 +41,7 @@
     "sass-loader": "^7.1.0",
     "sinon": "~1.16.1",
     "sinon-chai": "~2.8.0",
+    "style-loader": "^0.23.0",
     "text-loader": "0.0.1",
     "ts-loader": "^5.2.1",
     "typescript": "^3.0.3",
