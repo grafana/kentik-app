@@ -13,3 +13,5 @@ dist/
 *.iml
 *.tmp
 .vscode/
+
+.package-lock.json
