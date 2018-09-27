@@ -16,9 +16,18 @@ function resolve(dir) {
 module.exports = {
   target: 'node',
   context: resolve('src'),
-  entry: './module.ts',
+  entry: {
+    './module': './module.ts',
+    'datasource/module': './datasource/module.ts',
+    'config/module': './config/config.ts',
+    'components/add_device': './components/add_device.ts',
+    'components/device_details': './components/device_details.ts',
+    'components/device_list': './components/device_list.ts',
+    'panel/call-to-action/module': './panel/call-to-action/module.ts',
+    'panel/device-list/module': './panel/device-list/module.ts',
+  },
   output: {
-    filename: "module.js",
+    filename: "[name].js",
     path: resolve('dist'),
     libraryTarget: "amd"
   },
@@ -38,6 +47,8 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: '../README.md' },
       { from: 'plugin.json' },
+      { from: '*/**/plugin.json' },
+      { from: 'datasource/*' },
       { from: 'components/*' },
       { from: 'dashboards/*' },
       { from: 'img/*' },
