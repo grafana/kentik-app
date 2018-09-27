@@ -7,7 +7,7 @@ loadPluginCss({
   light: 'plugins/kentik-app/css/kentik.light.css'
 });
 
-var panelDefaults = {
+const panelDefaults = {
   fullscreen: true
 };
 

@@ -30,13 +30,13 @@ function getMaxRefreshInterval(query) {
 
 class KentikProxy {
   kentikAPI: any;
-  cache: {};
+  cache: any;
   cacheUpdateInterval: number;
   requestCachingIntervals: { '1d': number; };
-  getDevices: any;
+  getDevices: Function;
 
   /** @ngInject */
-  constructor(backendSrv, kentikAPISrv) {
+  constructor(backendSrv, kentikAPISrv: any) {
     this.kentikAPI = kentikAPISrv;
     this.cache = {};
     this.cacheUpdateInterval = 5 * 60 * 1000; // 5 min by default
