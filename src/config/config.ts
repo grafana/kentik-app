@@ -1,10 +1,16 @@
-import configTemplate from './config.html!text';
+import configTemplate from './config.html';
 
 import _ from 'lodash' ;
 
 class KentikConfigCtrl {
-  constructor($scope, $injector, backendSrv) {
-    this.backendSrv = backendSrv;
+  appEditCtrl: any;
+  appModel: any;
+  apiValidated: boolean;
+  apiError: boolean;
+  static template: any;
+  
+   /** @ngInject */
+  constructor($scope, $injector, public backendSrv: any) {
 
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
@@ -96,4 +102,3 @@ KentikConfigCtrl.template = configTemplate;
 export {
   KentikConfigCtrl as ConfigCtrl
 };
-

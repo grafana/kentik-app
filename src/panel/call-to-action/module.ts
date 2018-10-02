@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import {PanelCtrl} from 'app/plugins/sdk';
-import {loadPluginCss} from 'app/plugins/sdk';
+import {PanelCtrl, loadPluginCss} from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -12,13 +11,15 @@ var panelDefaults = {
 };
 
 class CallToActiontCtrl extends PanelCtrl {
+  static templateUrl: string;
+  deviceStatus: string;
+  allDone: boolean;
 
   /** @ngInject */
-  constructor($scope, $injector, backendSrv) {
+  constructor($scope, $injector, public backendSrv: any) {
     super($scope, $injector);
-    this.backendSrv = backendSrv;
     this.deviceStatus = '';
-    this.AllDone = false;
+    this.allDone = false;
     this.getTaskStatus();
     _.defaults(this.panel, panelDefaults);
   }
@@ -26,9 +27,9 @@ class CallToActiontCtrl extends PanelCtrl {
   getTaskStatus() {
     this.getDevices().then(() => {
       if (this.deviceStatus === 'hasDevices') {
-        this.AllDone = true;
+        this.allDone = true;
       } else {
-        this.AllDone = false;
+        this.allDone = false;
       }
     });
   }

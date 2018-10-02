@@ -1,10 +1,10 @@
 import angular from 'angular';
 
 class KentikAPI {
+  baseUrl: string;
 
   /** @ngInject */
-  constructor(backendSrv) {
-    this.backendSrv = backendSrv;
+  constructor(public backendSrv: any) {
     this.baseUrl = 'api/plugin-proxy/kentik-app';
   }
 

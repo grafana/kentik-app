@@ -1,23 +1,24 @@
 import _ from 'lodash';
-import {PanelCtrl} from 'app/plugins/sdk';
-import {loadPluginCss} from 'app/plugins/sdk';
+import {PanelCtrl} from 'grafana/app/plugins/sdk';
+import {loadPluginCss} from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
   light: 'plugins/kentik-app/css/kentik.light.css'
 });
 
-var panelDefaults = {
+const panelDefaults = {
   fullscreen: true
 };
 
 class DeviceListCtrl extends PanelCtrl {
+  static templateUrl: any;
+  devices: any[];
+  pageReady: boolean;
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv) {
+  constructor($scope, $injector, public $location: any, public backendSrv: any) {
     super($scope, $injector);
-    this.$location = $location;
-    this.backendSrv = backendSrv;
     this.devices = [];
     this.pageReady = false;
     this.getDevices();

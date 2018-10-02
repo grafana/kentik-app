@@ -15,26 +15,27 @@ var defaults = {
 };
 
 export class AddDeviceCtrl {
+  static templateUrl: string;
+  device: any;
+  sendingIps: any[];
+
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv, alertSrv) {
-    this.backendSrv = backendSrv;
-    this.alertSrv = alertSrv;
-    this.$location = $location;
+  constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
     this.device = angular.copy(defaults);
-    this.sending_ips = [{ip: ''}];
+    this.sendingIps = [{ip: ''}];
   }
 
   addIP() {
-    this.sending_ips.push({ip: ''});
+    this.sendingIps.push({ip: ''});
   }
 
   removeIP(index) {
-    this.sending_ips.splice(index, 1);
+    this.sendingIps.splice(index, 1);
   }
 
   addDevice() {
     var ips = [];
-    _.forEach(this.sending_ips, function(ip) {
+    _.forEach(this.sendingIps, function(ip) {
       ips.push(ip.ip);
     });
     this.device.sending_ips = ips.join();
