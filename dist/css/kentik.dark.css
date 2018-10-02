@@ -59,7 +59,7 @@
   margin-right: auto;
   left: 0;
   right: 0;
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-transform: uppercase;
   font-weight: 400; }
 
@@ -207,7 +207,7 @@
   font-style: italic; }
 
 .kentik-collapse:hover {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .wp-app-advanced-box {
   height: 0px;
@@ -250,7 +250,7 @@ RAINTANK DASHBOARD STYLES
 
 p.kentik-dashboard-copy {
   font-size: 14px;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .kentik-dash-flex-container {
   display: flex;
@@ -266,8 +266,8 @@ p.kentik-dashboard-copy {
   text-align: center;
   min-height: 220px;
   margin: 0 100px 25px 80px;
-  background: #221f1f;
-  border: solid 1px #292929;
+  background: #232327;
+  border: solid 1px #141414;
   padding: 5px 30px; }
   .kentik-panel-CTA-flex-container .kentik-CTA-flex-copy {
     flex-grow: 2; }
@@ -292,12 +292,12 @@ p.kentik-dashboard-copy {
 
 p.kentik-helper-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   min-height: 35px; }
 
 p.kentik-dashboard-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   margin: 0; }
 
 a.kentik-dashboard-blurb {
@@ -321,7 +321,7 @@ a.kentik-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .kentik-blurb-success {
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-decoration: line-through; }
 
 .kentik-dashboard-icons-container {
@@ -350,11 +350,11 @@ a.kentik-dashboard-blurb:hover {
   color: #666766; }
 
 .pipe-separator {
-  color: #7B7B7B; }
+  color: #8e8e8e; }
 
 .rt-nav-hr {
   margin-left: -10px;
-  border-bottom: solid 1px #292929; }
+  border-bottom: solid 1px #141414; }
 
 .wp-icon-success {
   color: #10a345;
@@ -375,7 +375,7 @@ RAINTANK DASHBOARD STYLES
 
 p.rt-dashboard-copy {
   font-size: 14px;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .rt-dash-flex-container {
   display: flex;
@@ -391,8 +391,8 @@ p.rt-dashboard-copy {
   text-align: center;
   min-height: 220px;
   margin: 0 100px 25px 80px;
-  background: #221f1f;
-  border: solid 1px #292929;
+  background: #232327;
+  border: solid 1px #141414;
   padding: 5px 30px; }
   .rt-panel-CTA-flex-container .rt-CTA-flex-copy {
     flex-grow: 2; }
@@ -417,12 +417,12 @@ p.rt-dashboard-copy {
 
 p.rt-helper-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   min-height: 35px; }
 
 p.rt-dashboard-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   margin: 0; }
 
 a.rt-dashboard-blurb {
@@ -446,7 +446,7 @@ a.rt-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .rt-blurb-success {
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-decoration: line-through; }
 
 .rt-dashboard-icons-container {
@@ -526,7 +526,7 @@ ul.rt-modal-ul {
 .rt-box-header {
   padding: 10px;
   font-size: 16px;
-  border-bottom: 1px solid #141414;
+  border-bottom: 1px solid #171819;
   overflow: hidden; }
   .rt-box-header .tabs {
     float: left; }
@@ -554,9 +554,9 @@ ul.rt-modal-ul {
   position: relative;
   display: block;
   padding: 10px 15px;
-  border-bottom: 1px solid #141414; }
+  border-bottom: 1px solid #171819; }
   .currentStatus .dashboard-icon {
-    color: #D8D9DA;
+    color: #d8d9da;
     margin-left: 20px; }
 
 .currentStatus:last-child,
@@ -650,7 +650,7 @@ raintank TYPE
 .checkType, .eventType {
   font-size: 16px;
   font-weight: 600;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .status {
   font-size: 1rem;
@@ -662,7 +662,7 @@ raintank TYPE
   font-size: 1rem; }
 
 .checkTime {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-size: 1rem; }
 
 .no-endpoints {
@@ -677,7 +677,7 @@ raintank TYPE
   font-weight: 600; }
 
 .frequency {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-size: 1rem; }
 
 .statusMsg, .freqMsg {
@@ -685,7 +685,7 @@ raintank TYPE
   font-weight: 400; }
 
 .supplemental-copy {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .online {
   color: #10a345;
@@ -693,22 +693,22 @@ raintank TYPE
   text-transform: uppercase; }
 
 .offline {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase; }
 
 .warn {
-  color: #F79520;
+  color: #f79520;
   font-weight: 600;
   text-transform: uppercase; }
 
 .disabled, .none {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 400; }
   .disabled:hover, .none:hover {
     color: #fff; }
   .disabled a, .none a {
-    color: #7B7B7B;
+    color: #8e8e8e;
     font-weight: 400; }
 
 .critical {
@@ -717,7 +717,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .nodata {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -769,10 +769,10 @@ raintank POSITIONING
   box-shadow: 0 0 1px fade(#10a345, 90%); }
 
 .rt-event-warning {
-  color: #F79520;
-  background-color: fade(#F79520, 30%);
-  border-color: fade(#F79520, 50%);
-  box-shadow: 0 0 1px fade(#F79520, 90%); }
+  color: #f79520;
+  background-color: fade(#f79520, 30%);
+  border-color: fade(#f79520, 50%);
+  box-shadow: 0 0 1px fade(#f79520, 90%); }
 
 .rt-event-error {
   color: #ed2e18;
@@ -784,7 +784,7 @@ raintank POSITIONING
   transition: all 0.1s ease 0s;
   vertical-align: sub;
   font-size: 20px;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .dashboard-icon:hover {
   color: #bec0c1; }
@@ -798,7 +798,7 @@ raintank POSITIONING
 
 .rt-list-status, .rt-list-status-up, .rt-list-status-up:link, .rt-list-status-up:visited, .rt-list-status-warning, .rt-list-status-warning:link, .rt-list-status-warning:visited, .rt-list-status-down, .rt-list-status-down:link, .rt-list-status-down:visited, .rt-list-status-disabled, .rt-list-status-disabled:link, .rt-list-status-disabled:visited {
   font-size: 1rem;
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-transform: uppercase;
   text-decoration: none; }
 
@@ -816,11 +816,11 @@ raintank POSITIONING
 .rt-list-status-warning {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F79520; }
+  color: #f79520; }
   .rt-list-status-warning:link, .rt-list-status-warning:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #F79520; }
+    color: #f79520; }
     .rt-list-status-warning:link:hover, .rt-list-status-warning:visited:hover {
       color: #f9ac51; }
 
@@ -838,16 +838,16 @@ raintank POSITIONING
 .rt-list-status-disabled {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #D8D9DA; }
+  color: #d8d9da; }
   .rt-list-status-disabled:link, .rt-list-status-disabled:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #D8D9DA; }
+    color: #d8d9da; }
     .rt-list-status-disabled:link:hover, .rt-list-status-disabled:visited:hover {
       color: #f2f3f3; }
 
 .rt-list-links {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;
@@ -861,9 +861,9 @@ raintank POSITIONING
 
 .rt-list {
   margin: 1px;
-  background-color: #141414;
+  background-color: #171819;
   position: relative;
-  border: solid 1px #292929;
+  border: solid 1px #141414;
   border-radius: 2px;
   line-height: normal;
   padding: 3px 0; }
@@ -879,7 +879,7 @@ raintank POSITIONING
 .rt-list-header {
   overflow: visible;
   padding: 10px 5px;
-  background-color: #141414; }
+  background-color: #171819; }
   .rt-list-header .tabs {
     float: left; }
   .rt-list-header .nav {
@@ -906,7 +906,7 @@ raintank POSITIONING
   vertical-align: middle;
   overflow: auto;
   font-size: 1rem;
-  background-color: #333333; }
+  background-color: #09090b; }
 
 .rt-collector-select > .variable-value-link {
   padding: 0 10px 0 0; }
@@ -917,12 +917,12 @@ raintank POSITIONING
   font-size: .85em; }
 
 .rt-list-collector-status-offline {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-weight: 700;
   font-size: .85em; }
 
 .rt-list-collector-since {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-weight: 400;
   font-size: .85em; }
 
@@ -950,7 +950,7 @@ raintank POSITIONING
   font-style: italic; }
 
 .rt-collapse:hover {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .rt-collapse + input {
   opacity: 0; }
@@ -970,7 +970,7 @@ raintank POSITIONING
   cursor: pointer; }
 
 .rt-advanced-options:hover {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .rt-advanced-options + input {
   display: none; }
@@ -989,4 +989,4 @@ raintank POSITIONING
 .gf-form--right-margin {
   margin-right: 1rem; }
 
-/*# sourceMappingURL=kentik.dark.css.map */
+/*# sourceMappingURL=kentik.dark.css.map*/
