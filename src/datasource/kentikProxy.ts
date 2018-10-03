@@ -4,13 +4,13 @@ import moment from 'moment';
 import './kentikAPI';
 
 function getUTCTimestamp() {
-  let ts = new Date();
+  const ts = new Date();
   return ts.getTime() + ts.getTimezoneOffset() * 60 * 1000;
 }
 
 // Get hash of Kentik query
 function getHash(queryObj) {
-  let query = _.cloneDeep(queryObj);
+  const query = _.cloneDeep(queryObj);
   query.starting_time = null;
   query.ending_time = null;
   return JSON.stringify(query);
@@ -18,7 +18,7 @@ function getHash(queryObj) {
 
 // Prevent too frequent queries
 function getMaxRefreshInterval(query) {
-  let interval: any = Date.parse(query.ending_time) - Date.parse(query.starting_time);
+  const interval: any = Date.parse(query.ending_time) - Date.parse(query.starting_time);
   if (interval > moment.duration(1, 'months')) {
     return 60 * 60 * 1000; // 1 hour
   } else if (interval > moment.duration(1, 'day')) {
@@ -32,7 +32,7 @@ class KentikProxy {
   kentikAPI: any;
   cache: any;
   cacheUpdateInterval: number;
-  requestCachingIntervals: { '1d': number; };
+  requestCachingIntervals: { '1d': number };
   getDevices: () => Promise<any[]>;
 
   /** @ngInject */
@@ -41,26 +41,25 @@ class KentikProxy {
     this.cache = {};
     this.cacheUpdateInterval = 5 * 60 * 1000; // 5 min by default
     this.requestCachingIntervals = {
-      '1d': 0
+      '1d': 0,
     };
 
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
   }
 
   invokeTopXDataQuery(query) {
-    let cached_query = _.cloneDeep(query);
-    let hash = getHash(cached_query);
+    const cachedQuery = _.cloneDeep(query);
+    const hash = getHash(cachedQuery);
 
     if (this.shouldInvoke(query)) {
       // Invoke query
-      return this.kentikAPI.invokeTopXDataQuery(query)
-      .then(result => {
-        let timestamp = getUTCTimestamp();
+      return this.kentikAPI.invokeTopXDataQuery(query).then(result => {
+        const timestamp = getUTCTimestamp();
 
         this.cache[hash] = {
           timestamp: timestamp,
-          query: cached_query,
-          result: result
+          query: cachedQuery,
+          result: result,
         };
         console.log('Invoke Kentik query');
         return result;
@@ -74,28 +73,27 @@ class KentikProxy {
 
   // Decide, is query shold be invoked or get data from cahce?
   shouldInvoke(query) {
-    let kentik_query = query;
-    let hash = getHash(kentik_query);
-    let timestamp = getUTCTimestamp();
+    const kentikQuery = query;
+    const hash = getHash(kentikQuery);
+    const timestamp = getUTCTimestamp();
 
-    let starting_time = Date.parse(kentik_query.starting_time);
-    let ending_time = Date.parse(kentik_query.ending_time);
-    let query_range = ending_time - starting_time;
+    const startingTime = Date.parse(kentikQuery.starting_time);
+    const endingTime = Date.parse(kentikQuery.ending_time);
+    const queryRange = endingTime - startingTime;
 
-    let cache_starting_time = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
-    let cache_ending_time = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
-    let cached_query_range = cache_ending_time - cache_starting_time;
+    const cacheStartingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
+    const cacheEndingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
+    const cachedQueryRange = cacheEndingTime - cacheStartingTime;
 
-    let max_refresh_interval = getMaxRefreshInterval(kentik_query);
+    const maxRefreshInterval = getMaxRefreshInterval(kentikQuery);
 
     return (
       !this.cache[hash] ||
-      timestamp - ending_time > max_refresh_interval ||
-      (this.cache[hash] && (
-        timestamp - cache_ending_time > max_refresh_interval ||
-        starting_time < cache_starting_time ||
-        Math.abs(query_range - cached_query_range) > 60 * 1000 // is time range changed?
-      ))
+      timestamp - endingTime > maxRefreshInterval ||
+      (this.cache[hash] &&
+        (timestamp - cacheEndingTime > maxRefreshInterval ||
+          startingTime < cacheStartingTime ||
+          Math.abs(queryRange - cachedQueryRange) > 60 * 1000)) // is time range changed?
     );
   }
 
@@ -104,12 +102,11 @@ class KentikProxy {
     if (this.cache[field] && ts - this.cache[field].ts < this.cacheUpdateInterval) {
       return Promise.resolve(this.cache[field].value);
     } else {
-      return this.kentikAPI.getFieldValues(field)
-      .then(result => {
+      return this.kentikAPI.getFieldValues(field).then(result => {
         ts = getUTCTimestamp();
         this.cache[field] = {
           ts: ts,
-          value: result
+          value: result,
         };
 
         return result;
@@ -118,6 +115,4 @@ class KentikProxy {
   }
 }
 
-angular
-  .module('grafana.services')
-  .service('kentikProxySrv', KentikProxy);
+angular.module('grafana.services').service('kentikProxySrv', KentikProxy);

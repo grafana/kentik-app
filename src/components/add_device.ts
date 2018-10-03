@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import angular from 'angular';
 
-var defaults = {
+const defaults = {
   device_name: '',
   device_type: 'router',
   device_description: '',
@@ -11,7 +11,7 @@ var defaults = {
   minimize_snmp: false,
   device_bgp_type: 'none',
   device_snmp_ip: '',
-  device_snmp_community: ''
+  device_snmp_community: '',
 };
 
 export class AddDeviceCtrl {
@@ -22,11 +22,11 @@ export class AddDeviceCtrl {
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
     this.device = angular.copy(defaults);
-    this.sendingIps = [{ip: ''}];
+    this.sendingIps = [{ ip: '' }];
   }
 
   addIP() {
-    this.sendingIps.push({ip: ''});
+    this.sendingIps.push({ ip: '' });
   }
 
   removeIP(index) {
@@ -34,20 +34,18 @@ export class AddDeviceCtrl {
   }
 
   addDevice() {
-    var ips = [];
-    _.forEach(this.sendingIps, function(ip) {
+    const ips = [];
+    _.forEach(this.sendingIps, ip => {
       ips.push(ip.ip);
     });
     this.device.sending_ips = ips.join();
-    this.backendSrv
-      .post("/api/plugin-proxy/kentik-app/api/v5/device", this.device)
-      .then(resp => {
-        if ('err' in resp) {
-          this.alertSrv.set("Device Add failed.", resp.err, 'error');
-        } else {
-          this.$location.url("/plugins/kentik-app/page/device-list");
-        }
-      });
+    this.backendSrv.post('/api/plugin-proxy/kentik-app/api/v5/device', this.device).then(resp => {
+      if ('err' in resp) {
+        this.alertSrv.set('Device Add failed.', resp.err, 'error');
+      } else {
+        this.$location.url('/plugins/kentik-app/page/device-list');
+      }
+    });
   }
 }
 

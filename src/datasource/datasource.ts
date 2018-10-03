@@ -1,4 +1,4 @@
-import {metricList, unitList, filterFieldList} from './metric_def';
+import { metricList, unitList, filterFieldList } from './metric_def';
 import _ from 'lodash';
 import './kentikProxy';
 import TableModel from 'grafana/app/core/table_model';
@@ -9,7 +9,7 @@ class KentikDatasource {
   kentik: any;
 
   /** @ngInject */
-  constructor(public instanceSettings: any, public templateSrv: any, kentikProxySrv: any)  {
+  constructor(public instanceSettings: any, public templateSrv: any, kentikProxySrv: any) {
     this.name = instanceSettings.name;
     this.kentik = kentikProxySrv;
   }
@@ -29,48 +29,53 @@ class KentikDatasource {
 
   query(options) {
     if (!options.targets || options.targets.length === 0) {
-      return Promise.resolve({data: []});
+      return Promise.resolve({ data: [] });
     }
 
-    let target = options.targets[0];
-    let deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
+    const target = options.targets[0];
+    const deviceNames = this.templateSrv.replace(
+      target.device,
+      options.scopedVars,
+      this.interpolateDeviceField.bind(this)
+    );
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
 
-    let query_options = {
+    const queryOptions = {
       deviceNames: deviceNames,
       range: {
         from: options.range.from,
-        to: options.range.to
+        to: options.range.to,
       },
       metric: this.templateSrv.replace(target.metric),
       unit: this.templateSrv.replace(target.unit),
-      kentikFilterGroups: kentikFilters
+      kentikFilterGroups: kentikFilters,
     };
-    let query = queryBuilder.buildTopXdataQuery(query_options);
+    const query = queryBuilder.buildTopXdataQuery(queryOptions);
 
-    return this.kentik.invokeTopXDataQuery(query)
-    .then(this.processResponse.bind(this, query, target.mode, options))
-    .then(result => {
-      return {
-        data: result
-      };
-    });
+    return this.kentik
+      .invokeTopXDataQuery(query)
+      .then(this.processResponse.bind(this, query, target.mode, options))
+      .then(result => {
+        return {
+          data: result,
+        };
+      });
   }
 
   processResponse(query, mode, options, data) {
     if (!data.results) {
-      return Promise.reject({message: 'no kentik data'});
+      return Promise.reject({ message: 'no kentik data' });
     }
 
-    var bucketData = data.results[0].data;
+    const bucketData = data.results[0].data;
     if (bucketData.length === 0) {
       return [];
     }
 
-    var metricDef = _.find(metricList, {value: query.dimension[0]});
-    var unitDef = _.find(unitList, {value: query.metric});
+    const metricDef = _.find(metricList, { value: query.dimension[0] });
+    const unitDef = _.find(unitList, { value: query.metric });
 
     if (mode === 'table') {
       return this.processTableData(bucketData, metricDef, unitDef);
@@ -80,27 +85,27 @@ class KentikDatasource {
   }
 
   processTimeSeries(bucketData, query, options?: any) {
-    let seriesList = [];
+    const seriesList = [];
     let endIndex = query.topx;
     if (bucketData.length < endIndex) {
       endIndex = bucketData.length;
     }
 
     for (let i = 0; i < endIndex; i++) {
-      let series = bucketData[i];
-      let timeseries = _.find(series.timeSeries, series => {
+      const series = bucketData[i];
+      const timeseries = _.find(series.timeSeries, series => {
         return series.flow && series.flow.length;
       });
-      let seriesName = series.key;
+      const seriesName = series.key;
 
       if (timeseries) {
-        let grafana_series = {
+        const grafanaSeries = {
           target: seriesName,
           datapoints: _.map(timeseries.flow, point => {
             return [point[1], point[0]];
-          })
+          }),
         };
-        seriesList.push(grafana_series);
+        seriesList.push(grafanaSeries);
       }
     }
 
@@ -108,20 +113,20 @@ class KentikDatasource {
   }
 
   processTableData(bucketData, metricDef, unitDef) {
-    var table = new TableModel();
+    const table = new TableModel();
 
-    table.columns.push({text: metricDef.text});
+    table.columns.push({ text: metricDef.text });
 
-    for (let col of unitDef.tableFields) {
-      table.columns.push({text: col.text, unit: col.unit});
+    for (const col of unitDef.tableFields) {
+      table.columns.push({ text: col.text, unit: col.unit });
     }
 
     _.forEach(bucketData, row => {
-      var seriesName = row.key;
+      const seriesName = row.key;
 
-      var values = [seriesName];
-      for (let col of unitDef.tableFields) {
-        var val = row[col.field];
+      const values = [seriesName];
+      for (const col of unitDef.tableFields) {
+        let val = row[col.field];
 
         if (_.isString(val)) {
           val = parseFloat(val);
@@ -144,10 +149,9 @@ class KentikDatasource {
       return Promise.resolve(unitList);
     }
 
-    return this.kentik.getDevices()
-    .then(devices => {
+    return this.kentik.getDevices().then(devices => {
       return devices.map(device => {
-        return {text: device.device_name, value: device.device_name};
+        return { text: device.device_name, value: device.device_name };
       });
     });
   }
@@ -158,11 +162,10 @@ class KentikDatasource {
 
   getTagValues(options) {
     if (options) {
-      let field = _.find(filterFieldList, {text: options.key}).field;
-      return this.kentik.getFieldValues(field)
-      .then(result => {
+      const field = _.find(filterFieldList, { text: options.key }).field;
+      return this.kentik.getFieldValues(field).then(result => {
         return result.rows.map(row => {
-          return {text: row[field].toString()};
+          return { text: row[field].toString() };
         });
       });
     } else {
@@ -171,4 +174,4 @@ class KentikDatasource {
   }
 }
 
-export {KentikDatasource};
+export { KentikDatasource };

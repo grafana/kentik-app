@@ -1,13 +1,13 @@
 import _ from 'lodash';
-import {PanelCtrl, loadPluginCss} from 'grafana/app/plugins/sdk';
+import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
-  light: 'plugins/kentik-app/css/kentik.light.css'
+  light: 'plugins/kentik-app/css/kentik.light.css',
 });
 
-var panelDefaults = {
-  fullscreen: true
+const panelDefaults = {
+  fullscreen: true,
 };
 
 class CallToActiontCtrl extends PanelCtrl {
@@ -35,14 +35,13 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   getDevices() {
-    return this.backendSrv.get("/api/plugin-proxy/kentik-app/api/v5/devices")
-      .then(resp => {
-        if (resp.devices.length > 0) {
-          this.deviceStatus = 'hasDevices';
-        } else {
-          this.deviceStatus = 'noDevices';
-        }
-      });
+    return this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
+      if (resp.devices.length > 0) {
+        this.deviceStatus = 'hasDevices';
+      } else {
+        this.deviceStatus = 'noDevices';
+      }
+    });
   }
 
   refresh() {
@@ -51,4 +50,4 @@ class CallToActiontCtrl extends PanelCtrl {
 }
 
 CallToActiontCtrl.templateUrl = 'panel/call-to-action/module.html';
-export {CallToActiontCtrl as PanelCtrl};
+export { CallToActiontCtrl as PanelCtrl };

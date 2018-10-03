@@ -1,4 +1,4 @@
-import {QueryCtrl} from 'grafana/app/plugins/sdk';
+import { QueryCtrl } from 'grafana/app/plugins/sdk';
 
 class KentikQueryCtrl extends QueryCtrl {
   static templateUrl: string;
@@ -10,13 +10,10 @@ class KentikQueryCtrl extends QueryCtrl {
 
     this.target.mode = this.target.mode || 'graph';
 
-    this.queryModes = [
-      {value: 'graph', text: 'Graph'},
-      {value: 'table', text: 'Table'}
-    ];
+    this.queryModes = [{ value: 'graph', text: 'Graph' }, { value: 'table', text: 'Table' }];
   }
 }
 
 KentikQueryCtrl.templateUrl = 'datasource/query_editor.html';
 
-export {KentikQueryCtrl};
+export { KentikQueryCtrl };
