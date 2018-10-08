@@ -23,7 +23,7 @@ jobs:
             - node_modules
       - run: pwd
       - run: ls -l $HOME
-      - run: ls -l $CIRCLE_WORKING_DIRECTORY
+      - run: ls -l $HOME/grafana-kentik-app
       - run: npm run-script build
   test:
     <<: *defaults
