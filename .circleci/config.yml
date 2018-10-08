@@ -21,6 +21,9 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
+      - run: pwd
+      - run: ls -l $HOME
+      - run: ls -l $CIRCLE_WORKING_DIRECTORY
       - run: npm run-script build
   test:
     <<: *defaults
