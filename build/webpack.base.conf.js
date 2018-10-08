@@ -49,6 +49,8 @@ module.exports = {
   plugins: [
     new WebpackBeforeBuildPlugin(function(stats, callback) {
       // Do whatever you want...
+      var parentDir = resolve('.');
+      grafanaTargetDir = parentDir + "/" + grafanaTargetDir;
       var exists = directoryExists.sync(grafanaTargetDir);
       if (exists) {
         console.log("Grafana source present, skipping git clone");
