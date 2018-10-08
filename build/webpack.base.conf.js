@@ -8,11 +8,7 @@ const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 const ExtractTextPluginLight = new ExtractTextPlugin('./css/kentik.light.css');
 const ExtractTextPluginDark = new ExtractTextPlugin('./css/kentik.dark.css');
-const WebpackBeforeBuildPlugin = require('before-build-webpack');
-const directoryExists = require('directory-exists');
-const clone = require('git-clone');
-// puts grafana source under node_modules to skip including it automatically
-var grafanaTargetDir = "node_modules/grafana_master";
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
@@ -47,26 +43,6 @@ module.exports = {
     }
   ],
   plugins: [
-    new WebpackBeforeBuildPlugin(function(stats, callback) {
-      // Do whatever you want...
-      var parentDir = resolve('.');
-      grafanaTargetDir = parentDir + "/" + grafanaTargetDir;
-      var exists = directoryExists.sync(grafanaTargetDir);
-      if (exists) {
-        console.log("Grafana source present, skipping git clone");
-      } else {
-        console.log("Cloning grafana source to " + grafanaTargetDir);
-        clone('https://github.com/grafana/grafana.git', grafanaTargetDir, {shallow: true}, function(err) {
-          console.log("complete!");
-          if (err) {
-            console.log(err);
-          }
-        });
-      }
-      callback(); // don't call it if you do want to stop compilation
-                  // (some events does no have it ('done' for instance)
-                  // and calling callback() does nothing and can be ommited)
-    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
       { from: '../README.md' },

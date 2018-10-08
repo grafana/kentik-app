@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "build/prebuild.sh",
     "build": "webpack --config build/webpack.prod.conf.js",
     "dev": "webpack --config build/webpack.dev.conf.js"
   },
