@@ -24,7 +24,7 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
-            - grafana-master
+            - node_modules/grafana_master
       - run: npm run-script build
   test:
     <<: *defaults
