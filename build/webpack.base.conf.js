@@ -53,7 +53,7 @@ module.exports = {
       if (exists) {
         console.log("Grafana source present, skipping git clone");
       } else {
-        console.log("Cloning grafana source...");
+        console.log("Cloning grafana source to " + grafanaTargetDir);
         clone('https://github.com/grafana/grafana.git', grafanaTargetDir, {shallow: true}, function(err) {
           console.log("complete!");
           if (err) {
