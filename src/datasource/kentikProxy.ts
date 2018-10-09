@@ -116,16 +116,20 @@ class KentikProxy {
 
   async getCustomDimensions() {
     if (this.cache.customDimensions === undefined) {
-      let customDimensions = await this.kentikAPI.getCustomDimensions();
-      this.cache.customDimensions = customDimensions.map(dimension => ({
-        values: dimension.populators.reduce((values, populator) => {
+      const customDimensions = await this.kentikAPI.getCustomDimensions();
+      this.cache.customDimensions = customDimensions.map(dimension => {
+        const values = dimension.populators.reduce((values, populator) => {
           values.push(populator.value);
           return values;
-        }, []),
-        text: `Custom ${dimension.display_name}`,
-        value: dimension.name,
-        field: dimension.name
-      }));
+        }, []);
+
+        return {
+          values,
+          text: `Custom ${dimension.display_name}`,
+          value: dimension.name,
+          field: dimension.name
+        };
+      });
     }
     return this.cache.customDimensions;
   }
