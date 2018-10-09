@@ -113,6 +113,18 @@ class KentikProxy {
       });
     }
   }
+
+  async getCustomDimensions() {
+    if (this.cache.customDimensions === undefined) {
+      let customDimensions = await this.kentikAPI.getCustomDimensions();
+      this.cache.customDimensions = customDimensions.map(dimension => ({
+        text: `Custom ${dimension.display_name}`,
+        value: dimension.name,
+        field: dimension.name
+      }));
+    }
+    return this.cache.customDimensions;
+  }
 }
 
 angular.module('grafana.services').service('kentikProxySrv', KentikProxy);

@@ -38,7 +38,7 @@ class KentikDatasource {
       options.scopedVars,
       this.interpolateDeviceField.bind(this)
     );
-
+    
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
 
@@ -64,7 +64,7 @@ class KentikDatasource {
       });
   }
 
-  processResponse(query, mode, options, data) {
+  async processResponse(query, mode, options, data) {
     if (!data.results) {
       return Promise.reject({ message: 'no kentik data' });
     }
@@ -74,7 +74,10 @@ class KentikDatasource {
       return [];
     }
 
-    const metricDef = _.find(metricList, { value: query.dimension[0] });
+    const custom = await this.kentik.getCustomDimensions();
+    const metricListExtended = _.concat(metricList, custom);
+    const metricDef = _.find(metricListExtended, { value: query.dimension[0] });
+    
     const unitDef = _.find(unitList, { value: query.metric });
 
     if (mode === 'table') {
@@ -141,9 +144,11 @@ class KentikDatasource {
     return [table];
   }
 
-  metricFindQuery(query) {
+  async metricFindQuery(query) {
     if (query === 'metrics()') {
-      return Promise.resolve(metricList);
+      const custom = await this.kentik.getCustomDimensions();
+      const metricListExtended = _.concat(metricList, custom)
+      return Promise.resolve(metricListExtended);
     }
     if (query === 'units()') {
       return Promise.resolve(unitList);

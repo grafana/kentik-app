@@ -23,6 +23,11 @@ class KentikAPI {
     return this.invokeSQLQuery(query);
   }
 
+  getCustomDimensions() {
+    return this._get('/api/v5//customdimensions')
+      .then(data => data.data.customDimensions);
+  }
+
   invokeTopXDataQuery(query) {
     const kentikV5Query = {
       queries: [{ query: query, bucketIndex: 0 }],
