@@ -123,7 +123,7 @@ function buildTopXdataQuery(options) {
   return query;
 }
 
-function convertToKentikFilter(filterObj, customDimensions) {
+function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
   // Use Kentik 'not equal' style
   if (filterObj.operator === '!=') {
     filterObj.operator = '<>';
@@ -146,7 +146,7 @@ function convertToKentikFilter(filterObj, customDimensions) {
   };
 }
 
-function convertToKentikFilterGroup(filters, customDimensions) {
+function convertToKentikFilterGroup(filters, customDimensions: Array<any>) {
   if (filters.length) {
     const kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
     let connector = 'All';
