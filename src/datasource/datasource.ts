@@ -40,8 +40,8 @@ class KentikDatasource {
     );
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    const custom = await this.kentik.getCustomDimensions();
-    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, custom);
+    const customDimensions = await this.kentik.getCustomDimensions();
+    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions);
 
     const queryOptions = {
       deviceNames: deviceNames,
@@ -75,10 +75,11 @@ class KentikDatasource {
       return [];
     }
 
-    const custom = await this.kentik.getCustomDimensions();
-    const metricListExtended = _.concat(metricList, custom);
-    const metricDef = _.find(metricListExtended, { value: query.dimension[0] });
-    
+    const metricDef = _.find(
+      await this._getExtendedDimensionsList(metricList),
+      { value: query.dimension[0] }
+    );
+
     const unitDef = _.find(unitList, { value: query.metric });
 
     if (mode === 'table') {
@@ -145,11 +146,9 @@ class KentikDatasource {
     return [table];
   }
 
-  async metricFindQuery(query) {
+  metricFindQuery(query) {
     if (query === 'metrics()') {
-      const custom = await this.kentik.getCustomDimensions();
-      const metricListExtended = _.concat(metricList, custom)
-      return Promise.resolve(metricListExtended);
+      return Promise.resolve(this._getExtendedDimensionsList(metricList));
     }
     if (query === 'units()') {
       return Promise.resolve(unitList);
@@ -162,10 +161,8 @@ class KentikDatasource {
     });
   }
 
-  async getTagKeys() {
-    const custom = await this.kentik.getCustomDimensions();
-    const filterFieldListExtended = _.concat(filterFieldList, custom);
-    return Promise.resolve(filterFieldListExtended);
+  getTagKeys() {
+    return Promise.resolve(this._getExtendedDimensionsList(filterFieldList));
   }
 
   async getTagValues(options) {
@@ -173,8 +170,8 @@ class KentikDatasource {
       const filter = _.find(filterFieldList, { text: options.key });
 
       if(filter === undefined) {
-        const custom = await this.kentik.getCustomDimensions();
-        const dimension = _.find(custom, { text: options.key });
+        const customDimensions = await this.kentik.getCustomDimensions();
+        const dimension = _.find(customDimensions, { text: options.key });
         return _.concat(dimension.values.map(value => ({ text: value })));
       } else {
         const field = filter.field;
@@ -187,6 +184,11 @@ class KentikDatasource {
     } else {
       return Promise.resolve([]);
     }
+  }
+
+  private async _getExtendedDimensionsList(list: Array<any>) {
+    const customDimensions = await this.kentik.getCustomDimensions();
+    return _.concat(list, customDimensions);
   }
 }
 
