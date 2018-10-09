@@ -27,7 +27,7 @@ class KentikDatasource {
     return value.join(',');
   }
 
-  query(options) {
+  async query(options) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
@@ -40,7 +40,8 @@ class KentikDatasource {
     );
     
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
+    const custom = await this.kentik.getCustomDimensions();
+    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, custom);
 
     const queryOptions = {
       deviceNames: deviceNames,
@@ -161,18 +162,28 @@ class KentikDatasource {
     });
   }
 
-  getTagKeys() {
-    return Promise.resolve(filterFieldList);
+  async getTagKeys() {
+    const custom = await this.kentik.getCustomDimensions();
+    const filterFieldListExtended = _.concat(filterFieldList, custom);
+    return Promise.resolve(filterFieldListExtended);
   }
 
-  getTagValues(options) {
+  async getTagValues(options) {
     if (options) {
-      const field = _.find(filterFieldList, { text: options.key }).field;
-      return this.kentik.getFieldValues(field).then(result => {
-        return result.rows.map(row => {
-          return { text: row[field].toString() };
+      const filter = _.find(filterFieldList, { text: options.key });
+
+      if(filter === undefined) {
+        const custom = await this.kentik.getCustomDimensions();
+        const dimension = _.find(custom, { text: options.key });
+        return _.concat(dimension.values.map(value => ({ text: value })));
+      } else {
+        const field = filter.field;
+        return this.kentik.getFieldValues(field).then(result => {
+          return result.rows.map(row => {
+            return { text: row[field].toString() };
+          });
         });
-      });
+      }
     } else {
       return Promise.resolve([]);
     }

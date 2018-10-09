@@ -24,7 +24,7 @@ class KentikAPI {
   }
 
   getCustomDimensions() {
-    return this._get('/api/v5//customdimensions')
+    return this._get('/api/v5/customdimensions')
       .then(data => data.data.customDimensions);
   }
 
