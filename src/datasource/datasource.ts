@@ -38,7 +38,7 @@ class KentikDatasource {
       options.scopedVars,
       this.interpolateDeviceField.bind(this)
     );
-    
+
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     const custom = await this.kentik.getCustomDimensions();
     kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, custom);
