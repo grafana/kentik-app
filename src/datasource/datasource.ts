@@ -172,7 +172,7 @@ class KentikDatasource {
       if(filter === undefined) {
         const customDimensions = await this.kentik.getCustomDimensions();
         const dimension = _.find(customDimensions, { text: options.key });
-        return _.concat(dimension.values.map(value => ({ text: value })));
+        return dimension.values.map(value => ({ text: value }));
       } else {
         const field = filter.field;
         return this.kentik.getFieldValues(field).then(result => {
