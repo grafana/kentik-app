@@ -24,7 +24,7 @@ class KentikAPI {
   }
 
   async getCustomDimensions() {
-    const data = this._get('/api/v5/customdimensions');
+    const data = await this._get('/api/v5/customdimensions');
     return data.data.customDimensions;
   }
 
