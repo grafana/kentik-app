@@ -23,9 +23,9 @@ class KentikAPI {
     return this.invokeSQLQuery(query);
   }
 
-  getCustomDimensions() {
-    return this._get('/api/v5/customdimensions')
-      .then(data => data.data.customDimensions);
+  async getCustomDimensions() {
+    const data = this._get('/api/v5/customdimensions');
+    return data.data.customDimensions;
   }
 
   invokeTopXDataQuery(query) {

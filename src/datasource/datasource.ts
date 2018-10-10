@@ -75,8 +75,9 @@ class KentikDatasource {
       return [];
     }
 
+    const extendedMetricList = await this._getExtendedDimensionsList(metricList);
     const metricDef = _.find(
-      await this._getExtendedDimensionsList(metricList),
+      extendedMetricList,
       { value: query.dimension[0] }
     );
 
@@ -146,12 +147,12 @@ class KentikDatasource {
     return [table];
   }
 
-  metricFindQuery(query) {
+  async metricFindQuery(query) {
     if (query === 'metrics()') {
-      return Promise.resolve(this._getExtendedDimensionsList(metricList));
+      return this._getExtendedDimensionsList(metricList);
     }
     if (query === 'units()') {
-      return Promise.resolve(unitList);
+      return unitList;
     }
 
     return this.kentik.getDevices().then(devices => {
@@ -161,8 +162,8 @@ class KentikDatasource {
     });
   }
 
-  getTagKeys() {
-    return Promise.resolve(this._getExtendedDimensionsList(filterFieldList));
+  async getTagKeys() {
+    return this._getExtendedDimensionsList(filterFieldList);
   }
 
   async getTagValues(options) {
@@ -182,7 +183,7 @@ class KentikDatasource {
         });
       }
     } else {
-      return Promise.resolve([]);
+      return [];
     }
   }
 

@@ -117,21 +117,21 @@ class KentikProxy {
   async getCustomDimensions() {
     if (this.cache.customDimensions === undefined) {
       const customDimensions = await this.kentikAPI.getCustomDimensions();
-      this.cache.customDimensions = customDimensions.map(dimension => {
-        const values = dimension.populators.reduce((values, populator) => {
-          values.push(populator.value);
-          return values;
-        }, []);
-
-        return {
-          values,
-          text: `Custom ${dimension.display_name}`,
-          value: dimension.name,
-          field: dimension.name
-        };
-      });
+      this.cache.customDimensions = customDimensions.map(dimension => ({
+        values: this._getDimensionPopulatorsValues(dimension),
+        text: `Custom ${dimension.display_name}`,
+        value: dimension.name,
+        field: dimension.name
+      }));
     }
     return this.cache.customDimensions;
+  }
+
+  private _getDimensionPopulatorsValues(dimension) {
+    return dimension.populators.reduce((values, populator) => {
+      values.push(populator.value);
+      return values;
+    }, []);
   }
 }
 
