@@ -1,6 +1,7 @@
 [![CircleCI](https://circleci.com/gh/grafana/kentik-app.svg?style=svg)](https://circleci.com/gh/grafana/kentik-app)
 (https://david-dm.org/grafana/kentik-app.svg)
 [![Dependency Status](http://img.shields.io/david/grafana/kentik-app.svg?style=flat)](https://david-dm.org/grafana/kentik-app)
+[![David Dependancy Status](https://david-dm.org/grafana/kentik-app.svg)](https://david-dm.org/grafana/kentik-app)
 
 
 Kentik Connect for Grafana allows you to quickly and easily enhance your visibility into your network traffic. Kentik Connect leverages the power of Kentik Detect, which provides real-time, Internet-scale ingest and querying of network data including flow records (NetFlow, IPFIX, sFlow), BGP, GeoIP, and SNMP. Stored in the Kentik Data Engine (KDE), Kentik Detect’s distributed post-Hadoop Big Data backend, this information is a rich source of actionable insights into network traffic, including anomalies that can affect application or service performance. Kentik Connect provides Grafana with instant access to KDE, enabling you to seamlessly integrate network activity metrics into your Grafana dashboard.
