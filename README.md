@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/grafana/kentik-app.svg?style=svg)](https://circleci.com/gh/grafana/kentik-app)
 [![David Dependancy Status](https://david-dm.org/grafana/kentik-app.svg)](https://david-dm.org/grafana/kentik-app)
-[![David Dev Dependency Status](https://david-dm.org/grafana/kentik-app/dev-status.svg")](https://david-dm.org/grafana/kentik-app/?type=dev)
+[![David Dev Dependency Status](https://david-dm.org/grafana/kentik-app/dev-status.svg)](https://david-dm.org/grafana/kentik-app/?type=dev)
 
 
 
