@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
 
 loadPluginCss({
