@@ -1,5 +1,5 @@
-import { KentikAPI } from '../../src/datasource/kentikAPI';
-import { KentikProxy } from '../../src/datasource/kentikProxy';
+import {KentikAPI} from '../../src/datasource/kentikAPI';
+import {KentikProxy} from '../../src/datasource/kentikProxy';
 
 describe('KentikProxy', () => {
   let ctx: any = {};
@@ -21,8 +21,8 @@ describe('KentikProxy', () => {
         }
       ]
     };
+    beforeEach(() => getKentikProxyInstance(ctx, data));
 
-    beforeEach(() => mockKentikResponse(ctx, data));
     it('Should parse it properly', async () => {
       const dimensions = await ctx.kentikProxy.getCustomDimensions();
       expect(dimensions).toHaveLength(2);
@@ -36,14 +36,14 @@ describe('KentikProxy', () => {
   });
 });
 
-function mockKentikResponse(ctx, data) {
+function getKentikProxyInstance(ctx, data) {
   ctx.backendSrv = {
     datasourceRequest: function () {
       return Promise.resolve({
         status: 200, data
-      })
+      });
     }
-  }
+  };
 
   ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
   ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
