@@ -1,11 +1,9 @@
 import { Datasource } from '../../src/datasource/module';
-import Q from 'q';
 
 describe('KentikDatasource', () => {
   let ctx: any = {};
 
   beforeEach(function () {
-    ctx.$q = Q;
     ctx.kentikProxySrv = {};
     ctx.templateSrv = {};
 

@@ -1,13 +1,23 @@
 import queryBuilder from '../../src/datasource/query_builder';
-import * as moment from 'moment';
+
+
+class Moment {
+  public time;
+
+  constructor(time) {
+    this.time = time;
+  }
+  utc() { return this; }
+  format() { return this.time; }
+}
 
 describe('Kentik Query Builder', () => {
   let ctx: any = {};
 
   beforeEach(function () {
     ctx.range = {
-      from: moment('1970-01-01 00:00:00'),
-      to: moment('1970-01-01 01:00:00')
+      from: new Moment('1970-01-01 00:00:00'),
+      to: new Moment('1970-01-01 01:00:00')
     };
   });
 
