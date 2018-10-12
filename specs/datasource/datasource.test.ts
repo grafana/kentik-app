@@ -1,10 +1,8 @@
-import { Datasource } from "../datasource/module";
-import Q from "q";
-import sinon from 'sinon';
+import { Datasource } from '../../src/datasource/module';
+import Q from 'q';
 
 describe('KentikDatasource', () => {
-  let ctx = {};
-  let defined = sinon.match.defined;
+  let ctx: any = {};
 
   beforeEach(function () {
     ctx.$q = Q;

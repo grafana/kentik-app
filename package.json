@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config jest.config.js",
     "build": "webpack --config build/webpack.prod.conf.js",
     "dev": "webpack --config build/webpack.dev.conf.js"
   },
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/angular": "^1.6.43",
     "@types/grafana": "github:CorpGlory/types-grafana",
+    "@types/jest": "^23.3.5",
     "@types/moment": "^2.13.0",
     "babel": "~6.5.1",
     "babel-plugin-transform-es2015-for-of": "^6.6.0",
@@ -29,7 +30,10 @@
     "chai": "~3.5.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-loader": "^0.5.5",
+    "jest": "^23.6.0",
     "jsdom": "^12.0.0",
     "jshint-stylish": "^2.1.0",
     "lodash": "~4.0.0",
@@ -43,12 +47,11 @@
     "sinon-chai": "~2.8.0",
     "style-loader": "^0.23.0",
     "text-loader": "0.0.1",
+    "ts-jest": "^23.10.4",
     "ts-loader": "^5.2.1",
     "typescript": "^3.0.3",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
-    "css-loader": "^1.0.0",
-    "html-loader": "^0.5.5"
+    "webpack-cli": "^3.1.1"
   },
   "dependencies": {},
   "homepage": "https://github.com/raintank/kentik-app-poc#readme"
