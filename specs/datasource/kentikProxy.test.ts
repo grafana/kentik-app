@@ -32,6 +32,12 @@ describe('KentikProxy', () => {
         field: 'c_test',
         values: ['value1', 'value2'],
       });
+      expect(dimensions[1]).toEqual({
+        text: 'Custom just-testing-2',
+        value: 'c_test_2',
+        field: 'c_test_2',
+        values: ['value3', 'value4'],
+      });
     });
   });
 });
