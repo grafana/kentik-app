@@ -1,6 +1,6 @@
-import {Datasource} from '../../src/datasource/module';
-import {KentikAPI} from '../../src/datasource/kentikAPI';
-import {KentikProxy} from '../../src/datasource/kentikProxy';
+import {Datasource} from '../../../src/datasource/module';
+import {KentikAPI} from '../../../src/datasource/kentikAPI';
+import {KentikProxy} from '../../../src/datasource/kentikProxy';
 
 describe('KentikDatasource', () => {
   let ctx: any = {};

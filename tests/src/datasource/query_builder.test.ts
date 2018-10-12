@@ -1,4 +1,4 @@
-import queryBuilder from '../../src/datasource/query_builder';
+import queryBuilder from '../../../src/datasource/query_builder';
 
 
 class Moment {
