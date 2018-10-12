@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { unitList, filterFieldList } from './metric_def';
 
 const KENTIK_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
