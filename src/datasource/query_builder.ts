@@ -146,7 +146,7 @@ function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
   };
 }
 
-function convertToKentikFilterGroup(filters, customDimensions: Array<any>) {
+function convertToKentikFilterGroup(filters, customDimensions = []) {
   if (filters.length) {
     const kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
     let connector = 'All';

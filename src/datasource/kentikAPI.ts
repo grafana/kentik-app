@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-class KentikAPI {
+export class KentikAPI {
   baseUrl: string;
 
   /** @ngInject */
@@ -25,6 +25,7 @@ class KentikAPI {
 
   async getCustomDimensions() {
     const data = await this._get('/api/v5/customdimensions');
+    console.log(data.data.customDimensions)
     return data.data.customDimensions;
   }
 

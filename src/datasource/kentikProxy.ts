@@ -28,7 +28,7 @@ function getMaxRefreshInterval(query) {
   }
 }
 
-class KentikProxy {
+export class KentikProxy {
   kentikAPI: any;
   cache: any;
   cacheUpdateInterval: number;
