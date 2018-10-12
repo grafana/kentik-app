@@ -28,7 +28,7 @@ function getMaxRefreshInterval(query) {
   }
 }
 
-class KentikProxy {
+export class KentikProxy {
   kentikAPI: any;
   cache: any;
   cacheUpdateInterval: number;
@@ -112,6 +112,26 @@ class KentikProxy {
         return result;
       });
     }
+  }
+
+  async getCustomDimensions() {
+    if (this.cache.customDimensions === undefined) {
+      const customDimensions = await this.kentikAPI.getCustomDimensions();
+      this.cache.customDimensions = customDimensions.map(dimension => ({
+        values: this._getDimensionPopulatorsValues(dimension),
+        text: `Custom ${dimension.display_name}`,
+        value: dimension.name,
+        field: dimension.name
+      }));
+    }
+    return this.cache.customDimensions;
+  }
+
+  private _getDimensionPopulatorsValues(dimension) {
+    return dimension.populators.reduce((values, populator) => {
+      values.push(populator.value);
+      return values;
+    }, []);
   }
 }
 

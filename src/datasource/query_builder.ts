@@ -123,7 +123,7 @@ function buildTopXdataQuery(options) {
   return query;
 }
 
-function convertToKentikFilter(filterObj) {
+function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
   // Use Kentik 'not equal' style
   if (filterObj.operator === '!=') {
     filterObj.operator = '<>';
@@ -131,7 +131,8 @@ function convertToKentikFilter(filterObj) {
 
   // If no field definition found assume that custom field is used.
   let filterField;
-  const filterFieldDef = _.find(filterFieldList, { text: filterObj.key });
+  const filterFieldDefExtended = _.concat(filterFieldList, customDimensions);
+  const filterFieldDef = _.find(filterFieldDefExtended, { text: filterObj.key });
   if (filterFieldDef) {
     filterField = filterFieldDef.field;
   } else {
@@ -145,9 +146,9 @@ function convertToKentikFilter(filterObj) {
   };
 }
 
-function convertToKentikFilterGroup(filters) {
+function convertToKentikFilterGroup(filters, customDimensions = []) {
   if (filters.length) {
-    const kentikFilters = _.map(filters, convertToKentikFilter);
+    const kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
     let connector = 'All';
     if (
       filters[0].condition &&

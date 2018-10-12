@@ -27,7 +27,7 @@ class KentikDatasource {
     return value.join(',');
   }
 
-  query(options) {
+  async query(options) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
@@ -40,7 +40,8 @@ class KentikDatasource {
     );
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
+    const customDimensions = await this.kentik.getCustomDimensions();
+    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions);
 
     const queryOptions = {
       deviceNames: deviceNames,
@@ -64,7 +65,7 @@ class KentikDatasource {
       });
   }
 
-  processResponse(query, mode, options, data) {
+  async processResponse(query, mode, options, data) {
     if (!data.results) {
       return Promise.reject({ message: 'no kentik data' });
     }
@@ -74,7 +75,12 @@ class KentikDatasource {
       return [];
     }
 
-    const metricDef = _.find(metricList, { value: query.dimension[0] });
+    const extendedMetricList = await this._getExtendedDimensionsList(metricList);
+    const metricDef = _.find(
+      extendedMetricList,
+      { value: query.dimension[0] }
+    );
+
     const unitDef = _.find(unitList, { value: query.metric });
 
     if (mode === 'table') {
@@ -141,12 +147,12 @@ class KentikDatasource {
     return [table];
   }
 
-  metricFindQuery(query) {
+  async metricFindQuery(query) {
     if (query === 'metrics()') {
-      return Promise.resolve(metricList);
+      return this._getExtendedDimensionsList(metricList);
     }
     if (query === 'units()') {
-      return Promise.resolve(unitList);
+      return unitList;
     }
 
     return this.kentik.getDevices().then(devices => {
@@ -156,21 +162,34 @@ class KentikDatasource {
     });
   }
 
-  getTagKeys() {
-    return Promise.resolve(filterFieldList);
+  async getTagKeys() {
+    return this._getExtendedDimensionsList(filterFieldList);
   }
 
-  getTagValues(options) {
+  async getTagValues(options) {
     if (options) {
-      const field = _.find(filterFieldList, { text: options.key }).field;
-      return this.kentik.getFieldValues(field).then(result => {
-        return result.rows.map(row => {
-          return { text: row[field].toString() };
+      const filter = _.find(filterFieldList, { text: options.key });
+
+      if (filter === undefined) {
+        const customDimensions = await this.kentik.getCustomDimensions();
+        const dimension = _.find(customDimensions, { text: options.key });
+        return dimension.values.map(value => ({ text: value }));
+      } else {
+        const field = filter.field;
+        return this.kentik.getFieldValues(field).then(result => {
+          return result.rows.map(row => {
+            return { text: row[field].toString() };
+          });
         });
-      });
+      }
     } else {
-      return Promise.resolve([]);
+      return [];
     }
+  }
+
+  private async _getExtendedDimensionsList(list: Array<any>) {
+    const customDimensions = await this.kentik.getCustomDimensions();
+    return _.concat(list, customDimensions);
   }
 }
 

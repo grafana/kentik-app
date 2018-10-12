@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-class KentikAPI {
+export class KentikAPI {
   baseUrl: string;
 
   /** @ngInject */
@@ -21,6 +21,11 @@ class KentikAPI {
   getFieldValues(field) {
     const query = `SELECT DISTINCT ${field} FROM all_devices ORDER BY ${field} ASC`;
     return this.invokeSQLQuery(query);
+  }
+
+  async getCustomDimensions() {
+    const data = await this._get('/api/v5/customdimensions');
+    return data.data.customDimensions;
   }
 
   invokeTopXDataQuery(query) {

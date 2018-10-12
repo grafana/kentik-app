@@ -1,20 +1,60 @@
-import { Datasource } from '../../src/datasource/module';
+import {Datasource} from '../../src/datasource/module';
+import {KentikAPI} from '../../src/datasource/kentikAPI';
+import {KentikProxy} from '../../src/datasource/kentikProxy';
 
 describe('KentikDatasource', () => {
   let ctx: any = {};
 
-  beforeEach(function () {
-    ctx.kentikProxySrv = {};
-    ctx.templateSrv = {};
-
-    let instanceSettings = {};
-    ctx.ds = new Datasource(instanceSettings, {}, ctx.templateSrv);
-  });
+  const data = {
+    customDimensions: [
+      {
+        display_name: 'just-testing', name: 'c_test',
+        populators: [
+          { value: 'value1' }, { value: 'value2' }
+        ]
+      },
+      {
+        display_name: 'just-testing-2', name: 'c_test_2',
+        populators: [
+          { value: 'value3' }, { value: 'value4' }
+        ]
+      }
+    ],
+    rows: [
+      { src_geo_city: 'city' }
+    ]
+  };
+  beforeEach(() => createDatasourceInstance(ctx, data));
 
   describe('When querying Kentik data', () => {
-    it('pass', (done) => {
-      done();
+    it('Should return tag values for default dimensions', async () => {
+      const tagValues = await ctx.ds.getTagValues({ key: 'Source City' });
+      expect(tagValues).toHaveLength(1);
+      expect(tagValues[0]).toEqual({ text: 'city' });
+    });
+    
+    it('Should return tag values for custom dimensions', async () => {
+      const tagValues = await ctx.ds.getTagValues({ key: 'Custom just-testing-2' });
+      expect(tagValues).toHaveLength(2);
+      expect(tagValues[0]).toEqual({ text: 'value3' });
+      expect(tagValues[1]).toEqual({ text: 'value4' });
     });
   });
-
 });
+
+function createDatasourceInstance(ctx, data) {
+  ctx.instanceSettings = {};
+  ctx.templateSrv = {};
+  ctx.backendSrv = {
+    datasourceRequest: function () {
+      return Promise.resolve({
+        status: 200, data
+      });
+    }
+  };
+
+  ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
+  ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
+
+  ctx.ds = new Datasource(ctx.instanceSettings, ctx.templateSrv, ctx.kentikProxy);
+}
