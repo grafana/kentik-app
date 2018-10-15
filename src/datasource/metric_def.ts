@@ -1,6 +1,6 @@
 const metricList = [
   { text: 'Traffic', value: 'Traffic', field: 'traffic' },
-  { text: 'TopFlow', value: 'TopFlow', field: 'topFlow' },
+  { text: 'TopFlow', value: 'TopFlow', field: 'TopFlow' },
   { text: 'Top flow IP', value: 'TopFlowsIP', field: 'TopFlowsIP' },
   { text: 'Source Country', value: 'Geography_src', field: 'src_geo' },
   { text: 'Source Geo Region', value: 'src_geo_region', field: 'src_geo_region' },
@@ -38,16 +38,16 @@ const metricList = [
   { text: 'Destination 2nd BGP_HOP AS Number', value: 'dst_second_asn', field: 'dst_second_asn' },
   { text: 'Destination 3nd BGP_HOP AS Number', value: 'dst_third_asn', field: 'dst_third_asn' },
   { text: 'Destination Protocol:IP Port', value: 'dst_proto_port', field: 'dst_proto_port' },
-  { text: 'Full TOS', value: 'TOS', field: 'tos' },
+  { text: 'Full Device', value: 'i_device_id', field: 'i_device_id' },
+  { text: 'Full Site', value: 'i_device_site_name', field: 'i_device_site_name' },
   { text: 'Full Protocol', value: 'Proto', field: 'protocl' },
+  { text: 'Full INET Family', value: 'inet_family', field: 'inet_family' },
+  { text: 'Full TOS', value: 'TOS', field: 'tos' },
+  { text: 'Full TCP flags', value: 'tcp_flags', field: 'tcp_flags' },
   { text: 'AS Top Talkers', value: 'ASTopTalkers', field:'ASTopTalkers'},
   { text: 'Interface Top Talkers', value: 'InterfaceTopTalkers', field: 'InterfaceTopTalkers' },
   { text: 'Port to Port Talkers', value: 'PortPortTalkers', field: 'PortPortTalkers' },
   { text: 'Region Top Talkers', value: 'RegionTopTalkers', field: 'RegionTopTalkers' },
-  { text: 'Device ID', value: 'i_device_id', field: 'i_device_id' },
-  { text: 'Device Site Name', value: 'i_device_site_name', field: 'i_device_site_name' },
-  { text: 'INET Family', value: 'inet_family', field: 'inet_family' },
-  { text: 'TCP flags', value: 'tcp_flags', field: 'tcp_flags' },
 ];
 
 function toBitsPerSecond(value, row) {
