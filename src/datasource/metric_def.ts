@@ -1,5 +1,7 @@
 const metricList = [
   { text: 'Traffic', value: 'Traffic', field: 'traffic' },
+  { text: 'TopFlow', value: 'TopFlow', field: 'topFlow' },
+  { text: 'Top flow IP', value: 'TopFlowsIP', field: 'TopFlowsIP' },
   { text: 'Source Country', value: 'Geography_src', field: 'src_geo' },
   { text: 'Source Geo Region', value: 'src_geo_region', field: 'src_geo_region' },
   { text: 'Source Geo City', value: 'src_geo_city', field: 'src_geo_city' },
@@ -8,6 +10,7 @@ const metricList = [
   { text: 'Source Port', value: 'Port_src', field: 'l4_src_port' },
   { text: 'Source VLAN', value: 'VLAN_src', field: 'vlan_in' },
   { text: 'Source IP/CIDR', value: 'IP_src', field: 'ipv4_src_addr' },
+  { text: 'Source MAC Address', value: 'src_eth_mac', field: 'src_eth_mac' },
   { text: 'Source Route Prefix/LEN', value: 'src_route_prefix_len', field: 'src_route_prefix_len' },
   { text: 'Source Route LEN', value: 'src_route_length', field: 'src_route_length' },
   { text: 'Source BGP Community', value: 'src_bgp_community', field: 'src_bgp_community' },
@@ -25,8 +28,9 @@ const metricList = [
   { text: 'Destination Port', value: 'Port_dst', field: 'l4_dst_port' },
   { text: 'Destination VLAN', value: 'VLAN_dst', field: 'vlan_out' },
   { text: 'Destination IP/CIDR', value: 'IP_dst', field: 'ipv4_dst_addr' },
+  { text: 'Destination MAC Address', value: 'dst_eth_mac', field: 'dst_eth_mac' },
   { text: 'Destination Route Prefix/LEN', value: 'dst_route_prefix_len', field: 'dst_route_prefix_len' },
-  { text: 'Destination Route LEN', value: 'dst_route_prefix_len', field: 'dst_route_length' },
+  { text: 'Destination Route LEN', value: 'dst_route_length', field: 'dst_route_length' },
   { text: 'Destination BGP Community', value: 'dst_bgp_community', field: 'dst_bgp_community' },
   { text: 'Destination BGP AS_Path', value: 'dst_bgp_aspath', field: 'dst_bgp_aspath' },
   { text: 'Destination BGP Next Hop IP/CIDR', value: 'dst_nexthop_ip', field: 'ipv4_dst_next_hop' },
@@ -36,6 +40,14 @@ const metricList = [
   { text: 'Destination Protocol:IP Port', value: 'dst_proto_port', field: 'dst_proto_port' },
   { text: 'Full TOS', value: 'TOS', field: 'tos' },
   { text: 'Full Protocol', value: 'Proto', field: 'protocl' },
+  { text: 'AS Top Talkers', value: 'ASTopTalkers', field:'ASTopTalkers'},
+  { text: 'Interface Top Talkers', value: 'InterfaceTopTalkers', field: 'InterfaceTopTalkers' },
+  { text: 'Port to Port Talkers', value: 'PortPortTalkers', field: 'PortPortTalkers' },
+  { text: 'Region Top Talkers', value: 'RegionTopTalkers', field: 'RegionTopTalkers' },
+  { text: 'Device ID', value: 'i_device_id', field: 'i_device_id' },
+  { text: 'Device Site Name', value: 'i_device_site_name', field: 'i_device_site_name' },
+  { text: 'INET Family', value: 'inet_family', field: 'inet_family' },
+  { text: 'TCP flags', value: 'tcp_flags', field: 'tcp_flags' },
 ];
 
 function toBitsPerSecond(value, row) {
