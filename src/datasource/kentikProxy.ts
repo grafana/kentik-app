@@ -127,6 +127,17 @@ export class KentikProxy {
     return this.cache.customDimensions;
   }
 
+  async getSavedFilters() {
+    if (this.cache.savedFilters === undefined) {
+      const savedFilters = await this.kentikAPI.getSavedFilters();
+      this.cache.savedFilters = savedFilters.map(filter => ({
+        text: `Saved ${filter.filter_name}`,
+        field: filter.filter_name
+      }));
+    }
+    return this.cache.savedFilters;
+  }
+
   private _getDimensionPopulatorsValues(dimension) {
     return dimension.populators.reduce((values, populator) => {
       values.push(populator.value);
