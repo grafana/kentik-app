@@ -149,7 +149,7 @@ class KentikDatasource {
 
   async metricFindQuery(query) {
     if (query === 'metrics()') {
-      return this._getExtendedDimensionsList(metricList);
+      return await this._getExtendedDimensionsList(metricList);
     }
     if (query === 'units()') {
       return unitList;
@@ -163,7 +163,10 @@ class KentikDatasource {
   }
 
   async getTagKeys() {
-    return this._getExtendedDimensionsList(filterFieldList);
+    let initialList = await this._getExtendedDimensionsList(filterFieldList);
+    const savedFilters = await this.kentik.getSavedFilters();
+    let joinedFilterList = _.concat(initialList,savedFilters)
+    return joinedFilterList;
   }
 
   async getTagValues(options) {

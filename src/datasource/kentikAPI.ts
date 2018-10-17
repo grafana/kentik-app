@@ -28,6 +28,11 @@ export class KentikAPI {
     return data.data.customDimensions;
   }
 
+  async getSavedFilters() {
+    const data = await this._get('/api/v5/saved-filters');
+    return (data.data)
+  }
+
   invokeTopXDataQuery(query) {
     const kentikV5Query = {
       queries: [{ query: query, bucketIndex: 0 }],
