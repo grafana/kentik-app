@@ -151,7 +151,7 @@ class KentikDatasource {
 
   async metricFindQuery(query) {
     if (query === 'metrics()') {
-      return await this._getExtendedDimensionsList(metricList);
+      return this._getExtendedDimensionsList(metricList);
     }
     if (query === 'units()') {
       return unitList;
