@@ -171,12 +171,18 @@ class KentikDatasource {
 
   async getTagValues(options) {
     if (options) {
-      const filter = _.find(filterFieldList, { text: options.key });
+      let filter = _.find(filterFieldList, { text: options.key });
 
       if (filter === undefined) {
-        const customDimensions = await this.kentik.getCustomDimensions();
-        const dimension = _.find(customDimensions, { text: options.key });
-        return dimension.values.map(value => ({ text: value }));
+        const savedFilters = await this.kentik.getSavedFilters();
+        filter = _.find(savedFilters, { text: options.key })
+        if (filter === undefined) {
+          const customDimensions = await this.kentik.getCustomDimensions();
+          const dimension = _.find(customDimensions, { text: options.key });
+          return dimension.values.map(value => ({ text: value }));
+        } else {
+          return [{ text: 'include' }, { text: 'exclude' }];
+        }
       } else {
         const field = filter.field;
         return this.kentik.getFieldValues(field).then(result => {
