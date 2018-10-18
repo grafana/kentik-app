@@ -30,7 +30,7 @@ export class KentikAPI {
 
   async getSavedFilters() {
     const data = await this._get('/api/v5/saved-filters');
-    return (data.data)
+    return data.data;
   }
 
   invokeTopXDataQuery(query) {
