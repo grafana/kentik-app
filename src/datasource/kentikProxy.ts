@@ -132,7 +132,8 @@ export class KentikProxy {
       const savedFilters = await this.kentikAPI.getSavedFilters();
       this.cache.savedFilters = savedFilters.map(filter => ({
         text: `Saved ${filter.filter_name}`,
-        field: filter.filter_name
+        field: filter.filter_name,
+        id: filter.id
       }));
     }
     return this.cache.savedFilters;
