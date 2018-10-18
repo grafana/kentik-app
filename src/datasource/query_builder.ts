@@ -124,75 +124,68 @@ function buildTopXdataQuery(options) {
   return query;
 }
 
-function convertToKentikSavedFilter(filterObj, savedFilters: Array<any>) {
-  const filter = _.find(savedFilters, { text: filterObj.key });
-
-  if (filter !== undefined) {
-    return {
-      filter_id: filter.id,
-      is_not: filterObj.value === 'exclude'
-    }
-  }
-
-  return {};
-}
-
-function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
+function convertToKentikFilter(filterObj, filterDef) {
   // Use Kentik 'not equal' style
   if (filterObj.operator === '!=') {
     filterObj.operator = '<>';
   }
 
-  const filterFieldDefExtended = _.concat(filterFieldList, customDimensions);
-  const filterFieldDef = _.find(filterFieldDefExtended, { text: filterObj.key });
-  if (filterFieldDef) {
-    return {
-      filterField: filterFieldDef.field,
-      operator: filterObj.operator,
-      filterValue: filterObj.value,
-    };
-  }
-
-  return {}; 
+  return {
+    filterField: filterDef.field,
+    operator: filterObj.operator,
+    filterValue: filterObj.value,
+  };
 }
 
-function convertToKentikFilterGroup(filters, customDimensions = []) {
+function convertToKentikSavedFilter(filterObj, filterDef) {
+  return {
+    filter_id: filterDef.id,
+    is_not: filterObj.value === 'exclude'
+  };
+}
+
+function convertToKentikFilterGroup(filters, customDimensions, savedFiltersList) {
+  let kentikFilters = [];
+  let savedFilters = [];
+
   if (filters.length) {
-    let kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
-    if (_.filter(kentikFilters, !_.isEmpty).length === 0) {
-      return [];
+    const filterFieldListExtended = _.concat(filterFieldList, customDimensions);
+    for (let filter of filters) {
+      const filterFieldDef = _.find(filterFieldListExtended, { text: filter.key });
+      if (filterFieldDef === undefined) {
+        const savedFilterDef = _.find(savedFiltersList, { text: filter.key });
+        savedFilters.push(convertToKentikSavedFilter(filter, savedFilterDef))
+      } else {
+        kentikFilters.push(convertToKentikFilter(filter, filterFieldDef));
+      }
     }
 
-    let connector = 'All';
-    if (
-      filters[0].condition &&
-      (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
-    ) {
-      connector = 'Any';
-    }
-    return [
-      {
-        connector: connector,
+
+    if (kentikFilters.length > 0) {
+      let connector = 'All';
+      if (
+        filters[0].condition &&
+        (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
+      ) {
+        connector = 'Any';
+      }
+
+      kentikFilters = [{
+        connector,
         filters: kentikFilters,
         not: false,
-      },
-    ];
-  } else {
-    return [];
-  }
-}
-
-function convertToKentikSavedFilters(filters, savedFilters) {
-  if (filters.length > 0) {
-    return _.map(filters, filter => convertToKentikSavedFilter(filter, savedFilters));
+      }];
+    }
   }
 
-  return [];
+  return {
+    kentikFilters,
+    savedFilters,
+  };
 }
 
 export default {
   buildTopXdataQuery,
   formatAggs,
   convertToKentikFilterGroup,
-  convertToKentikSavedFilters,
 };
