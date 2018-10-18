@@ -167,8 +167,7 @@ class KentikDatasource {
   async getTagKeys() {
     let initialList = await this._getExtendedDimensionsList(filterFieldList);
     const savedFilters = await this.kentik.getSavedFilters();
-    let joinedFilterList = _.concat(initialList,savedFilters)
-    return joinedFilterList;
+    return _.concat(initialList, savedFilters);
   }
 
   async getTagValues(options) {
