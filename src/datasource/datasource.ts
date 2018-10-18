@@ -176,7 +176,7 @@ class KentikDatasource {
 
       if (filter === undefined) {
         const savedFilters = await this.kentik.getSavedFilters();
-        filter = _.find(savedFilters, { text: options.key })
+        filter = _.find(savedFilters, { text: options.key });
         if (filter === undefined) {
           const customDimensions = await this.kentik.getCustomDimensions();
           const dimension = _.find(customDimensions, { text: options.key });

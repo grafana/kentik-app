@@ -118,7 +118,7 @@ function buildTopXdataQuery(options) {
     outsort: unitDef.outsort,
     aggregates: formatAggs(unitDef),
     filters_obj: formatFilters(options.kentikFilterGroups),
-    saved_filters: options.kentikSavedFilters
+    saved_filters: options.kentikSavedFilters,
   };
 
   return query;
@@ -154,7 +154,7 @@ function convertToKentikFilterGroup(filters, customDimensions, savedFiltersList)
       const filterFieldDef = _.find(filterFieldListExtended, { text: filter.key });
       if (filterFieldDef === undefined) {
         const savedFilterDef = _.find(savedFiltersList, { text: filter.key });
-        savedFilters.push(convertToKentikSavedFilter(filter, savedFilterDef))
+        savedFilters.push(convertToKentikSavedFilter(filter, savedFilterDef));
       } else {
         kentikFilters.push(convertToKentikFilter(filter, filterFieldDef));
       }
