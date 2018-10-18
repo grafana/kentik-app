@@ -41,7 +41,9 @@ class KentikDatasource {
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     const customDimensions = await this.kentik.getCustomDimensions();
-    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions);
+    const savedFilters = await this.kentik.getSavedFilters();
+    const kentikSavedFilters = queryBuilder.convertToKentikSavedFilters(kentikFilters, savedFilters);
+    const kentikFilterGroups = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions);
 
     const queryOptions = {
       deviceNames: deviceNames,
@@ -51,7 +53,8 @@ class KentikDatasource {
       },
       metric: this.templateSrv.replace(target.metric),
       unit: this.templateSrv.replace(target.unit),
-      kentikFilterGroups: kentikFilters,
+      kentikFilterGroups,
+      kentikSavedFilters,
     };
     const query = queryBuilder.buildTopXdataQuery(queryOptions);
 

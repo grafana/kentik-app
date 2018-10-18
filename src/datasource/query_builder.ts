@@ -118,9 +118,23 @@ function buildTopXdataQuery(options) {
     outsort: unitDef.outsort,
     aggregates: formatAggs(unitDef),
     filters_obj: formatFilters(options.kentikFilterGroups),
+    saved_filters: options.kentikSavedFilters
   };
 
   return query;
+}
+
+function convertToKentikSavedFilter(filterObj, savedFilters: Array<any>) {
+  const filter = _.find(savedFilters, { text: filterObj.key });
+
+  if (filter !== undefined) {
+    return {
+      filter_id: filter.id,
+      is_not: filterObj.value === 'exclude'
+    }
+  }
+
+  return {};
 }
 
 function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
@@ -129,26 +143,26 @@ function convertToKentikFilter(filterObj, customDimensions: Array<any>) {
     filterObj.operator = '<>';
   }
 
-  // If no field definition found assume that custom field is used.
-  let filterField;
   const filterFieldDefExtended = _.concat(filterFieldList, customDimensions);
   const filterFieldDef = _.find(filterFieldDefExtended, { text: filterObj.key });
   if (filterFieldDef) {
-    filterField = filterFieldDef.field;
-  } else {
-    filterField = filterObj.key;
+    return {
+      filterField: filterFieldDef.field,
+      operator: filterObj.operator,
+      filterValue: filterObj.value,
+    };
   }
 
-  return {
-    filterField: filterField,
-    operator: filterObj.operator,
-    filterValue: filterObj.value,
-  };
+  return {}; 
 }
 
 function convertToKentikFilterGroup(filters, customDimensions = []) {
   if (filters.length) {
-    const kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
+    let kentikFilters = _.map(filters, filter => convertToKentikFilter(filter, customDimensions));
+    if (_.filter(kentikFilters, !_.isEmpty).length === 0) {
+      return [];
+    }
+
     let connector = 'All';
     if (
       filters[0].condition &&
@@ -168,8 +182,17 @@ function convertToKentikFilterGroup(filters, customDimensions = []) {
   }
 }
 
+function convertToKentikSavedFilters(filters, savedFilters) {
+  if (filters.length > 0) {
+    return _.map(filters, filter => convertToKentikSavedFilter(filter, savedFilters));
+  }
+
+  return [];
+}
+
 export default {
-  buildTopXdataQuery: buildTopXdataQuery,
-  formatAggs: formatAggs,
-  convertToKentikFilterGroup: convertToKentikFilterGroup,
+  buildTopXdataQuery,
+  formatAggs,
+  convertToKentikFilterGroup,
+  convertToKentikSavedFilters,
 };
