@@ -1,5 +1,5 @@
-import {KentikAPI} from '../../../src/datasource/kentikAPI';
-import {KentikProxy} from '../../../src/datasource/kentikProxy';
+import {KentikAPI} from './kentikAPI';
+import {KentikProxy} from './kentikProxy';
 
 describe('KentikProxy', () => {
   let ctx: any = {};
