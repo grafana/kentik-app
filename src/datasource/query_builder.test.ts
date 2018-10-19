@@ -36,7 +36,8 @@ describe('Kentik Query Builder', () => {
       }];
 
       let filterGroup = queryBuilder.convertToKentikFilterGroup(filters, [], []);
-      expect(filterGroup).toEqual(expectedGroup);
+      expect(filterGroup.kentikFilters).toEqual(expectedGroup);
+      expect(filterGroup.savedFilters).toEqual([]);
       done();
     });
   });
