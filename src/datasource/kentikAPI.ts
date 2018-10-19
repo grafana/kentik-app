@@ -18,7 +18,7 @@ export class KentikAPI {
     });
   }
 
-  getFieldValues(field) {
+  getFieldValues(field: string) {
     const query = `SELECT DISTINCT ${field} FROM all_devices ORDER BY ${field} ASC`;
     return this.invokeSQLQuery(query);
   }
@@ -33,7 +33,7 @@ export class KentikAPI {
     return data.data;
   }
 
-  invokeTopXDataQuery(query) {
+  invokeTopXDataQuery(query: any) {
     const kentikV5Query = {
       queries: [{ query: query, bucketIndex: 0 }],
     };
@@ -41,7 +41,7 @@ export class KentikAPI {
     return this._post('/api/v5/query/topXdata', kentikV5Query);
   }
 
-  invokeSQLQuery(query) {
+  invokeSQLQuery(query: any) {
     const data = {
       query: query,
     };
@@ -49,7 +49,7 @@ export class KentikAPI {
     return this._post('/api/v5/query/sql', data);
   }
 
-  _get(url) {
+  _get(url: string) {
     return this.backendSrv
       .datasourceRequest({
         method: 'GET',
@@ -65,7 +65,7 @@ export class KentikAPI {
       });
   }
 
-  _post(url, data) {
+  _post(url: string, data: any) {
     return this.backendSrv
       .datasourceRequest({
         method: 'POST',

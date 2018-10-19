@@ -3,7 +3,7 @@ import { unitList, filterFieldList } from './metric_def';
 
 const KENTIK_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
-function formatMetricAggs(unitDef) {
+function formatMetricAggs(unitDef: any) {
   const aggs = [
     {
       name: 'avg_both',
@@ -30,7 +30,7 @@ function formatMetricAggs(unitDef) {
   return aggs;
 }
 
-function formatUniqueIpAggs(unitDef) {
+function formatUniqueIpAggs(unitDef: any) {
   const aggs = [
     {
       name: 'avg_ips',
@@ -72,7 +72,7 @@ function formatUniqueIpAggs(unitDef) {
   return aggs;
 }
 
-function formatAggs(unitDef) {
+function formatAggs(unitDef: any) {
   let aggs = [];
   if (unitDef.value === 'unique_src_ip' || unitDef.value === 'unique_dst_ip') {
     aggs = formatUniqueIpAggs(unitDef);
@@ -83,7 +83,7 @@ function formatAggs(unitDef) {
   return aggs;
 }
 
-function formatFilters(kentikFilterGroups) {
+function formatFilters(kentikFilterGroups: Array<any>) {
   const filtersObj = {
     connector: 'All',
     filterGroups: [],
@@ -124,7 +124,7 @@ function buildTopXdataQuery(options) {
   return query;
 }
 
-function convertToKentikFilter(filterObj, filterDef) {
+function convertToKentikFilter(filterObj: any, filterDef: any) {
   // Use Kentik 'not equal' style
   if (filterObj.operator === '!=') {
     filterObj.operator = '<>';
@@ -137,14 +137,14 @@ function convertToKentikFilter(filterObj, filterDef) {
   };
 }
 
-function convertToKentikSavedFilter(filterObj, filterDef) {
+function convertToKentikSavedFilter(filterObj: any, filterDef: any) {
   return {
     filter_id: filterDef.id,
     is_not: filterObj.value === 'exclude'
   };
 }
 
-function convertToKentikFilterGroup(filters, customDimensions, savedFiltersList) {
+function convertToKentikFilterGroup(filters: Array<any>, customDimensions: Array<any>, savedFiltersList: Array<any>) {
   let kentikFilters = [];
   let savedFilters = [];
 

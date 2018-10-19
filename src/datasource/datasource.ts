@@ -14,7 +14,7 @@ class KentikDatasource {
     this.kentik = kentikProxySrv;
   }
 
-  interpolateDeviceField(value, variable) {
+  interpolateDeviceField(value: any, variable: any) {
     // if no multi or include all do not regexEscape
     if (!variable.multi && !variable.includeAll) {
       return value;
@@ -27,7 +27,7 @@ class KentikDatasource {
     return value.join(',');
   }
 
-  async query(options) {
+  async query(options: any) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
@@ -67,7 +67,7 @@ class KentikDatasource {
       });
   }
 
-  async processResponse(query, mode, options, data) {
+  async processResponse(query: any, mode: string, options: any, data: any) {
     if (!data.results) {
       return Promise.reject({ message: 'no kentik data' });
     }
@@ -92,7 +92,7 @@ class KentikDatasource {
     }
   }
 
-  processTimeSeries(bucketData, query, options?: any) {
+  processTimeSeries(bucketData: any, query: any, options?: any) {
     const seriesList = [];
     let endIndex = query.topx;
     if (bucketData.length < endIndex) {
@@ -120,7 +120,7 @@ class KentikDatasource {
     return seriesList;
   }
 
-  processTableData(bucketData, metricDef, unitDef) {
+  processTableData(bucketData: any, metricDef: any, unitDef: any) {
     const table = new TableModel();
 
     table.columns.push({ text: metricDef.text });
@@ -149,7 +149,7 @@ class KentikDatasource {
     return [table];
   }
 
-  async metricFindQuery(query) {
+  async metricFindQuery(query: any) {
     if (query === 'metrics()') {
       return this._getExtendedDimensionsList(metricList);
     }
@@ -170,7 +170,7 @@ class KentikDatasource {
     return _.concat(initialList, savedFilters);
   }
 
-  async getTagValues(options) {
+  async getTagValues(options: any) {
     if (options) {
       let filter = _.find(filterFieldList, { text: options.key });
 
