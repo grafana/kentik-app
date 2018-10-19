@@ -9,7 +9,7 @@ function getUTCTimestamp() {
 }
 
 // Get hash of Kentik query
-function getHash(queryObj) {
+function getHash(queryObj: any) {
   const query = _.cloneDeep(queryObj);
   query.starting_time = null;
   query.ending_time = null;
@@ -17,7 +17,7 @@ function getHash(queryObj) {
 }
 
 // Prevent too frequent queries
-function getMaxRefreshInterval(query) {
+function getMaxRefreshInterval(query: any) {
   const interval: any = Date.parse(query.ending_time) - Date.parse(query.starting_time);
   if (interval > moment.duration(1, 'months')) {
     return 60 * 60 * 1000; // 1 hour
@@ -47,7 +47,7 @@ export class KentikProxy {
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
   }
 
-  invokeTopXDataQuery(query) {
+  invokeTopXDataQuery(query: any) {
     const cachedQuery = _.cloneDeep(query);
     const hash = getHash(cachedQuery);
 
@@ -72,7 +72,7 @@ export class KentikProxy {
   }
 
   // Decide, is query shold be invoked or get data from cahce?
-  shouldInvoke(query) {
+  shouldInvoke(query: any) {
     const kentikQuery = query;
     const hash = getHash(kentikQuery);
     const timestamp = getUTCTimestamp();
@@ -97,7 +97,7 @@ export class KentikProxy {
     );
   }
 
-  getFieldValues(field) {
+  getFieldValues(field: string) {
     let ts = getUTCTimestamp();
     if (this.cache[field] && ts - this.cache[field].ts < this.cacheUpdateInterval) {
       return Promise.resolve(this.cache[field].value);
@@ -130,7 +130,7 @@ export class KentikProxy {
   async getSavedFilters() {
     if (this.cache.savedFilters === undefined) {
       const savedFilters = await this.kentikAPI.getSavedFilters();
-      this.cache.savedFilters = savedFilters.map(filter => ({
+      this.cache.savedFilters = _.map(savedFilters, filter => ({
         text: `Saved ${filter.filter_name}`,
         field: filter.filter_name,
         id: filter.id
@@ -139,7 +139,7 @@ export class KentikProxy {
     return this.cache.savedFilters;
   }
 
-  private _getDimensionPopulatorsValues(dimension) {
+  private _getDimensionPopulatorsValues(dimension: any) {
     return dimension.populators.reduce((values, populator) => {
       values.push(populator.value);
       return values;
