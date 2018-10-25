@@ -1,5 +1,5 @@
 import { metricList, unitList, filterFieldList } from './metric_def';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import './kentikProxy';
 import TableModel from 'grafana/app/core/table_model';
 import queryBuilder from './query_builder';
@@ -14,7 +14,7 @@ class KentikDatasource {
     this.kentik = kentikProxySrv;
   }
 
-  interpolateDeviceField(value, variable) {
+  interpolateDeviceField(value: any, variable: any) {
     // if no multi or include all do not regexEscape
     if (!variable.multi && !variable.includeAll) {
       return value;
@@ -27,7 +27,7 @@ class KentikDatasource {
     return value.join(',');
   }
 
-  query(options) {
+  async query(options: any) {
     if (!options.targets || options.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
@@ -40,7 +40,9 @@ class KentikDatasource {
     );
 
     let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
-    kentikFilters = queryBuilder.convertToKentikFilterGroup(kentikFilters);
+    const customDimensions = await this.kentik.getCustomDimensions();
+    const savedFiltersList = await this.kentik.getSavedFilters();
+    const kentikFilterGroups = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions, savedFiltersList);
 
     const queryOptions = {
       deviceNames: deviceNames,
@@ -50,7 +52,8 @@ class KentikDatasource {
       },
       metric: this.templateSrv.replace(target.metric),
       unit: this.templateSrv.replace(target.unit),
-      kentikFilterGroups: kentikFilters,
+      kentikFilterGroups: kentikFilterGroups.kentikFilters,
+      kentikSavedFilters: kentikFilterGroups.savedFilters,
     };
     const query = queryBuilder.buildTopXdataQuery(queryOptions);
 
@@ -64,7 +67,7 @@ class KentikDatasource {
       });
   }
 
-  processResponse(query, mode, options, data) {
+  async processResponse(query: any, mode: string, options: any, data: any) {
     if (!data.results) {
       return Promise.reject({ message: 'no kentik data' });
     }
@@ -74,7 +77,12 @@ class KentikDatasource {
       return [];
     }
 
-    const metricDef = _.find(metricList, { value: query.dimension[0] });
+    const extendedMetricList = await this._getExtendedDimensionsList(metricList);
+    const metricDef = _.find(
+      extendedMetricList,
+      { value: query.dimension[0] }
+    );
+
     const unitDef = _.find(unitList, { value: query.metric });
 
     if (mode === 'table') {
@@ -84,7 +92,7 @@ class KentikDatasource {
     }
   }
 
-  processTimeSeries(bucketData, query, options?: any) {
+  processTimeSeries(bucketData: any, query: any, options?: any) {
     const seriesList = [];
     let endIndex = query.topx;
     if (bucketData.length < endIndex) {
@@ -112,7 +120,7 @@ class KentikDatasource {
     return seriesList;
   }
 
-  processTableData(bucketData, metricDef, unitDef) {
+  processTableData(bucketData: any, metricDef: any, unitDef: any) {
     const table = new TableModel();
 
     table.columns.push({ text: metricDef.text });
@@ -141,12 +149,12 @@ class KentikDatasource {
     return [table];
   }
 
-  metricFindQuery(query) {
+  async metricFindQuery(query: any) {
     if (query === 'metrics()') {
-      return Promise.resolve(metricList);
+      return this._getExtendedDimensionsList(metricList);
     }
     if (query === 'units()') {
-      return Promise.resolve(unitList);
+      return unitList;
     }
 
     return this.kentik.getDevices().then(devices => {
@@ -156,21 +164,42 @@ class KentikDatasource {
     });
   }
 
-  getTagKeys() {
-    return Promise.resolve(filterFieldList);
+  async getTagKeys() {
+    let initialList = await this._getExtendedDimensionsList(filterFieldList);
+    const savedFilters = await this.kentik.getSavedFilters();
+    return _.concat(initialList, savedFilters);
   }
 
-  getTagValues(options) {
+  async getTagValues(options: any) {
     if (options) {
-      const field = _.find(filterFieldList, { text: options.key }).field;
-      return this.kentik.getFieldValues(field).then(result => {
-        return result.rows.map(row => {
-          return { text: row[field].toString() };
+      let filter = _.find(filterFieldList, { text: options.key });
+
+      if (filter === undefined) {
+        const savedFilters = await this.kentik.getSavedFilters();
+        filter = _.find(savedFilters, { text: options.key });
+        if (filter === undefined) {
+          const customDimensions = await this.kentik.getCustomDimensions();
+          const dimension = _.find(customDimensions, { text: options.key });
+          return dimension.values.map(value => ({ text: value }));
+        } else {
+          return [{ text: 'include' }, { text: 'exclude' }];
+        }
+      } else {
+        const field = filter.field;
+        return this.kentik.getFieldValues(field).then(result => {
+          return result.rows.map(row => {
+            return { text: row[field].toString() };
+          });
         });
-      });
+      }
     } else {
-      return Promise.resolve([]);
+      return [];
     }
+  }
+
+  private async _getExtendedDimensionsList(list: Array<any>) {
+    const customDimensions = await this.kentik.getCustomDimensions();
+    return _.concat(list, customDimensions);
   }
 }
 

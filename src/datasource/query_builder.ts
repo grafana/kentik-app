@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { unitList, filterFieldList } from './metric_def';
 
 const KENTIK_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
-function formatMetricAggs(unitDef) {
+function formatMetricAggs(unitDef: any) {
   const aggs = [
     {
       name: 'avg_both',
@@ -30,7 +30,7 @@ function formatMetricAggs(unitDef) {
   return aggs;
 }
 
-function formatUniqueIpAggs(unitDef) {
+function formatUniqueIpAggs(unitDef: any) {
   const aggs = [
     {
       name: 'avg_ips',
@@ -72,7 +72,7 @@ function formatUniqueIpAggs(unitDef) {
   return aggs;
 }
 
-function formatAggs(unitDef) {
+function formatAggs(unitDef: any) {
   let aggs = [];
   if (unitDef.value === 'unique_src_ip' || unitDef.value === 'unique_dst_ip') {
     aggs = formatUniqueIpAggs(unitDef);
@@ -83,7 +83,7 @@ function formatAggs(unitDef) {
   return aggs;
 }
 
-function formatFilters(kentikFilterGroups) {
+function formatFilters(kentikFilterGroups: Array<any>) {
   const filtersObj = {
     connector: 'All',
     filterGroups: [],
@@ -118,57 +118,74 @@ function buildTopXdataQuery(options) {
     outsort: unitDef.outsort,
     aggregates: formatAggs(unitDef),
     filters_obj: formatFilters(options.kentikFilterGroups),
+    saved_filters: options.kentikSavedFilters,
   };
 
   return query;
 }
 
-function convertToKentikFilter(filterObj) {
+function convertToKentikFilter(filterObj: any, filterDef: any) {
   // Use Kentik 'not equal' style
   if (filterObj.operator === '!=') {
     filterObj.operator = '<>';
   }
 
-  // If no field definition found assume that custom field is used.
-  let filterField;
-  const filterFieldDef = _.find(filterFieldList, { text: filterObj.key });
-  if (filterFieldDef) {
-    filterField = filterFieldDef.field;
-  } else {
-    filterField = filterObj.key;
-  }
-
   return {
-    filterField: filterField,
+    filterField: filterDef.field,
     operator: filterObj.operator,
     filterValue: filterObj.value,
   };
 }
 
-function convertToKentikFilterGroup(filters) {
+function convertToKentikSavedFilter(filterObj: any, filterDef: any) {
+  return {
+    filter_id: filterDef.id,
+    is_not: filterObj.value === 'exclude'
+  };
+}
+
+function convertToKentikFilterGroup(filters: Array<any>, customDimensions: Array<any>, savedFiltersList: Array<any>) {
+  let kentikFilters = [];
+  let savedFilters = [];
+
   if (filters.length) {
-    const kentikFilters = _.map(filters, convertToKentikFilter);
-    let connector = 'All';
-    if (
-      filters[0].condition &&
-      (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
-    ) {
-      connector = 'Any';
+    const filterFieldListExtended = _.concat(filterFieldList, customDimensions);
+    for (let filter of filters) {
+      const filterFieldDef = _.find(filterFieldListExtended, { text: filter.key });
+      if (filterFieldDef === undefined) {
+        const savedFilterDef = _.find(savedFiltersList, { text: filter.key });
+        savedFilters.push(convertToKentikSavedFilter(filter, savedFilterDef));
+      } else {
+        kentikFilters.push(convertToKentikFilter(filter, filterFieldDef));
+      }
     }
-    return [
-      {
-        connector: connector,
+
+
+    if (kentikFilters.length > 0) {
+      let connector = 'All';
+      if (
+        filters[0].condition &&
+        (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
+      ) {
+        connector = 'Any';
+      }
+
+      kentikFilters = [{
+        connector,
         filters: kentikFilters,
         not: false,
-      },
-    ];
-  } else {
-    return [];
+      }];
+    }
   }
+
+  return {
+    kentikFilters,
+    savedFilters,
+  };
 }
 
 export default {
-  buildTopXdataQuery: buildTopXdataQuery,
-  formatAggs: formatAggs,
-  convertToKentikFilterGroup: convertToKentikFilterGroup,
+  buildTopXdataQuery,
+  formatAggs,
+  convertToKentikFilterGroup,
 };

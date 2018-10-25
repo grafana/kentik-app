@@ -1,6 +1,6 @@
 import configTemplate from './config.html';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 class KentikConfigCtrl {
   appEditCtrl: any;
