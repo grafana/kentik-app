@@ -10,7 +10,7 @@ const ExtractTextPluginLight = new ExtractTextPlugin('./css/kentik.light.css');
 const ExtractTextPluginDark = new ExtractTextPlugin('./css/kentik.dark.css');
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, '..', dir);
 }
 
 module.exports = {
@@ -62,36 +62,39 @@ module.exports = {
     new ngAnnotatePlugin()
   ],
   resolve: {
-    extensions: [".js", ".ts", ".html", ".scss"]
+    extensions: [".js", ".ts", ".html", ".scss"],
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
+        exclude: [/node_modules/],
         loaders: [
           "ts-loader"
         ],
-        exclude: /node_modules/,
       },
       {
         test: /\.html$/,
+        exclude: [/node_modules/],
         use: {
           loader: 'html-loader'
-        }
+        },
       },
       {
         test: /\.light\.scss$/,
+        exclude: [/node_modules/],
         use: ExtractTextPluginLight.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader']
-        })
+        }),
       },
       {
         test: /\.dark\.scss$/,
+        exclude: [/node_modules/],
         use: ExtractTextPluginDark.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader']
-        })
+        }),
       }
     ]
   }

@@ -1,13 +1,14 @@
 {
   "name": "kentik-app",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config build/webpack.prod.conf.js",
     "dev": "webpack --config build/webpack.dev.conf.js",
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "prebuild": "build/prebuild.sh"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
     "url": "https://github.com/raintank/kentik-app/issues"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "@types/angular": "^1.6.43",
     "@types/grafana": "github:CorpGlory/types-grafana",
     "@types/jest": "^23.3.5",
@@ -30,18 +32,19 @@
     "html-loader": "^0.5.5",
     "jest": "^23.6.0",
     "jshint-stylish": "^2.1.0",
-    "lodash": "~4.0.0",
+    "lodash": "^4.17.11",
     "ng-annotate-webpack-plugin": "^0.3.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
+    "temp-dir": "^1.0.0",
     "text-loader": "0.0.1",
     "ts-jest": "^23.10.4",
     "ts-loader": "^5.2.1",
-    "typescript": "^3.0.3",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.2",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
   },
-  "dependencies": {},
   "homepage": "https://github.com/raintank/kentik-app-poc#readme"
 }
