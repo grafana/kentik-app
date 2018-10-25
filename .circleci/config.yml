@@ -1,7 +1,7 @@
 defaults: &defaults
-  working_directory: /home/circleci/grafana-kentik-app
+  working_directory: ~/grafana-kentik-app
   docker:
-    - image: circleci/node:10.9.0-jessie
+    - image: circleci/node:8
 
 version: 2
 jobs:
@@ -9,45 +9,41 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      #- run:
-      #    name: Update npm
-      #    command: 'sudo npm install -g npm@6.4.0'
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "package.json" }}
-      - run: yarn install
-      - run: node -p process.versions
-      - run: node -p process.platform
-      #- run:
-      #    name: Install sass
-      #    command: 'yarn add sass'
-      #- run:
-      #    name: Rebuild sass
-      #    command: 'yarn rebuild sass --force'
-      - run: ls -l $HOME/grafana-kentik-app
-      #- run: mkdir -p $HOME/grafana-kentik-app/node_modules/node-sass/vendor/linux-x64-64
-      #- run: wget https://github.com/sass/node-sass/releases/download/v4.9.3/linux-x64-64_binding.node -O $HOME/grafana-kentik-app/node_modules/node-sass/vendor/linux-x64-64/binding.node
-      - run: node -p "require('node-sass').info"
-
+          - dependency-cache-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - dependency-cache-
+      - run:
+          name: yarn install
+          command: 'yarn install --pure-lockfile --no-progress'
+          no_output_timeout: 5m
       - save_cache:
-          key: v2-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: pwd
-      - run: ls -l $HOME
-      - run: ls -l $HOME/grafana-kentik-app
-      - run: npm run-script build
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: npm run build
   test:
     <<: *defaults
     steps:
       - checkout
-      - run: npm install
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ checksum "yarn.lock" }}
+          - dependency-cache-
+      - run:
+          name: yarn install
+          command: 'yarn install --pure-lockfile --no-progress'
+          no_output_timeout: 15m
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: npm run test
 
 workflows:
   version: 2
-  build-test:
+  build:
     jobs:
       - build
-      #- test:
-      #    requires:
-      #      - build
+      - test
