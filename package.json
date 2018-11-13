@@ -1,7 +1,7 @@
 {
   "name": "kentik-app",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.3.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raintank/kentik-app-poc.git"
+    "url": "git+https://github.com/grafana/kentik-app.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/raintank/kentik-app/issues"
+    "url": "https://github.com/grafana/kentik-app/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -46,5 +46,5 @@
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
   },
-  "homepage": "https://github.com/raintank/kentik-app-poc#readme"
+  "homepage": "https://github.com/grafana/kentik-app"
 }
