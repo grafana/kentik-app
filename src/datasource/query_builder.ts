@@ -72,12 +72,52 @@ function formatUniqueIpAggs(unitDef: any) {
   return aggs;
 }
 
+function formatVPCFlowLogAggs(unitDef: any) {
+  const aggs = [
+    {
+      name: 'avg_flows_per_sec',
+      column: unitDef.field,
+      fn: 'average',
+      raw: true,
+      unit: 'fps',
+      sample_rate: 1,
+    },
+    {
+      name: 'max_flows_per_sec',
+      column: unitDef.field,
+      fn: 'max',
+      raw: true,
+      unit: 'fps',
+      sample_rate: 1,
+    },
+    {
+      name: 'p95th_flows_per_sec',
+      column: unitDef.field,
+      fn: 'percentile',
+      raw: true,
+      unit: 'fps',
+      sample_rate: 1,
+      rank: 95,
+    }
+  ]
+ 
+  return aggs;
+}
+
 function formatAggs(unitDef: any) {
   let aggs = [];
-  if (unitDef.value === 'unique_src_ip' || unitDef.value === 'unique_dst_ip') {
-    aggs = formatUniqueIpAggs(unitDef);
-  } else {
-    aggs = formatMetricAggs(unitDef);
+  switch (unitDef.value) {
+    case 'trautocount':
+      aggs = formatVPCFlowLogAggs(unitDef);
+      break;
+    case 'unique_src_ip':
+      aggs = formatUniqueIpAggs(unitDef);
+      break;
+    case 'unique_dst_ip':
+      aggs = formatUniqueIpAggs(unitDef);
+      break;
+    default:
+      aggs = formatMetricAggs(unitDef);
   }
 
   return aggs;
@@ -97,7 +137,7 @@ function formatFilters(kentikFilterGroups: Array<any>) {
 }
 
 function buildTopXdataQuery(options) {
-  const unitDef = _.find(unitList, { value: options.unit });
+  const unitDef = _.find(unitList, ['value', options.unit]);
   const startingTime = options.range.from.utc().format(KENTIK_TIME_FORMAT);
   const endingTime = options.range.to.utc().format(KENTIK_TIME_FORMAT);
 
