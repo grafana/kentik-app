@@ -1,4 +1,5 @@
 import configTemplate from './config.html';
+import { showKentikError } from '../datasource/kentikAPI';
 
 import * as _ from 'lodash';
 
@@ -57,9 +58,10 @@ class KentikConfigCtrl {
       () => {
         this.apiValidated = true;
       },
-      () => {
+      (error) => {
         this.apiValidated = false;
         this.apiError = true;
+        showKentikError(error);
       }
     );
     return promise;

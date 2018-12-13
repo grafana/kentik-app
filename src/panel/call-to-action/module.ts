@@ -1,5 +1,7 @@
-import * as _ from 'lodash';
+import { showKentikError } from '../../datasource/kentikAPI';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
+
+import * as _ from 'lodash';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -35,13 +37,17 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   getDevices() {
-    return this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      if (resp.devices.length > 0) {
-        this.deviceStatus = 'hasDevices';
-      } else {
-        this.deviceStatus = 'noDevices';
-      }
-    });
+    return this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices')
+      .then(resp => {
+        if (resp.devices.length > 0) {
+          this.deviceStatus = 'hasDevices';
+        } else {
+          this.deviceStatus = 'noDevices';
+        }
+      })
+      .catch(error => {
+        showKentikError(error);
+      });
   }
 
   refresh() {

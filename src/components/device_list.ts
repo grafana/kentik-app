@@ -1,3 +1,5 @@
+import { showKentikError } from '../datasource/kentikAPI';
+
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
@@ -10,10 +12,14 @@ class DeviceListCtrl {
     this.getDevices();
   }
   getDevices() {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      this.devices = resp.devices;
-      this.pageReady = true;
-    });
+    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices')
+      .then(resp => {
+        this.devices = resp.devices;
+        this.pageReady = true;
+      })
+      .catch(error => {
+        showKentikError(error);
+      });
   }
 
   refresh() {

@@ -1,6 +1,8 @@
-import * as _ from 'lodash';
+import { showKentikError } from '../../datasource/kentikAPI';
 import { PanelCtrl } from 'grafana/app/plugins/sdk';
 import { loadPluginCss } from 'grafana/app/plugins/sdk';
+
+import * as _ from 'lodash';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -26,10 +28,14 @@ class DeviceListCtrl extends PanelCtrl {
   }
 
   getDevices() {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      this.devices = resp.devices;
-      this.pageReady = true;
-    });
+    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices')
+      .then(resp => {
+        this.devices = resp.devices;
+        this.pageReady = true;
+      })
+      .catch(error => {
+        showKentikError(error);
+      });
   }
 
   refresh() {
