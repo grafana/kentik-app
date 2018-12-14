@@ -22,13 +22,7 @@ export class KentikAPI {
   }
 
   async getUsers() {
-    const response = await this._get('/api/v5/users');
-
-    if (response.data && response.data.users) {
-      return response.data.users;
-    } else {
-      return [];
-    }
+    return this._get('/api/v5/users');
   }
 
   getFieldValues(field: string) {
@@ -70,6 +64,7 @@ export class KentikAPI {
       })
       .catch(error => {
         showAlerts(error)
+        console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
         } else {
@@ -94,6 +89,7 @@ export class KentikAPI {
       })
       .catch(error => {
         showAlerts(error)
+        console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
         } else {

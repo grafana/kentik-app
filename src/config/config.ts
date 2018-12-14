@@ -55,13 +55,14 @@ class KentikConfigCtrl {
 
   // make sure that we can hit the Kentik API.
   async validateApiConnection() {
-    try {
-      await this.kentik.getUsers();
+    return this.kentik.getUsers()
+    .then(() => {
       this.apiValidated = true;
-    } catch (e) {
+    })
+    .catch(() => {
       this.apiValidated = false;
       this.apiError = true;
-    }
+    });
   }
 
   reset() {
