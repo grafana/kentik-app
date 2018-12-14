@@ -29,9 +29,12 @@ class DeviceListCtrl extends PanelCtrl {
     _.defaults(this.panel, panelDefaults);
   }
 
-  async getDevices() {
-    this.devices = await this.kentik.getDevices();
-    this.pageReady = true;
+  getDevices() {
+    this.kentik.getDevices()
+      .then(devices => {
+        this.devices = devices;
+        this.pageReady = true;
+      });
   }
 
   refresh() {

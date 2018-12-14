@@ -28,22 +28,26 @@ class CallToActiontCtrl extends PanelCtrl {
     _.defaults(this.panel, panelDefaults);
   }
 
-  async getTaskStatus() {
-    await this.getDevices();
-    if (this.deviceStatus === 'hasDevices') {
-      this.allDone = true;
-    } else {
-      this.allDone = false;
-    }
+  getTaskStatus() {
+    this.getDevices()
+      .then(() => {
+        if (this.deviceStatus === 'hasDevices') {
+          this.allDone = true;
+        } else {
+          this.allDone = false;
+        }
+      });
   }
 
-  async getDevices() {
-    const devices = await this.kentik.getDevices();
-    if (devices.length > 0) {
-      this.deviceStatus = 'hasDevices';
-    } else {
-      this.deviceStatus = 'noDevices';
-    }
+  getDevices() {
+    return this.kentik.getDevices()
+      .then(devices => {
+        if (devices.length > 0) {
+          this.deviceStatus = 'hasDevices';
+        } else {
+          this.deviceStatus = 'noDevices';
+        }
+      });
   }
 
   refresh() {

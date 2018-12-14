@@ -14,9 +14,12 @@ class DeviceListCtrl {
     this.getDevices();
   }
 
-  async getDevices() {
-    this.devices = await this.kentik.getDevices();
-    this.pageReady = true;
+  getDevices() {
+    this.kentik.getDevices()
+      .then(devices => {
+        this.devices = devices;
+        this.pageReady = true;
+      });
   }
 
   refresh() {
