@@ -95,6 +95,7 @@ export class KentikAPI {
 
 export function showKentikError(error) {
   let message = '';
+  message += error.status ? `(${error.status}) ` : '';
   message += error.statusText ? error.statusText + ': ' : '';
   if (error.data && error.data.error) {
     message += error.data.error;
@@ -102,11 +103,9 @@ export function showKentikError(error) {
     message += error.err;
   } else if (_.isString(error)) {
     message += error;
-  } else {
-    message += 'Cannot connect to Kentik API';
   }
-  
-  appEvents.emit('alert-error', [`Can't connect to Kentik API`, message]);
+
+  appEvents.emit('alert-error', ["Can't connect to Kentik API", message]);
 }
 
 angular.module('grafana.services').service('kentikAPISrv', KentikAPI);
