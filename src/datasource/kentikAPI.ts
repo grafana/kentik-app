@@ -22,7 +22,7 @@ export class KentikAPI {
       });
   }
 
-  async getUsers() {
+  getUsers() {
     return this._get('/api/v5/users');
   }
 
