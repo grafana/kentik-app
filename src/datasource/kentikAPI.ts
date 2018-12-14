@@ -11,14 +11,24 @@ export class KentikAPI {
     this.baseUrl = 'api/plugin-proxy/kentik-app';
   }
 
-  getDevices() {
-    return this._get('/api/v5/devices').then(response => {
-      if (response.data && response.data.devices) {
-        return response.data.devices;
-      } else {
-        return [];
-      }
-    });
+  async getDevices() {
+    const response = await this._get('/api/v5/devices');
+
+    if (response.data && response.data.devices) {
+      return response.data.devices;
+    } else {
+      return [];
+    }
+  }
+
+  async getUsers() {
+    const response = await this._get('/api/v5/users');
+
+    if (response.data && response.data.users) {
+      return response.data.users;
+    } else {
+      return [];
+    }
   }
 
   getFieldValues(field: string) {
@@ -59,7 +69,7 @@ export class KentikAPI {
         url: this.baseUrl + url,
       })
       .catch(error => {
-        showKentikError(error)
+        showAlerts(error)
         if (error.err) {
           return Promise.reject(error.err);
         } else {
@@ -83,7 +93,7 @@ export class KentikAPI {
         }
       })
       .catch(error => {
-        showKentikError(error)
+        showAlerts(error)
         if (error.err) {
           return Promise.reject(error.err);
         } else {
@@ -93,7 +103,7 @@ export class KentikAPI {
   }
 }
 
-export function showKentikError(error) {
+function showAlerts(error) {
   let message = '';
   message += error.status ? `(${error.status}) ` : '';
   message += error.statusText ? error.statusText + ': ' : '';

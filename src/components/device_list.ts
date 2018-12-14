@@ -1,25 +1,22 @@
-import { showKentikError } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
 
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
   pageReady: boolean;
+  kentik: KentikAPI;
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any) {
     this.devices = [];
     this.pageReady = false;
+    this.kentik = new KentikAPI(this.backendSrv);
     this.getDevices();
   }
-  getDevices() {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices')
-      .then(resp => {
-        this.devices = resp.devices;
-        this.pageReady = true;
-      })
-      .catch(error => {
-        showKentikError(error);
-      });
+
+  async getDevices() {
+    this.devices = await this.kentik.getDevices();
+    this.pageReady = true;
   }
 
   refresh() {

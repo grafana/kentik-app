@@ -1,5 +1,5 @@
 import configTemplate from './config.html';
-import { showKentikError } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
 
 import * as _ from 'lodash';
 
@@ -8,6 +8,7 @@ class KentikConfigCtrl {
   appModel: any;
   apiValidated: boolean;
   apiError: boolean;
+  kentik: KentikAPI;
   static template: any;
 
   /** @ngInject */
@@ -23,6 +24,7 @@ class KentikConfigCtrl {
     }
     this.apiValidated = false;
     this.apiError = false;
+    this.kentik = new KentikAPI(this.backendSrv);
     if (this.appModel.enabled && this.appModel.jsonData.tokenSet) {
       this.validateApiConnection();
     }
@@ -52,19 +54,14 @@ class KentikConfigCtrl {
   }
 
   // make sure that we can hit the Kentik API.
-  validateApiConnection() {
-    const promise = this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/users');
-    promise.then(
-      () => {
-        this.apiValidated = true;
-      },
-      (error) => {
-        this.apiValidated = false;
-        this.apiError = true;
-        showKentikError(error);
-      }
-    );
-    return promise;
+  async validateApiConnection() {
+    try {
+      await this.kentik.getUsers();
+      this.apiValidated = true;
+    } catch (e) {
+      this.apiValidated = false;
+      this.apiError = true;
+    }
   }
 
   reset() {
