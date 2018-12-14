@@ -11,14 +11,15 @@ export class KentikAPI {
     this.baseUrl = 'api/plugin-proxy/kentik-app';
   }
 
-  async getDevices() {
-    const response = await this._get('/api/v5/devices');
-
-    if (response.data && response.data.devices) {
-      return response.data.devices;
-    } else {
-      return [];
-    }
+  getDevices() {
+    return this._get('/api/v5/devices')
+      .then(resp => {
+        if (resp.data && resp.data.devices) {
+          return resp.data.devices;
+        } else {
+          return [];
+        }
+      });
   }
 
   async getUsers() {
