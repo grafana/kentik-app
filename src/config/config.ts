@@ -38,31 +38,29 @@ class KentikConfigCtrl {
     return this.initDatasource();
   }
 
-  postUpdate() {
+  async postUpdate() {
     if (!this.appModel.enabled) {
       return Promise.resolve();
     }
-    const self = this;
-    return this.validateApiConnection().then(() => {
-      return self.appEditCtrl.importDashboards().then(() => {
-        return {
-          url: 'dashboard/db/kentik-home',
-          message: 'Kentik Connect Pro app installed!',
-        };
-      });
-    });
+
+    await this.validateApiConnection();    
+    await this.appEditCtrl.importDashboards();
+
+    return {
+      url: 'dashboard/db/kentik-home',
+      message: 'Kentik Connect Pro app installed!',
+    };
   }
 
   // make sure that we can hit the Kentik API.
-  validateApiConnection() {
-    return this.kentik.getUsers()
-      .then(() => {
-        this.apiValidated = true;
-      })
-      .catch(() => {
-        this.apiValidated = false;
-        this.apiError = true;
-      });
+  async validateApiConnection() {
+    try {
+      await this.kentik.getUsers();
+      this.apiValidated = true;
+    } catch (e) {
+      this.apiValidated = false;
+      this.apiError = true;
+    }
   }
 
   reset() {

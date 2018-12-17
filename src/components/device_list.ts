@@ -7,19 +7,18 @@ class DeviceListCtrl {
   kentik: KentikAPI;
 
   /** @ngInject */
-  constructor($scope, $injector, public $location: any, public backendSrv: any) {
+  constructor(private $scope, $injector, public $location: any, public backendSrv: any) {
     this.devices = [];
     this.pageReady = false;
     this.kentik = new KentikAPI(this.backendSrv);
     this.getDevices();
   }
 
-  getDevices() {
-    this.kentik.getDevices()
-      .then(devices => {
-        this.devices = devices;
-        this.pageReady = true;
-      });
+  async getDevices() {
+    this.devices = await this.kentik.getDevices();
+    this.pageReady = true;
+
+    this.$scope.$apply();
   }
 
   refresh() {
