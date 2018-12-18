@@ -1,0 +1,30 @@
+<query-editor-row query-ctrl="ctrl" can-collapse="false">
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<label class="gf-form-label width-7">Device</label>
+			<input type="text" class="gf-form-input width-11" ng-model="ctrl.target.device"></input>
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-7">Metric</label>
+			<input type="text" class="gf-form-input width-11" ng-model="ctrl.target.metric"></input>
+		</div>
+		<div class="gf-form gf-form--grow">
+			<div class="gf-form-label gf-form-label--grow"></div>
+		</div>
+	</div>
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<label class="gf-form-label width-7">Unit</label>
+			<input type="text" class="gf-form-input width-11" ng-model="ctrl.target.unit"></input>
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-7">Data mode</label>
+			<div class="gf-form-select-wrapper width-11">
+				<select class="gf-form-input" ng-model="ctrl.target.mode" ng-options="f.value as f.text for f in ctrl.queryModes" ng-change="ctrl.refresh()"></select>
+			</div>
+		</div>
+		<div class="gf-form gf-form--grow">
+			<div class="gf-form-label gf-form-label--grow"></div>
+		</div>
+	</div>
+</query-editor-row>
