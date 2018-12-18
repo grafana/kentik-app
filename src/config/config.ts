@@ -1,5 +1,5 @@
 import configTemplate from './config.html';
-import { KentikAPI } from '../datasource/kentikAPI';
+import { KentikAPI, showAlert } from '../datasource/kentikAPI';
 
 import * as _ from 'lodash';
 
@@ -58,6 +58,7 @@ class KentikConfigCtrl {
       await this.kentik.getUsers();
       this.apiValidated = true;
     } catch (e) {
+      showAlert(e);
       this.apiValidated = false;
       this.apiError = true;
     }

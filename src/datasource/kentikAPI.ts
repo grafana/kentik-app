@@ -63,7 +63,6 @@ export class KentikAPI {
         url: this.baseUrl + url,
       })
       .catch(error => {
-        showAlerts(error)
         console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
@@ -88,7 +87,6 @@ export class KentikAPI {
         }
       })
       .catch(error => {
-        showAlerts(error)
         console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
@@ -99,7 +97,7 @@ export class KentikAPI {
   }
 }
 
-function showAlerts(error) {
+export function showAlert(error) {
   let message = '';
   message += error.status ? `(${error.status}) ` : '';
   message += error.statusText ? error.statusText + ': ' : '';
