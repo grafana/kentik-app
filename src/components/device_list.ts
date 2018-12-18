@@ -1,4 +1,4 @@
-import { KentikAPI } from '../datasource/kentikAPI';
+import { KentikAPI, showAlert } from '../datasource/kentikAPI';
 
 class DeviceListCtrl {
   static templateUrl: string;
@@ -15,10 +15,14 @@ class DeviceListCtrl {
   }
 
   async getDevices() {
-    this.devices = await this.kentik.getDevices();
-    this.pageReady = true;
+    try {
+      this.devices = await this.kentik.getDevices();
+      this.pageReady = true;
 
-    this.$scope.$apply();
+      this.$scope.$apply();
+    } catch (e) {
+      showAlert(e);
+    }
   }
 
   refresh() {

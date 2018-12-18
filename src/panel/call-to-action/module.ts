@@ -1,4 +1,4 @@
-import { KentikAPI } from '../../datasource/kentikAPI';
+import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
 
 import * as _ from 'lodash';
@@ -39,12 +39,16 @@ class CallToActiontCtrl extends PanelCtrl {
   }
 
   async getDevices() {
-    const devices = await this.kentik.getDevices();
+    try {
+      const devices = await this.kentik.getDevices();
 
-    if (devices.length > 0) {
-      this.deviceStatus = 'hasDevices';
-    } else {
-      this.deviceStatus = 'noDevices';
+      if (devices.length > 0) {
+        this.deviceStatus = 'hasDevices';
+      } else {
+        this.deviceStatus = 'noDevices';
+      }
+    } catch (e) {
+      showAlert(e);
     }
   }
 
