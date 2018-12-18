@@ -1,5 +1,7 @@
-import * as _ from 'lodash';
+import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
+
+import * as _ from 'lodash';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -14,34 +16,40 @@ class CallToActiontCtrl extends PanelCtrl {
   static templateUrl: string;
   deviceStatus: string;
   allDone: boolean;
+  kentik: KentikAPI;
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any) {
     super($scope, $injector);
     this.deviceStatus = '';
     this.allDone = false;
+    this.kentik = new KentikAPI(this.backendSrv);
     this.getTaskStatus();
     _.defaults(this.panel, panelDefaults);
   }
 
-  getTaskStatus() {
-    this.getDevices().then(() => {
-      if (this.deviceStatus === 'hasDevices') {
-        this.allDone = true;
-      } else {
-        this.allDone = false;
-      }
-    });
+  async getTaskStatus() {
+    await this.getDevices();
+
+    if (this.deviceStatus === 'hasDevices') {
+      this.allDone = true;
+    } else {
+      this.allDone = false;
+    }
   }
 
-  getDevices() {
-    return this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      if (resp.devices.length > 0) {
+  async getDevices() {
+    try {
+      const devices = await this.kentik.getDevices();
+
+      if (devices.length > 0) {
         this.deviceStatus = 'hasDevices';
       } else {
         this.deviceStatus = 'noDevices';
       }
-    });
+    } catch (e) {
+      showAlert(e);
+    }
   }
 
   refresh() {

@@ -1,3 +1,6 @@
+import { appEvents } from 'grafana/app/core/core';
+
+import * as _ from 'lodash';
 import angular from 'angular';
 
 export class KentikAPI {
@@ -8,14 +11,18 @@ export class KentikAPI {
     this.baseUrl = 'api/plugin-proxy/kentik-app';
   }
 
-  getDevices() {
-    return this._get('/api/v5/devices').then(response => {
-      if (response.data && response.data.devices) {
-        return response.data.devices;
-      } else {
-        return [];
-      }
-    });
+  async getDevices() {
+    const resp = await this._get('/api/v5/devices');
+
+    if (resp.data && resp.data.devices) {
+      return resp.data.devices;
+    } else {
+      return [];
+    }
+  }
+
+  getUsers() {
+    return this._get('/api/v5/users');
   }
 
   getFieldValues(field: string) {
@@ -56,7 +63,7 @@ export class KentikAPI {
         url: this.baseUrl + url,
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
         } else {
@@ -80,7 +87,7 @@ export class KentikAPI {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         if (error.err) {
           return Promise.reject(error.err);
         } else {
@@ -88,6 +95,21 @@ export class KentikAPI {
         }
       });
   }
+}
+
+export function showAlert(error) {
+  let message = '';
+  message += error.status ? `(${error.status}) ` : '';
+  message += error.statusText ? error.statusText + ': ' : '';
+  if (error.data && error.data.error) {
+    message += error.data.error;
+  } else if (error.err) {
+    message += error.err;
+  } else if (_.isString(error)) {
+    message += error;
+  }
+
+  appEvents.emit('alert-error', ["Can't connect to Kentik API", message]);
 }
 
 angular.module('grafana.services').service('kentikAPISrv', KentikAPI);

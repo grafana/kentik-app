@@ -1,6 +1,8 @@
-import * as _ from 'lodash';
+import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
 import { PanelCtrl } from 'grafana/app/plugins/sdk';
 import { loadPluginCss } from 'grafana/app/plugins/sdk';
+
+import * as _ from 'lodash';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -15,21 +17,25 @@ class DeviceListCtrl extends PanelCtrl {
   static templateUrl: any;
   devices: any[];
   pageReady: boolean;
+  kentik: KentikAPI;
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any) {
     super($scope, $injector);
     this.devices = [];
     this.pageReady = false;
+    this.kentik = new KentikAPI(this.backendSrv);
     this.getDevices();
     _.defaults(this.panel, panelDefaults);
   }
 
-  getDevices() {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      this.devices = resp.devices;
+  async getDevices() {
+    try {
+      this.devices = await this.kentik.getDevices();
       this.pageReady = true;
-    });
+    } catch (e) {
+      showAlert(e);
+    }
   }
 
   refresh() {
