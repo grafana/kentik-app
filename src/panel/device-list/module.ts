@@ -1,5 +1,5 @@
 import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
-import { MetricsPanelCtrl } from 'grafana/app/plugins/sdk';
+import { PanelCtrl } from 'grafana/app/plugins/sdk';
 import { loadPluginCss } from 'grafana/app/plugins/sdk';
 
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ const panelDefaults = {
   fullscreen: true,
 };
 
-class DeviceListCtrl extends MetricsPanelCtrl {
+class DeviceListCtrl extends PanelCtrl {
   static templateUrl: any;
   devices: any[];
   pageReady: boolean;
