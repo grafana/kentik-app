@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.3] - 2019-01-29
+
+### New Features
+- Added support for EU api endpoint, [#64](https://github.com/grafana/kentik-app/issues/64)
+
+## [1.3.2] - 2018-12-18
+
+### New Features
+- Added better error messaging for API issues, [#61](https://github.com/grafana/kentik-app/issues/61)
+
 ## [1.3.1] - 2018-11-13
 
 ### Fixed
