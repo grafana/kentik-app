@@ -7,8 +7,8 @@ export class KentikAPI {
   baseUrl: string;
 
   /** @ngInject */
-  constructor(public backendSrv: any) {
-    this.baseUrl = 'api/plugin-proxy/kentik-app';
+  constructor(public backendSrv: any, region: string) {
+    this.baseUrl = `/api/plugin-proxy/kentik-app/${region}`;
   }
 
   async getDevices() {

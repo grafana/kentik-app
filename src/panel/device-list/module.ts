@@ -20,11 +20,11 @@ class DeviceListCtrl extends PanelCtrl {
   kentik: KentikAPI;
 
   /** @ngInject */
-  constructor($scope, $injector, public $location: any, public backendSrv: any) {
+  constructor(instanceSettings: any, $scope, $injector, public $location: any, public backendSrv: any) {
     super($scope, $injector);
     this.devices = [];
     this.pageReady = false;
-    this.kentik = new KentikAPI(this.backendSrv);
+    this.kentik = new KentikAPI(this.backendSrv, instanceSettings.jsonData.region);
     this.getDevices();
     _.defaults(this.panel, panelDefaults);
   }

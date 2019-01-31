@@ -19,11 +19,11 @@ class CallToActiontCtrl extends PanelCtrl {
   kentik: KentikAPI;
 
   /** @ngInject */
-  constructor($scope, $injector, public backendSrv: any) {
+  constructor(instanceSettings: any, $scope, $injector, public backendSrv: any) {
     super($scope, $injector);
     this.deviceStatus = '';
     this.allDone = false;
-    this.kentik = new KentikAPI(this.backendSrv);
+    this.kentik = new KentikAPI(this.backendSrv, instanceSettings.jsonData.region);
     this.getTaskStatus();
     _.defaults(this.panel, panelDefaults);
   }

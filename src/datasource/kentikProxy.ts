@@ -61,12 +61,12 @@ export class KentikProxy {
           query: cachedQuery,
           result: result,
         };
-        console.log('Invoke Kentik query');
+        //console.log('Invoke Kentik query');
         return result;
       });
     } else {
       // Get from cache
-      console.log('Get result from cache');
+      //console.log('Get result from cache');
       return Promise.resolve(this.cache[hash].result);
     }
   }

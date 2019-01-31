@@ -10,6 +10,10 @@ class KentikConfigCtrl {
   apiError: boolean;
   kentik: KentikAPI;
   static template: any;
+  regionTypes = [
+    { value: "default", text: "US (default)" },
+    { value: "eu", text: "EU" }
+  ];
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any) {
@@ -22,9 +26,12 @@ class KentikConfigCtrl {
     if (!this.appModel.secureJsonData) {
       this.appModel.secureJsonData = {};
     }
+    if (!this.appModel.jsonData.region) {
+      this.appModel.jsonData.region = "default";
+    }
     this.apiValidated = false;
     this.apiError = false;
-    this.kentik = new KentikAPI(this.backendSrv);
+    this.kentik = new KentikAPI(this.backendSrv, this.appModel.jsonData.region);
     if (this.appModel.enabled && this.appModel.jsonData.tokenSet) {
       this.validateApiConnection();
     }
@@ -67,6 +74,7 @@ class KentikConfigCtrl {
   reset() {
     this.appModel.jsonData.email = '';
     this.appModel.jsonData.tokenSet = false;
+    this.appModel.jsonData.region = "default";
     this.appModel.secureJsonData = {};
     this.apiValidated = false;
   }

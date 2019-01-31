@@ -51,6 +51,6 @@ function getKentikProxyInstance(ctx, data) {
     }
   };
 
-  ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
+  ctx.kentikAPI = new KentikAPI(ctx.backendSrv, "default");
   ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
 }
