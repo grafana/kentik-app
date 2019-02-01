@@ -2,10 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.3.3] - 2019-01-29
+## [1.3.3] - 2019-02-01
 
 ### New Features
 - Added support for EU api endpoint, [#64](https://github.com/grafana/kentik-app/issues/64)
+
+### Fixed
+- click-through to device-details page now works correctly
+
+### Changed
+- Updated device-details page to show more data
+- device-details page now displays more informative messages when updating fails
 
 ## [1.3.2] - 2018-12-18
 
