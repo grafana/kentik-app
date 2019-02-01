@@ -46,6 +46,14 @@ function createDatasourceInstance(ctx, data) {
   ctx.instanceSettings = {};
   ctx.templateSrv = {};
   ctx.backendSrv = {
+    get: function() {
+      return Promise.resolve([{
+        type: 'kentik-ds',
+        jsonData: {
+          region: 'default'
+        }
+      }]);
+    },
     datasourceRequest: function () {
       return Promise.resolve({
         status: 200, data
@@ -54,6 +62,8 @@ function createDatasourceInstance(ctx, data) {
   };
 
   ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
+  ctx.kentikAPI.setRegion("default");
+
   ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
 
   ctx.ds = new Datasource(ctx.instanceSettings, ctx.templateSrv, ctx.kentikProxy);

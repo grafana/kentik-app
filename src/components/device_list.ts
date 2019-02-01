@@ -1,5 +1,7 @@
-import { KentikAPI, showAlert } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showAlert } from "../datasource/alertHelper";
 
+import { getRegion } from "../datasource/regionHelper";
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
@@ -14,12 +16,13 @@ class DeviceListCtrl {
     this.getDevices();
   }
 
-  async getDevices() {
+  getDevices() {
     try {
-      this.devices = await this.kentik.getDevices();
-      this.pageReady = true;
-
-      this.$scope.$apply();
+      this.kentik.getDevices().then((devices) => {
+        this.devices = devices;
+        this.pageReady = true;
+        this.$scope.$apply();
+      });
     } catch (e) {
       showAlert(e);
     }

@@ -1,7 +1,9 @@
 <h3 class="page-heading">Enter your Kentik Credentials</h3>
 <div class="gf-form-group">
   <div class="gf-form" ng-if="ctrl.apiError && ctrl.appModel.enabled">
-    <span>Invalid API credentials. This app wont work until the credentials are updated.</span>
+    <i class="fa fa-exclamation-circle" style="color: #ca4333;">
+      <span>Invalid API credentials. This app wont work until the credentials are updated.</span>
+    </i>
   </div>
   <div class="gf-form">
     <label class="gf-form-label width-10">Email</label>
@@ -9,6 +11,16 @@
     <input style="display:none;" type="text" name="somefakename" />
     <input type="text" class="gf-form-input max-width-20" ng-model='ctrl.appModel.jsonData.email' placeholder="email" />
   </div>
+
+  <div class="gf-form">
+    <label class="gf-form-label width-10">Region
+      <tip>US and EU regions are available. Default is US</tip>
+    </label>
+    <div class="gf-form-select-wrapper">
+      <select class="gf-form-input" ng-model="ctrl.appModel.jsonData.region" ng-options="f.value as f.text for f in ctrl.regionTypes"></select>
+    </div>
+  </div>
+
   <div class="gf-form-inline">
     <div class="gf-form kentik-inline-field-margin--right">
       <label class="gf-form-label width-10">Api Token</label>

@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>{{ctrl.device.device_name}}<a ng-click="ctrl.gotoDashboard(ctrl.device.device_name)"><i ng-class="icon" class="icon-gf icon-gf-dashboard"
-        bs-tooltip="'Go to Kentic: Summary </br>dashboard for this Device'"></i></a></h1>
+        bs-tooltip="'Go to Kentik: Summary </br>dashboard for this Device'"></i></a></h1>
   <div class="page-header-tabs">
     <ul class="gf-tabs">
       <!-- 			<li class="gf-tabs-item">
@@ -40,10 +40,19 @@
             <label class="gf-form-label width-11">Device Type</label>
             <div class="gf-form-select-wrapper">
               <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceDTO.device_type">
+                <option ng-option value="{{ctrl.deviceDTO.device_type}}">Other ({{ctrl.deviceDTO.device_type}})</option>
                 <option ng-option value="router">Router</option>
                 <option ng-option value="host-nprobe-basic">Host</option>
               </select>
             </div>
+          </div>
+          <div class="gf-form">
+              <label class="gf-form-label width-11">Device ID</label>
+              <label class="gf-form-label max-width-21">{{ctrl.deviceDTO.device_id}}</label>
+          </div>
+          <div class="gf-form">
+              <label class="gf-form-label width-11">Client ID</label>
+              <label class="gf-form-label max-width-21">{{ctrl.device.company_id}}</label>
           </div>
         </div>
 
@@ -184,7 +193,10 @@
     </div>
   </div>
 
-  <aside class="page-sidebar">
+  <!--
+      <aside class="page-sidebar">
+      -->
+    <!-- this data is displayed above
     <section class="page-sidebar-section">
       <ul class="ui-list plugin-info-list">
         <li class="plugin-info-list-item">
@@ -193,6 +205,9 @@
         </li>
       </ul>
     </section>
+    -->
+
+    <!-- this data is displayed above
     <section class="page-sidebar-section">
       <ul class="ui-list plugin-info-list">
         <li class="plugin-info-list-item">
@@ -201,6 +216,9 @@
         </li>
       </ul>
     </section>
+    -->
+
+    <!-- this data is displayed above as "other" when there is no match
     <section class="page-sidebar-section">
       <ul class="ui-list plugin-info-list">
         <li class="plugin-info-list-item">
@@ -209,6 +227,9 @@
         </li>
       </ul>
     </section>
+    -->
+
+    <!-- now displayed above
     <section class="page-sidebar-section">
       <ul class="ui-list plugin-info-list">
         <li class="plugin-info-list-item">
@@ -217,5 +238,8 @@
         </li>
       </ul>
     </section>
-  </aside>
+    -->
+    <!--
+    </aside>
+    -->
 </div>

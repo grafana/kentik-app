@@ -1,16 +1,29 @@
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showCustomAlert } from "../datasource/alertHelper";
+import { getRegion } from "../datasource/regionHelper";
+
 export class DeviceDetailsCtrl {
   static templateUrl: string;
   device: any;
   deviceDTO: any;
   pageReady: boolean;
   otherIps: any;
+  kentik: KentikAPI;
+  region: string;
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
     this.device = {};
     this.deviceDTO = {};
     this.pageReady = false;
-    this.getDevice($location.search().device);
+    // get region from datasource
+    this.region = "default";
+    backendSrv.get('/api/datasources').then( (allDS: any) => {
+      this.region = getRegion(allDS);
+      this.kentik = new KentikAPI(this.backendSrv);
+      this.kentik.setRegion(this.region);
+      this.getDevice($location.search().device);
+    });
   }
 
   addIP() {
@@ -22,7 +35,7 @@ export class DeviceDetailsCtrl {
   }
 
   getDevice(deviceId) {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/device/' + deviceId).then(resp => {
+    this.backendSrv.get(`/api/plugin-proxy/kentik-app/${this.region}/api/v5/device/` + deviceId).then(resp => {
       this.device = resp.device;
       this.updateDeviceDTO();
       this.pageReady = true;
@@ -60,20 +73,22 @@ export class DeviceDetailsCtrl {
     }
     const data = { device: this.deviceDTO };
 
-    this.backendSrv.put('/api/plugin-proxy/kentik-app/api/v5/device/' + this.deviceDTO.device_id, data).then(
+    this.backendSrv.put(`/api/plugin-proxy/kentik-app/${this.region}/api/v5/device/` + this.deviceDTO.device_id, data).then(
       resp => {
         if ('err' in resp) {
-          this.alertSrv.set('Device Update failed.', resp.err, 'error');
+          showCustomAlert('Device Update failed.', resp.err, 'error');
         } else {
-          this.alertSrv.set('Device Updated.', this.deviceDTO.device_name, 'success', 3000);
+          showCustomAlert('Device Updated.', this.deviceDTO.device_name, 'success');
           return this.getDevice(this.deviceDTO.device_id);
         }
       },
       error => {
         if ('error' in error.data) {
-          this.alertSrv.set('Device Update failed.', error.data.error, 'error');
+          showCustomAlert('Device Update failed.', error.data.error, 'error');
+          return;
         } else {
-          this.alertSrv.set('Device Update failed.', error, 'error');
+          showCustomAlert('Device Update failed.', error, 'error');
+          return;
         }
       }
     );
