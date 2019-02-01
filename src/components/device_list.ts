@@ -1,5 +1,5 @@
 import { KentikAPI, showAlert } from '../datasource/kentikAPI';
-
+import { getRegion } from "../datasource/regionHelper";
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
@@ -7,19 +7,20 @@ class DeviceListCtrl {
   kentik: KentikAPI;
 
   /** @ngInject */
-  constructor(instanceSettings: any, private $scope, $injector, public $location: any, public backendSrv: any) {
+  constructor(private $scope, $injector, public $location: any, public backendSrv: any) {
     this.devices = [];
     this.pageReady = false;
-    this.kentik = new KentikAPI(this.backendSrv, instanceSettings.jsonData.region);
+    this.kentik = new KentikAPI(this.backendSrv);
     this.getDevices();
   }
 
-  async getDevices() {
+  getDevices() {
     try {
-      this.devices = await this.kentik.getDevices();
-      this.pageReady = true;
-
-      this.$scope.$apply();
+      this.kentik.getDevices().then((devices) => {
+        this.devices = devices;
+        this.pageReady = true;
+        this.$scope.$apply();
+      });
     } catch (e) {
       showAlert(e);
     }

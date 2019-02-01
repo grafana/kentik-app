@@ -16,7 +16,7 @@
     {
       "path": "eu/api/v5/*",
       "method": "*",
-      "url": "https://api.kentik.eu/api/v5",
+      "url": "https://api.kentik.eu/api/v5/",
       "headers": [
         {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
         {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}

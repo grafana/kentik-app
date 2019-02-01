@@ -2,16 +2,35 @@ import { appEvents } from 'grafana/app/core/core';
 
 import * as _ from 'lodash';
 import angular from 'angular';
+import { getRegion } from "./regionHelper";
 
 export class KentikAPI {
   baseUrl: string;
-
+  region: string;
+  apiReady: boolean;
   /** @ngInject */
-  constructor(public backendSrv: any, region: string) {
-    this.baseUrl = `/api/plugin-proxy/kentik-app/${region}`;
+  constructor(public backendSrv: any) {
+    this.apiReady = false;
+    this.baseUrl = "/api/plugin-proxy/kentik-app";
+    // get region from datasource
+    backendSrv.get('/api/datasources').then( (allDS: any) => {
+      this.region = getRegion(allDS);
+      this.setRegion(this.region);
+      this.apiReady = true;
+    });
+  }
+
+  setRegion(region: string) {
+    this.region = region;
   }
 
   async getDevices() {
+    this.backendSrv.get('/api/datasources').then( (allDS: any) => {
+      this.region = getRegion(allDS);
+      this.setRegion(this.region);
+      this.apiReady = true;
+    });
+
     const resp = await this._get('/api/v5/devices');
 
     if (resp.data && resp.data.devices) {
@@ -56,11 +75,19 @@ export class KentikAPI {
     return this._post('/api/v5/query/sql', data);
   }
 
-  _get(url: string) {
+  async _get(url: string) {
+    // if the region is not set, get it from the datasource
+    if (typeof this.region === 'undefined') {
+      //console.log("_get: this.region UNDEFINED, fetching");
+      await this.backendSrv.get('/api/datasources').then( (allDS: any) => {
+        this.setRegion(getRegion(allDS));
+        //console.log("kentikAPI: _get: FETCHED region " + this.region);
+      });
+    }
     return this.backendSrv
       .datasourceRequest({
         method: 'GET',
-        url: this.baseUrl + url,
+        url: this.baseUrl + "/" + this.region + url,
       })
       .catch(error => {
         console.error(error);
@@ -72,11 +99,19 @@ export class KentikAPI {
       });
   }
 
-  _post(url: string, data: any) {
+  async _post(url: string, data: any) {
+    // if the region is not set, get it from the datasource
+    if (typeof this.region === 'undefined') {
+      //console.log("kentikAPI._post: this.region UNDEFINED, fetching");
+      await this.backendSrv.get('/api/datasources').then( (allDS: any) => {
+        this.setRegion(getRegion(allDS));
+        //console.log("kentikAPI._post: FETCHED region " + this.region);
+      });
+    }
     return this.backendSrv
       .datasourceRequest({
         method: 'POST',
-        url: this.baseUrl + url,
+        url: this.baseUrl + "/" + this.region + url,
         data: data,
       })
       .then(response => {

@@ -53,7 +53,9 @@ function createDatasourceInstance(ctx, data) {
     }
   };
 
-  ctx.kentikAPI = new KentikAPI(ctx.backendSrv, "default");
+  ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
+  ctx.kentik.setRegion("default");
+
   ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
 
   ctx.ds = new Datasource(ctx.instanceSettings, ctx.templateSrv, ctx.kentikProxy);

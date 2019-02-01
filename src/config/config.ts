@@ -26,12 +26,13 @@ class KentikConfigCtrl {
     if (!this.appModel.secureJsonData) {
       this.appModel.secureJsonData = {};
     }
-    if (!this.appModel.jsonData.region) {
+    if (typeof this.appModel.jsonData.region === 'undefined') {
       this.appModel.jsonData.region = "default";
     }
     this.apiValidated = false;
     this.apiError = false;
-    this.kentik = new KentikAPI(this.backendSrv, this.appModel.jsonData.region);
+    this.kentik = new KentikAPI(this.backendSrv);
+    this.kentik.setRegion(this.appModel.jsonData.region);
     if (this.appModel.enabled && this.appModel.jsonData.tokenSet) {
       this.validateApiConnection();
     }
@@ -83,26 +84,40 @@ class KentikConfigCtrl {
     const self = this;
     //check for existing datasource.
     return self.backendSrv.get('/api/datasources').then(results => {
-      let foundKentic = false;
+      let foundKentikDS = false;
+      let updateKentikDS = false;
+      let dsID = NaN;
       _.forEach(results, ds => {
-        if (foundKentic) {
+        // use the type
+        if (ds.type === 'kentik-ds') {
+          foundKentikDS = true;
+          dsID = ds.id;
+          // console.log("config.initDatasource: found existing datasource with region: " + ds.jsonData.region);
+          if (ds.jsonData.region !== this.appModel.jsonData.region) {
+            //console.log("config.initDatasource: need to update existing datasource with region: " + this.appModel.jsonData.region);
+            updateKentikDS = true;
+          }
           return;
-        }
-        if (ds.name === 'kentik') {
-          foundKentic = true;
         }
       });
       const promises = [];
-      if (!foundKentic) {
+      if (!foundKentikDS || updateKentikDS) {
         // create datasource.
         const kentik = {
           name: 'kentik',
           type: 'kentik-ds',
-          access: 'direct',
-          jsonData: {},
+          access: 'proxy',
+          jsonData: self.appModel.jsonData,
         };
-        promises.push(self.backendSrv.post('/api/datasources', kentik));
+        if (updateKentikDS) {
+          //console.log("onfig.initDatasource: updating datasource");
+          promises.push(self.backendSrv.put(`/api/datasources/${dsID}`, kentik));
+        } else {
+          //console.log("config.initDatasource: reating datasource");
+          promises.push(self.backendSrv.post('/api/datasources', kentik));
+        }
       }
+      // update requires a PUT with the id
       return Promise.all(promises);
     });
   }

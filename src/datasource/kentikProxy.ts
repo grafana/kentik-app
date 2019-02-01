@@ -2,6 +2,8 @@ import angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import './kentikAPI';
+import { getRegion } from "./regionHelper";
+
 
 function getUTCTimestamp() {
   const ts = new Date();
@@ -43,7 +45,6 @@ export class KentikProxy {
     this.requestCachingIntervals = {
       '1d': 0,
     };
-
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
   }
 
@@ -71,7 +72,7 @@ export class KentikProxy {
     }
   }
 
-  // Decide, is query shold be invoked or get data from cahce?
+  // Decide, if query should be invoked or get data from cache?
   shouldInvoke(query: any) {
     const kentikQuery = query;
     const hash = getHash(kentikQuery);

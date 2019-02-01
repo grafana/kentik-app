@@ -1,7 +1,9 @@
 <h3 class="page-heading">Enter your Kentik Credentials</h3>
 <div class="gf-form-group">
   <div class="gf-form" ng-if="ctrl.apiError && ctrl.appModel.enabled">
-    <span>Invalid API credentials. This app wont work until the credentials are updated.</span>
+    <i class="fa fa-exclamation-circle" style="color: #ca4333;">
+      <span>Invalid API credentials. This app wont work until the credentials are updated.</span>
+    </i>
   </div>
   <div class="gf-form">
     <label class="gf-form-label width-10">Email</label>

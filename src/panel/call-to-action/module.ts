@@ -1,5 +1,6 @@
 import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
+import { getRegion } from "../../datasource/regionHelper";
 
 import * as _ from 'lodash';
 
@@ -17,15 +18,23 @@ class CallToActiontCtrl extends PanelCtrl {
   deviceStatus: string;
   allDone: boolean;
   kentik: KentikAPI;
+  region: string;
 
   /** @ngInject */
-  constructor(instanceSettings: any, $scope, $injector, public backendSrv: any) {
+  constructor($scope, $injector, public backendSrv: any, private datasourceSrv) {
     super($scope, $injector);
+    _.defaults(this.panel, panelDefaults);
     this.deviceStatus = '';
     this.allDone = false;
-    this.kentik = new KentikAPI(this.backendSrv, instanceSettings.jsonData.region);
-    this.getTaskStatus();
-    _.defaults(this.panel, panelDefaults);
+    // get region from datasource
+    this.region = "default";
+    backendSrv.get('/api/datasources').then( (allDS: any) => {
+      this.region = getRegion(allDS);
+      this.kentik = new KentikAPI(this.backendSrv);
+      this.kentik.setRegion(this.region);
+    }).then (async () => {
+      await this.getTaskStatus();
+    });
   }
 
   async getTaskStatus() {
