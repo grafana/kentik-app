@@ -44,6 +44,14 @@ describe('KentikProxy', () => {
 
 function getKentikProxyInstance(ctx, data) {
   ctx.backendSrv = {
+    get: function() {
+      return Promise.resolve([{
+        type: 'kentik-ds',
+        jsonData: {
+          region: 'default'
+        }
+      }]);
+    },
     datasourceRequest: function () {
       return Promise.resolve({
         status: 200, data
