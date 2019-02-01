@@ -1,4 +1,5 @@
-import { KentikAPI, showAlert } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showCustomAlert } from "../datasource/alertHelper";
 import { getRegion } from "../datasource/regionHelper";
 
 export class DeviceDetailsCtrl {
@@ -64,7 +65,6 @@ export class DeviceDetailsCtrl {
   }
 
   update() {
-
     if (!this.deviceDTO.device_snmp_ip) {
       delete this.deviceDTO.device_snmp_ip;
     }
@@ -76,17 +76,19 @@ export class DeviceDetailsCtrl {
     this.backendSrv.put(`/api/plugin-proxy/kentik-app/${this.region}/api/v5/device/` + this.deviceDTO.device_id, data).then(
       resp => {
         if ('err' in resp) {
-          this.alertSrv.set('Device Update failed.', resp.err, 'error');
+          showCustomAlert('Device Update failed.', resp.err, 'error');
         } else {
-          this.alertSrv.set('Device Updated.', this.deviceDTO.device_name, 'success', 3000);
+          showCustomAlert('Device Updated.', this.deviceDTO.device_name, 'success');
           return this.getDevice(this.deviceDTO.device_id);
         }
       },
       error => {
         if ('error' in error.data) {
-          this.alertSrv.set('Device Update failed.', error.data.error, 'error');
+          showCustomAlert('Device Update failed.', error.data.error, 'error');
+          return;
         } else {
-          this.alertSrv.set('Device Update failed.', error, 'error');
+          showCustomAlert('Device Update failed.', error, 'error');
+          return;
         }
       }
     );

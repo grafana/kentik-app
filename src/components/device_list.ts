@@ -1,4 +1,6 @@
-import { KentikAPI, showAlert } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showAlert } from "../datasource/alertHelper";
+
 import { getRegion } from "../datasource/regionHelper";
 class DeviceListCtrl {
   static templateUrl: string;

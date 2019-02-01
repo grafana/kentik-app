@@ -1,4 +1,6 @@
-import { KentikAPI, showAlert } from '../../datasource/kentikAPI';
+import { KentikAPI } from '../../datasource/kentikAPI';
+import { showAlert } from "../../datasource/alertHelper";
+
 import { PanelCtrl } from 'grafana/app/plugins/sdk';
 import { loadPluginCss } from 'grafana/app/plugins/sdk';
 import { getRegion } from "../../datasource/regionHelper";

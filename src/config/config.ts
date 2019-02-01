@@ -1,5 +1,6 @@
 import configTemplate from './config.html';
-import { KentikAPI, showAlert } from '../datasource/kentikAPI';
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showAlert } from "../datasource/alertHelper";
 
 import * as _ from 'lodash';
 
