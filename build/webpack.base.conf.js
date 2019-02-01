@@ -16,6 +16,11 @@ function resolve(dir) {
 module.exports = {
   target: 'node',
   context: resolve('src'),
+  devtool: "inline-source-map",
+  watchOptions: {
+    poll: 1000,
+    ignored: ['src/**/*.js', 'node_modules']
+  },
   entry: {
     './module': './module.ts',
     'datasource/module': './datasource/module.ts',
