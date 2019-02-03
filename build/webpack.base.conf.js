@@ -5,6 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 
 const ExtractTextPluginLight = new ExtractTextPlugin('./css/kentik.light.css');
 const ExtractTextPluginDark = new ExtractTextPlugin('./css/kentik.dark.css');
@@ -12,6 +13,8 @@ const ExtractTextPluginDark = new ExtractTextPlugin('./css/kentik.dark.css');
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
+
+const packageJson = require('../package.json');
 
 module.exports = {
   target: 'node',
@@ -56,6 +59,23 @@ module.exports = {
       { from: 'components/*' },
       { from: 'dashboards/*' },
       { from: 'img/*' },
+    ]),
+
+    new ReplaceInFileWebpackPlugin([
+      {
+        dir: 'dist',
+        files: ['plugin.json', 'README.md'],
+        rules: [
+          {
+            search: '%VERSION%',
+            replace: packageJson.version,
+          },
+          {
+            search: '%TODAY%',
+            replace: new Date().toISOString().substring(0, 10),
+          },
+        ],
+      },
     ]),
 
     ExtractTextPluginLight,
