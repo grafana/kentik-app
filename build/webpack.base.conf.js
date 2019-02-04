@@ -24,10 +24,6 @@ module.exports = {
   entry: {
     './module': './module.ts',
     'datasource/module': './datasource/module.ts',
-    'config/module': './config/config.ts',
-    'components/add_device': './components/add_device.ts',
-    'components/device_details': './components/device_details.ts',
-    'components/device_list': './components/device_list.ts',
     'panel/call-to-action/module': './panel/call-to-action/module.ts',
     'panel/device-list/module': './panel/device-list/module.ts',
   },
