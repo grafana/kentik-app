@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.4] - 2019-03-12
+
+- Added support for custom api endpoints, [#71](https://github.com/grafana/kentik-app/issues/71)
+
 ## [1.3.3] - 2019-02-01
 
 ### New Features

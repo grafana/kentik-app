@@ -13,7 +13,8 @@ class KentikConfigCtrl {
   static template: any;
   regionTypes = [
     { value: "default", text: "US (default)" },
-    { value: "eu", text: "EU" }
+    { value: "eu", text: "EU" },
+    { value: "custom", text: "Custom" }
   ];
 
   /** @ngInject */
@@ -77,6 +78,7 @@ class KentikConfigCtrl {
     this.appModel.jsonData.email = '';
     this.appModel.jsonData.tokenSet = false;
     this.appModel.jsonData.region = "default";
+    this.appModel.jsonData.dynamicUrl = "";
     this.appModel.secureJsonData = {};
     this.apiValidated = false;
   }
@@ -93,9 +95,11 @@ class KentikConfigCtrl {
         if (ds.type === 'kentik-ds') {
           foundKentikDS = true;
           dsID = ds.id;
-          // console.log("config.initDatasource: found existing datasource with region: " + ds.jsonData.region);
+          console.log("config.initDatasource: found existing datasource with region: " + ds.jsonData.region);
+          updateKentikDS = true;
+
           if (ds.jsonData.region !== this.appModel.jsonData.region) {
-            //console.log("config.initDatasource: need to update existing datasource with region: " + this.appModel.jsonData.region);
+            console.log("config.initDatasource: need to update existing datasource with region: " + this.appModel.jsonData.region);
             updateKentikDS = true;
           }
           return;
@@ -103,18 +107,19 @@ class KentikConfigCtrl {
       });
       const promises = [];
       if (!foundKentikDS || updateKentikDS) {
-        // create datasource.
+        // create datasource
         const kentik = {
           name: 'kentik',
           type: 'kentik-ds',
           access: 'proxy',
           jsonData: self.appModel.jsonData,
         };
+        //console.log("(kentik) JSON DATA:" + JSON.stringify(kentik));
         if (updateKentikDS) {
-          //console.log("onfig.initDatasource: updating datasource");
+          console.log("config.initDatasource: updating datasource");
           promises.push(self.backendSrv.put(`/api/datasources/${dsID}`, kentik));
         } else {
-          //console.log("config.initDatasource: reating datasource");
+          console.log("config.initDatasource: creating datasource");
           promises.push(self.backendSrv.post('/api/datasources', kentik));
         }
       }

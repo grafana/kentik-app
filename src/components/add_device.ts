@@ -26,7 +26,7 @@ export class AddDeviceCtrl {
     this.device = angular.copy(defaults);
     this.sendingIps = [{ ip: '' }];
     // get region from datasource
-    this.region = "default";
+    //this.region = "default";
     backendSrv.get('/api/datasources').then( (allDS: any) => {
       this.region = getRegion(allDS);
     });

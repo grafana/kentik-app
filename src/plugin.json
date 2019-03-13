@@ -14,6 +14,15 @@
       ]
     },
     {
+      "path": "custom/api/v5/*",
+      "method": "*",
+      "url": "{{.JsonData.dynamicUrl}}",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    },
+    {
       "path": "eu/api/v5/*",
       "method": "*",
       "url": "https://api.kentik.eu/api/v5/",
@@ -63,8 +72,8 @@
       {"name": "Kentik Connect - Device Details", "path": "img/kentik-connect-device-details.png"},
       {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"}
     ],
-    "version": "1.3.3",
-    "updated": "2019-02-01"
+    "version": "1.3.4",
+    "updated": "2019-03-12"
   },
 
   "includes": [
@@ -110,6 +119,6 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "3.x.x"
+    "grafanaVersion": "6.1.x"
   }
 }
