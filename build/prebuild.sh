@@ -9,7 +9,7 @@ TARGETDIR='node_modules/grafana_master'
 
 if [ ! -d $TARGETDIR ]; then
   echo "Cloning Grafana source into $TARGETDIR"
-  git clone https://github.com/grafana/grafana.git --depth 1 $TARGETDIR
+  git clone https://github.com/grafana/grafana.git --single-branch --branch v5.4.3 --depth 1 $TARGETDIR
 else
   echo "Source for Grafana already present, skipping..."
 fi
