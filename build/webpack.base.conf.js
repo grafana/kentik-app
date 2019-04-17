@@ -52,8 +52,9 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: '../README.md' },
       { from: '**/plugin.json' },
-      { from: '**/*.html' },
-      { from: 'components/*' },
+      { from: 'panel/**/*.html' },
+      { from: 'datasource/**/*.html' },
+      { from: 'components/**/*.html' },
       { from: 'dashboards/*' },
       { from: 'img/*' },
     ]),
