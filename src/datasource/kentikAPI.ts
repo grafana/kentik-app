@@ -39,7 +39,6 @@ export class KentikAPI {
   }
 
   async getUsers() {
-    console.log("getUsers()");
     const data = await this._get('/api/v5/users')
     return data;
   }
