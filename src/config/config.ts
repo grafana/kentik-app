@@ -1,6 +1,6 @@
 import configTemplate from './config.html';
 import { KentikAPI } from '../datasource/kentikAPI';
-import { showAlert } from "../datasource/alertHelper";
+import { showAlert, showCustomAlert } from "../datasource/alertHelper";
 
 import * as _ from 'lodash';
 
@@ -65,8 +65,17 @@ class KentikConfigCtrl {
   // make sure that we can hit the Kentik API.
   async validateApiConnection() {
     try {
-      await this.kentik.getUsers();
-      this.apiValidated = true;
+      let result = await this.kentik.getUsers();
+      try {
+        if ( result.hasOwnProperty('data') ) {
+          this.apiValidated = true;
+          showCustomAlert('API working!', '', 'success');
+        }
+      } catch (e) {
+        showAlert("Unexpected result from API: " + e);
+        this.apiValidated = false;
+        this.apiError = true;
+      }
     } catch (e) {
       showAlert(e);
       this.apiValidated = false;
@@ -91,15 +100,18 @@ class KentikConfigCtrl {
       let updateKentikDS = false;
       let dsID = NaN;
       _.forEach(results, ds => {
+        //console.log("Found a datasource, type is: " + ds.type);
         // use the type
         if (ds.type === 'kentik-ds') {
           foundKentikDS = true;
           dsID = ds.id;
-          console.log("config.initDatasource: found existing datasource with region: " + ds.jsonData.region);
+          //console.log("config.initDatasource: found existing datasource with region: " + ds.jsonData.region);
           updateKentikDS = true;
 
           if (ds.jsonData.region !== this.appModel.jsonData.region) {
-            console.log("config.initDatasource: need to update existing datasource with region: " + this.appModel.jsonData.region);
+            updateKentikDS = true;
+          }
+          if (ds.jsonData !== this.appModel.jsonData) {
             updateKentikDS = true;
           }
           return;
@@ -114,12 +126,9 @@ class KentikConfigCtrl {
           access: 'proxy',
           jsonData: self.appModel.jsonData,
         };
-        //console.log("(kentik) JSON DATA:" + JSON.stringify(kentik));
         if (updateKentikDS) {
-          console.log("config.initDatasource: updating datasource");
           promises.push(self.backendSrv.put(`/api/datasources/${dsID}`, kentik));
         } else {
-          console.log("config.initDatasource: creating datasource");
           promises.push(self.backendSrv.post('/api/datasources', kentik));
         }
       }
