@@ -22,7 +22,7 @@ jobs:
           paths:
             - node_modules
           key: dependency-cache-{{ checksum "yarn.lock" }}
-      - run: npm run build
+      - run: yarn prebuild && yarn build
   test:
     <<: *defaults
     steps:
