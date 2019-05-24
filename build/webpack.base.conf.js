@@ -51,6 +51,7 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
       { from: '../README.md' },
+      { from: '../CHANGELOG.md' },
       { from: '**/plugin.json' },
       { from: '**/*.html' },
       { from: 'components/*' },
