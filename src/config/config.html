@@ -9,15 +9,25 @@
     <label class="gf-form-label width-10">Email</label>
     <!-- Hidden input to stop chrome from autofilling -->
     <input style="display:none;" type="text" name="somefakename" />
-    <input type="text" class="gf-form-input max-width-20" ng-model='ctrl.appModel.jsonData.email' placeholder="email" />
+    <input type="text" class="gf-form-input width-30 max-width-30" ng-model='ctrl.appModel.jsonData.email' placeholder="email" />
   </div>
 
   <div class="gf-form">
     <label class="gf-form-label width-10">Region
-      <tip>US and EU regions are available. Default is US</tip>
+      <tip>US and EU regions are available. Default is US. A custom url can also be specified.</tip>
     </label>
     <div class="gf-form-select-wrapper">
       <select class="gf-form-input" ng-model="ctrl.appModel.jsonData.region" ng-options="f.value as f.text for f in ctrl.regionTypes"></select>
+    </div>
+  </div>
+
+    <!-- custom endpoint should display the url -->
+  <div ng-if="ctrl.appModel.jsonData.region === 'custom'" class="gf-form">
+    <label class="gf-form-label width-10">Custom URL
+      <tip>Specify custom url</tip>
+    </label>
+    <div ng-if="ctrl.appModel.jsonData.region === 'custom'">
+      <input type="text" class="gf-form-input width-30 max-width-30" ng-model='ctrl.appModel.jsonData.dynamicUrl' placeholder="https://grafana-api.kentik.com/api/v5" />
     </div>
   </div>
 
@@ -26,7 +36,7 @@
       <label class="gf-form-label width-10">Api Token</label>
       <!-- Hidden input to stop chrome from autofilling -->
       <input style="display:none;" type="password" name="anotherfakename" />
-      <input type="password" class="gf-form-input max-width-20" ng-model="ctrl.appModel.secureJsonData.token" ng-if="!ctrl.appModel.jsonData.tokenSet"
+      <input type="password" class="gf-form-input width-30 max-width-30" ng-model="ctrl.appModel.secureJsonData.token" ng-if="!ctrl.appModel.jsonData.tokenSet"
         placeholder="api token" />
       <div ng-if="ctrl.appModel.jsonData.tokenSet" class="gf-form">
         <input type="text" class="gf-form-input max-width-20" disabled="disabled" value="saved" />

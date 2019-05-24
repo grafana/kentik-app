@@ -38,8 +38,9 @@ export class KentikAPI {
     }
   }
 
-  getUsers() {
-    return this._get('/api/v5/users');
+  async getUsers() {
+    const data = await this._get('/api/v5/users')
+    return data;
   }
 
   getFieldValues(field: string) {
@@ -82,6 +83,7 @@ export class KentikAPI {
         //console.log("kentikAPI: _get: FETCHED region " + this.region);
       });
     }
+
     return this.backendSrv
       .datasourceRequest({
         method: 'GET',

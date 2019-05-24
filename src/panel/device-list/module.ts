@@ -30,7 +30,7 @@ class DeviceListCtrl extends PanelCtrl {
     this.devices = [];
     this.pageReady = false;
     // get region from datasource
-    this.region = "default";
+    //this.region = "default";
     backendSrv.get('/api/datasources').then( (allDS: any) => {
       this.region = getRegion(allDS);
       this.kentik = new KentikAPI(this.backendSrv);
