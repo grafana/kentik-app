@@ -2,7 +2,7 @@ import {KentikAPI} from './kentikAPI';
 import {KentikProxy} from './kentikProxy';
 
 describe('KentikProxy', () => {
-  let ctx: any = {};
+  const ctx: any = {};
 
   describe('When getting custom dimensions', () => {
     const data = {
@@ -44,7 +44,7 @@ describe('KentikProxy', () => {
 
 function getKentikProxyInstance(ctx, data) {
   ctx.backendSrv = {
-    get: function() {
+    get: () => {
       return Promise.resolve([{
         type: 'kentik-ds',
         jsonData: {
@@ -52,7 +52,7 @@ function getKentikProxyInstance(ctx, data) {
         }
       }]);
     },
-    datasourceRequest: function () {
+    datasourceRequest: () => {
       return Promise.resolve({
         status: 200, data
       });

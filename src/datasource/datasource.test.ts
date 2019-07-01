@@ -3,7 +3,7 @@ import {KentikAPI} from './kentikAPI';
 import {KentikProxy} from './kentikProxy';
 
 describe('KentikDatasource', () => {
-  let ctx: any = {};
+  const ctx: any = {};
 
   const data = {
     customDimensions: [
@@ -32,7 +32,7 @@ describe('KentikDatasource', () => {
       expect(tagValues).toHaveLength(1);
       expect(tagValues[0]).toEqual({ text: 'city' });
     });
-    
+
     it('Should return tag values for custom dimensions', async () => {
       const tagValues = await ctx.ds.getTagValues({ key: 'Custom just-testing-2' });
       expect(tagValues).toHaveLength(2);
@@ -46,7 +46,7 @@ function createDatasourceInstance(ctx, data) {
   ctx.instanceSettings = {};
   ctx.templateSrv = {};
   ctx.backendSrv = {
-    get: function() {
+    get: () => {
       return Promise.resolve([{
         type: 'kentik-ds',
         jsonData: {
@@ -54,7 +54,7 @@ function createDatasourceInstance(ctx, data) {
         }
       }]);
     },
-    datasourceRequest: function () {
+    datasourceRequest: () => {
       return Promise.resolve({
         status: 200, data
       });

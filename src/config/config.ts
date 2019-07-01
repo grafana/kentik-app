@@ -53,7 +53,7 @@ class KentikConfigCtrl {
       return Promise.resolve();
     }
 
-    await this.validateApiConnection();    
+    await this.validateApiConnection();
     await this.appEditCtrl.importDashboards();
 
     return {
@@ -65,7 +65,7 @@ class KentikConfigCtrl {
   // make sure that we can hit the Kentik API.
   async validateApiConnection() {
     try {
-      let result = await this.kentik.getUsers();
+      const result = await this.kentik.getUsers();
       try {
         if ( result.hasOwnProperty('data') ) {
           this.apiValidated = true;

@@ -39,7 +39,7 @@ class KentikDatasource {
       this.interpolateDeviceField.bind(this)
     );
 
-    let kentikFilters = this.templateSrv.getAdhocFilters(this.name);
+    const kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     const customDimensions = await this.kentik.getCustomDimensions();
     const savedFiltersList = await this.kentik.getSavedFilters();
     const kentikFilterGroups = queryBuilder.convertToKentikFilterGroup(kentikFilters, customDimensions, savedFiltersList);
@@ -93,7 +93,7 @@ class KentikDatasource {
   }
 
   processTimeSeries(bucketData: any, query: any, options?: any) {
-    const seriesList = [];
+    const seriesList: any[] = [];
     let endIndex = query.topx;
     if (bucketData.length < endIndex) {
       endIndex = bucketData.length;
@@ -165,7 +165,7 @@ class KentikDatasource {
   }
 
   async getTagKeys() {
-    let initialList = await this._getExtendedDimensionsList(filterFieldList);
+    const initialList = await this._getExtendedDimensionsList(filterFieldList);
     const savedFilters = await this.kentik.getSavedFilters();
     return _.concat(initialList, savedFilters);
   }
@@ -197,7 +197,7 @@ class KentikDatasource {
     }
   }
 
-  private async _getExtendedDimensionsList(list: Array<any>) {
+  private async _getExtendedDimensionsList(list: any[]) {
     const customDimensions = await this.kentik.getCustomDimensions();
     return _.concat(list, customDimensions);
   }

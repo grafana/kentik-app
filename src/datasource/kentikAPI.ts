@@ -4,7 +4,7 @@ import { getRegion } from "./regionHelper";
 
 export class KentikAPI {
   baseUrl: string;
-  region: string;
+  region = '';
   apiReady: boolean;
   /** @ngInject */
   constructor(public backendSrv: any) {
@@ -39,7 +39,7 @@ export class KentikAPI {
   }
 
   async getUsers() {
-    const data = await this._get('/api/v5/users')
+    const data = await this._get('/api/v5/users');
     return data;
   }
 

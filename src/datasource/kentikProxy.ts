@@ -84,7 +84,7 @@ export class KentikProxy {
 
     const cacheStartingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
     const cacheEndingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
-    const cachedQueryRange = cacheEndingTime - cacheStartingTime;
+    const cachedQueryRange = cacheEndingTime! - cacheStartingTime!;
 
     const maxRefreshInterval = getMaxRefreshInterval(kentikQuery);
 
@@ -92,8 +92,8 @@ export class KentikProxy {
       !this.cache[hash] ||
       timestamp - endingTime > maxRefreshInterval ||
       (this.cache[hash] &&
-        (timestamp - cacheEndingTime > maxRefreshInterval ||
-          startingTime < cacheStartingTime ||
+        (timestamp - cacheEndingTime! > maxRefreshInterval ||
+          startingTime < cacheStartingTime! ||
           Math.abs(queryRange - cachedQueryRange) > 60 * 1000)) // is time range changed?
     );
   }

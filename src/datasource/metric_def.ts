@@ -44,7 +44,7 @@ const metricList = [
   { text: 'Full INET Family', value: 'inet_family', field: 'inet_family' },
   { text: 'Full TOS', value: 'TOS', field: 'tos' },
   { text: 'Full TCP flags', value: 'tcp_flags', field: 'tcp_flags' },
-  { text: 'AS Top Talkers', value: 'ASTopTalkers', field:'ASTopTalkers'},
+  { text: 'AS Top Talkers', value: 'ASTopTalkers', field: 'ASTopTalkers'},
   { text: 'Interface Top Talkers', value: 'InterfaceTopTalkers', field: 'InterfaceTopTalkers' },
   { text: 'Port to Port Talkers', value: 'PortPortTalkers', field: 'PortPortTalkers' },
   { text: 'Region Top Talkers', value: 'RegionTopTalkers', field: 'RegionTopTalkers' },

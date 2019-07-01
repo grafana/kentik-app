@@ -2,7 +2,7 @@ import queryBuilder from './query_builder';
 
 
 class Moment {
-  public time;
+  time;
 
   constructor(time) {
     this.time = time;
@@ -12,9 +12,9 @@ class Moment {
 }
 
 describe('Kentik Query Builder', () => {
-  let ctx: any = {};
+  const ctx: any = {};
 
-  beforeEach(function () {
+  beforeEach( () => {
     ctx.range = {
       from: new Moment('1970-01-01 00:00:00'),
       to: new Moment('1970-01-01 01:00:00')
@@ -23,11 +23,11 @@ describe('Kentik Query Builder', () => {
 
   describe('When building Kentik filter group', () => {
     it('should build proper filters', (done) => {
-      let filters = [
+      const filters = [
         { key: 'Source Country', operator: '=', value: 'US' }
       ];
 
-      let expectedGroup = [{
+      const expectedGroup = [{
         filters: [
           { filterField: 'src_geo', operator: '=', filterValue: 'US' }
         ],
@@ -35,7 +35,7 @@ describe('Kentik Query Builder', () => {
         not: false
       }];
 
-      let filterGroup = queryBuilder.convertToKentikFilterGroup(filters, [], []);
+      const filterGroup = queryBuilder.convertToKentikFilterGroup(filters, [], []);
       expect(filterGroup.kentikFilters).toEqual(expectedGroup);
       expect(filterGroup.savedFilters).toEqual([]);
       done();
@@ -54,7 +54,7 @@ describe('Kentik Query Builder', () => {
     });
 
     it('should build proper topXData query', (done) => {
-      let expectedQuery = {
+      const expectedQuery = {
         'metric': 'bytes',
         'dimension': [
           'src_geo_region'
@@ -99,7 +99,7 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      const topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery).toEqual(expectedQuery);
       done();
     });
@@ -107,7 +107,7 @@ describe('Kentik Query Builder', () => {
     it('should build proper Bits/s query', (done) => {
       ctx.query_options.unit = 'bytes';
 
-      let expectedQuery = {
+      const expectedQuery = {
         'metric': 'bytes',
         'aggregates': [
           {
@@ -133,7 +133,7 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      const topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery.metric).toEqual(expectedQuery.metric);
       expect(topXDataQuery.aggregates).toEqual(expectedQuery.aggregates);
       done();
@@ -142,7 +142,7 @@ describe('Kentik Query Builder', () => {
     it('should build proper Packets/s query', (done) => {
       ctx.query_options.unit = 'packets';
 
-      let expectedQuery = {
+      const expectedQuery = {
         'metric': 'packets',
         'aggregates': [
           {
@@ -168,7 +168,7 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      const topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery.metric).toEqual(expectedQuery.metric);
       expect(topXDataQuery.aggregates).toEqual(expectedQuery.aggregates);
       done();
@@ -177,7 +177,7 @@ describe('Kentik Query Builder', () => {
     it('should build proper Unique Src IPs query', (done) => {
       ctx.query_options.unit = 'unique_src_ip';
 
-      let expectedQuery = {
+      const expectedQuery = {
         'metric': 'unique_src_ip',
         'aggregates': [
           {
@@ -218,7 +218,7 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      const topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery.metric).toEqual(expectedQuery.metric);
       expect(topXDataQuery.aggregates).toEqual(expectedQuery.aggregates);
       done();
@@ -227,7 +227,7 @@ describe('Kentik Query Builder', () => {
     it('should build proper Unique Dst IPs query', (done) => {
       ctx.query_options.unit = 'unique_dst_ip';
 
-      let expectedQuery = {
+      const expectedQuery = {
         'metric': 'unique_dst_ip',
         'aggregates': [
           {
@@ -268,7 +268,7 @@ describe('Kentik Query Builder', () => {
         ]
       };
 
-      let topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
+      const topXDataQuery = queryBuilder.buildTopXdataQuery(ctx.query_options);
       expect(topXDataQuery.metric).toEqual(expectedQuery.metric);
       expect(topXDataQuery.aggregates).toEqual(expectedQuery.aggregates);
       done();
