@@ -18,8 +18,8 @@ class CallToActiontCtrl extends PanelCtrl {
   static templateUrl: string;
   deviceStatus: string;
   allDone: boolean;
-  kentik: KentikAPI;
-  region: string;
+  kentik: KentikAPI = {} as KentikAPI;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any, private datasourceSrv) {

@@ -20,8 +20,8 @@ class DeviceListCtrl extends PanelCtrl {
   static templateUrl: any;
   devices: any[];
   pageReady: boolean;
-  kentik: KentikAPI;
-  region: string;
+  kentik: KentikAPI = {} as KentikAPI;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any) {

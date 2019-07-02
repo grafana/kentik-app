@@ -19,7 +19,7 @@ export class AddDeviceCtrl {
   static templateUrl: string;
   device: any;
   sendingIps: any[];
-  region: string;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
@@ -41,7 +41,7 @@ export class AddDeviceCtrl {
   }
 
   addDevice() {
-    const ips = [];
+    const ips: string[] = [];
     _.forEach(this.sendingIps, ip => {
       ips.push(ip.ip);
     });

@@ -117,7 +117,7 @@ class KentikConfigCtrl {
           return;
         }
       });
-      const promises = [];
+      const promises: Array<Promise<any>> = [];
       if (!foundKentikDS || updateKentikDS) {
         // create datasource
         const kentik = {

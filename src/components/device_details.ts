@@ -8,8 +8,8 @@ export class DeviceDetailsCtrl {
   deviceDTO: any;
   pageReady: boolean;
   otherIps: any;
-  kentik: KentikAPI;
-  region: string;
+  kentik: KentikAPI = {} as KentikAPI;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
