@@ -29,7 +29,6 @@
     "@grafana/ui": "next",
     "@types/angular": "1.6.54",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
-    "angular": "1.6.6",
-    "grafana-sdk-mocks": "grafana/grafana-sdk-mocks"
+    "angular": "1.6.6"
   }
 }
