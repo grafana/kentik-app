@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@grafana/toolkit": "next",
-    "@grafana/ui": "next",
+    "@grafana/ui": "latest",
     "@types/angular": "1.6.54",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "angular": "1.6.6"
