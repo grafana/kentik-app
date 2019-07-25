@@ -1,6 +1,6 @@
 import { KentikAPI } from '../datasource/kentikAPI';
-import { showCustomAlert } from "../datasource/alertHelper";
-import { getRegion } from "../datasource/regionHelper";
+import { showCustomAlert } from '../datasource/alertHelper';
+import { getRegion } from '../datasource/regionHelper';
 
 export class DeviceDetailsCtrl {
   static templateUrl: string;
@@ -18,7 +18,7 @@ export class DeviceDetailsCtrl {
     this.pageReady = false;
     // get region from datasource
     //this.region = "default";
-    backendSrv.get('/api/datasources').then( (allDS: any) => {
+    backendSrv.get('/api/datasources').then((allDS: any) => {
       this.region = getRegion(allDS);
       this.kentik = new KentikAPI(this.backendSrv);
       this.kentik.setRegion(this.region);

@@ -1,7 +1,7 @@
 import { KentikAPI } from '../datasource/kentikAPI';
-import { showAlert } from "../datasource/alertHelper";
+import { showAlert } from '../datasource/alertHelper';
 
-import { getRegion } from "../datasource/regionHelper";
+import { getRegion } from '../datasource/regionHelper';
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
@@ -18,7 +18,7 @@ class DeviceListCtrl {
 
   getDevices() {
     try {
-      this.kentik.getDevices().then((devices) => {
+      this.kentik.getDevices().then(devices => {
         this.devices = devices;
         this.pageReady = true;
         this.$scope.$apply();

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import angular from 'angular';
-import { getRegion } from "../datasource/regionHelper";
+import { getRegion } from '../datasource/regionHelper';
 
 const defaults = {
   device_name: '',
@@ -27,7 +27,7 @@ export class AddDeviceCtrl {
     this.sendingIps = [{ ip: '' }];
     // get region from datasource
     //this.region = "default";
-    backendSrv.get('/api/datasources').then( (allDS: any) => {
+    backendSrv.get('/api/datasources').then((allDS: any) => {
       this.region = getRegion(allDS);
     });
   }

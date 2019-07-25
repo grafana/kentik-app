@@ -1,9 +1,9 @@
 import { KentikAPI } from '../../datasource/kentikAPI';
-import { showAlert } from "../../datasource/alertHelper";
+import { showAlert } from '../../datasource/alertHelper';
 
 import { PanelCtrl } from 'grafana/app/plugins/sdk';
 import { loadPluginCss } from 'grafana/app/plugins/sdk';
-import { getRegion } from "../../datasource/regionHelper";
+import { getRegion } from '../../datasource/regionHelper';
 
 import * as _ from 'lodash';
 
@@ -31,13 +31,16 @@ class DeviceListCtrl extends PanelCtrl {
     this.pageReady = false;
     // get region from datasource
     //this.region = "default";
-    backendSrv.get('/api/datasources').then( (allDS: any) => {
-      this.region = getRegion(allDS);
-      this.kentik = new KentikAPI(this.backendSrv);
-      this.kentik.setRegion(this.region);
-    }).then (async () => {
-      await this.getDevices();
-    });
+    backendSrv
+      .get('/api/datasources')
+      .then((allDS: any) => {
+        this.region = getRegion(allDS);
+        this.kentik = new KentikAPI(this.backendSrv);
+        this.kentik.setRegion(this.region);
+      })
+      .then(async () => {
+        await this.getDevices();
+      });
   }
 
   async getDevices() {

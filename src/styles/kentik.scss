@@ -1,14 +1,14 @@
 // Custom colors
 // -------------------------
-@import "../../node_modules/@grafana/toolkit/sass/_variables.scss";
+@import '../../node_modules/@grafana/toolkit/sass/_variables.scss';
 
-@import "base/config";
-@import "components/animations";
-@import "pages/device-detail";
-@import "pages/device-config";
-@import "pages/device-list";
-@import "pages/config";
-@import "pages/panel-cta";
-@import "layout/page";
-@import "layout/panel";
-@import "kentik-main"
+@import 'base/config';
+@import 'components/animations';
+@import 'pages/device-detail';
+@import 'pages/device-config';
+@import 'pages/device-list';
+@import 'pages/config';
+@import 'pages/panel-cta';
+@import 'layout/page';
+@import 'layout/panel';
+@import 'kentik-main';

@@ -140,7 +140,7 @@ function convertToKentikFilter(filterObj: any, filterDef: any) {
 function convertToKentikSavedFilter(filterObj: any, filterDef: any) {
   return {
     filter_id: filterDef.id,
-    is_not: filterObj.value === 'exclude'
+    is_not: filterObj.value === 'exclude',
   };
 }
 
@@ -160,21 +160,19 @@ function convertToKentikFilterGroup(filters: any[], customDimensions: any[], sav
       }
     }
 
-
     if (kentikFilters.length > 0) {
       let connector = 'All';
-      if (
-        filters[0].condition &&
-        (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
-      ) {
+      if (filters[0].condition && (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')) {
         connector = 'Any';
       }
 
-      kentikFilters = [{
-        connector,
-        filters: kentikFilters,
-        not: false,
-      }];
+      kentikFilters = [
+        {
+          connector,
+          filters: kentikFilters,
+          not: false,
+        },
+      ];
     }
   }
 

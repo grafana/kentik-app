@@ -44,14 +44,14 @@ const metricList = [
   { text: 'Full INET Family', value: 'inet_family', field: 'inet_family' },
   { text: 'Full TOS', value: 'TOS', field: 'tos' },
   { text: 'Full TCP flags', value: 'tcp_flags', field: 'tcp_flags' },
-  { text: 'AS Top Talkers', value: 'ASTopTalkers', field: 'ASTopTalkers'},
+  { text: 'AS Top Talkers', value: 'ASTopTalkers', field: 'ASTopTalkers' },
   { text: 'Interface Top Talkers', value: 'InterfaceTopTalkers', field: 'InterfaceTopTalkers' },
   { text: 'Port to Port Talkers', value: 'PortPortTalkers', field: 'PortPortTalkers' },
   { text: 'Region Top Talkers', value: 'RegionTopTalkers', field: 'RegionTopTalkers' },
 ];
 
 function toBitsPerSecond(value, row) {
-  return value * 8 / row.i_duration;
+  return (value * 8) / row.i_duration;
 }
 
 function toPerSecondRate(value, row) {
@@ -63,7 +63,7 @@ function totalToAvgPerSecond(value, row, rangeSeconds) {
 }
 
 function totalToBitsPerSecond(value, row, rangeSeconds) {
-  return value * 8 / rangeSeconds;
+  return (value * 8) / rangeSeconds;
 }
 
 const unitList = [

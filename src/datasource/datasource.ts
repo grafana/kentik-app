@@ -33,11 +33,7 @@ class KentikDatasource {
     }
 
     const target = options.targets[0];
-    const deviceNames = this.templateSrv.replace(
-      target.device,
-      options.scopedVars,
-      this.interpolateDeviceField.bind(this)
-    );
+    const deviceNames = this.templateSrv.replace(target.device, options.scopedVars, this.interpolateDeviceField.bind(this));
 
     const kentikFilters = this.templateSrv.getAdhocFilters(this.name);
     const customDimensions = await this.kentik.getCustomDimensions();
@@ -78,10 +74,7 @@ class KentikDatasource {
     }
 
     const extendedMetricList = await this._getExtendedDimensionsList(metricList);
-    const metricDef = _.find(
-      extendedMetricList,
-      { value: query.dimension[0] }
-    );
+    const metricDef = _.find(extendedMetricList, { value: query.dimension[0] });
 
     const unitDef = _.find(unitList, { value: query.metric });
 

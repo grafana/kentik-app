@@ -2,8 +2,7 @@ import angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import './kentikAPI';
-import { getRegion } from "./regionHelper";
-
+import { getRegion } from './regionHelper';
 
 function getUTCTimestamp() {
   const ts = new Date();
@@ -122,7 +121,7 @@ export class KentikProxy {
         values: this._getDimensionPopulatorsValues(dimension),
         text: `Custom ${dimension.display_name}`,
         value: dimension.name,
-        field: dimension.name
+        field: dimension.name,
       }));
     }
     return this.cache.customDimensions;
@@ -134,7 +133,7 @@ export class KentikProxy {
       this.cache.savedFilters = _.map(savedFilters, filter => ({
         text: `Saved ${filter.filter_name}`,
         field: filter.filter_name,
-        id: filter.id
+        id: filter.id,
       }));
     }
     return this.cache.savedFilters;
