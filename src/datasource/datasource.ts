@@ -165,11 +165,11 @@ class KentikDatasource {
 
   async getTagValues(options: any) {
     if (options) {
-      let filter = _.find(filterFieldList, ['text', options.key]);
+      const filter = _.find(filterFieldList, ['text', options.key]);
 
       if (filter === undefined) {
         const savedFilters = await this.kentik.getSavedFilters();
-        let filter = _.find(savedFilters, [ 'text', options.key ]);
+        const filter = _.find(savedFilters, ['text', options.key]);
         if (filter === undefined) {
           const customDimensions = await this.kentik.getCustomDimensions();
           const dimension = _.find(customDimensions, ['text', options.key]);

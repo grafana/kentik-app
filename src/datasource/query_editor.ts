@@ -10,11 +10,7 @@ class KentikQueryCtrl extends QueryCtrl {
 
     this.target.mode = this.target.mode || 'graph';
 
-    this.queryModes = [
-      { value: 'flow', text: 'Flow' },
-      { value: 'graph', text: 'Graph' },
-      { value: 'table', text: 'Table' }
-    ];
+    this.queryModes = [{ value: 'flow', text: 'Flow' }, { value: 'graph', text: 'Graph' }, { value: 'table', text: 'Table' }];
   }
 }
 

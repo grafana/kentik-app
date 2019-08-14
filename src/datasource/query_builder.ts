@@ -25,7 +25,7 @@ function formatMetricAggs(unitDef: any) {
       fn: 'max',
       sample_rate: 1,
     },
-  ];
+  ] as any;
 
   return aggs;
 }
@@ -67,7 +67,7 @@ function formatUniqueIpAggs(unitDef: any) {
       rank: 95,
       sample_rate: 1,
     },
-  ];
+  ] as any;
 
   return aggs;
 }
@@ -98,9 +98,9 @@ function formatVPCFlowLogAggs(unitDef: any) {
       unit: 'fps',
       sample_rate: 1,
       rank: 95,
-    }
-  ]
- 
+    },
+  ] as any;
+
   return aggs;
 }
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.5] - 2019-08-14
+
+- Conversion to grafana-toolkit
+- Support for VPC Flow Logs
+
 ## [1.3.4] - 2019-05-24
 
 - Added support for custom api endpoints, [#71](https://github.com/grafana/kentik-app/issues/71)
