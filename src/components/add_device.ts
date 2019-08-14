@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import angular from 'angular';
-import { getRegion } from "../datasource/regionHelper";
+import { getRegion } from '../datasource/regionHelper';
 
 const defaults = {
   device_name: '',
@@ -19,7 +19,7 @@ export class AddDeviceCtrl {
   static templateUrl: string;
   device: any;
   sendingIps: any[];
-  region: string;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
@@ -27,7 +27,7 @@ export class AddDeviceCtrl {
     this.sendingIps = [{ ip: '' }];
     // get region from datasource
     //this.region = "default";
-    backendSrv.get('/api/datasources').then( (allDS: any) => {
+    backendSrv.get('/api/datasources').then((allDS: any) => {
       this.region = getRegion(allDS);
     });
   }
@@ -41,7 +41,7 @@ export class AddDeviceCtrl {
   }
 
   addDevice() {
-    const ips = [];
+    const ips: string[] = [];
     _.forEach(this.sendingIps, ip => {
       ips.push(ip.ip);
     });

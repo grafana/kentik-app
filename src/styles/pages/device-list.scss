@@ -17,7 +17,7 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s;
 
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 25px;
@@ -27,23 +27,22 @@
   }
 }
 
-.kentik-collapse-blurb-box{
+.kentik-collapse-blurb-box {
   text-align: center;
   max-width: 500px;
 }
 
-.kentik-collapse{
+.kentik-collapse {
   margin: 10px 0;
-  display:block;
+  display: block;
   cursor: pointer;
 }
 
-.kentik-collapse-secondary{
+.kentik-collapse-secondary {
   color: $text-color-strong;
   font-style: italic;
 }
 
 .kentik-collapse:hover {
- color: $text-color;
+  color: $text-color;
 }
-

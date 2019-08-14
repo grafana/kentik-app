@@ -1,25 +1,23 @@
-import {KentikAPI} from './kentikAPI';
-import {KentikProxy} from './kentikProxy';
+import { KentikAPI } from './kentikAPI';
+import { KentikProxy } from './kentikProxy';
 
 describe('KentikProxy', () => {
-  let ctx: any = {};
+  const ctx: any = {};
 
   describe('When getting custom dimensions', () => {
     const data = {
       customDimensions: [
         {
-          display_name: 'just-testing', name: 'c_test',
-          populators: [
-            { value: 'value1' }, { value: 'value2' }
-          ]
+          display_name: 'just-testing',
+          name: 'c_test',
+          populators: [{ value: 'value1' }, { value: 'value2' }],
         },
         {
-          display_name: 'just-testing-2', name: 'c_test_2',
-          populators: [
-            { value: 'value3' }, { value: 'value4' }
-          ]
-        }
-      ]
+          display_name: 'just-testing-2',
+          name: 'c_test_2',
+          populators: [{ value: 'value3' }, { value: 'value4' }],
+        },
+      ],
     };
     beforeEach(() => getKentikProxyInstance(ctx, data));
 
@@ -44,22 +42,25 @@ describe('KentikProxy', () => {
 
 function getKentikProxyInstance(ctx, data) {
   ctx.backendSrv = {
-    get: function() {
-      return Promise.resolve([{
-        type: 'kentik-ds',
-        jsonData: {
-          region: 'default'
-        }
-      }]);
+    get: () => {
+      return Promise.resolve([
+        {
+          type: 'kentik-ds',
+          jsonData: {
+            region: 'default',
+          },
+        },
+      ]);
     },
-    datasourceRequest: function () {
+    datasourceRequest: () => {
       return Promise.resolve({
-        status: 200, data
+        status: 200,
+        data,
       });
-    }
+    },
   };
 
   ctx.kentikAPI = new KentikAPI(ctx.backendSrv);
-  ctx.kentikAPI.setRegion("default");
+  ctx.kentikAPI.setRegion('default');
   ctx.kentikProxy = new KentikProxy({}, ctx.kentikAPI);
 }

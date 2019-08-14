@@ -72,8 +72,8 @@
       {"name": "Kentik Connect - Device Details", "path": "img/kentik-connect-device-details.png"},
       {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"}
     ],
-    "version": "1.3.4",
-    "updated": "2019-05-24"
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
   },
 
   "includes": [

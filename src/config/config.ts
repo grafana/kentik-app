@@ -1,6 +1,6 @@
 import configTemplate from './config.html';
 import { KentikAPI } from '../datasource/kentikAPI';
-import { showAlert, showCustomAlert } from "../datasource/alertHelper";
+import { showAlert, showCustomAlert } from '../datasource/alertHelper';
 
 import * as _ from 'lodash';
 
@@ -11,11 +11,7 @@ class KentikConfigCtrl {
   apiError: boolean;
   kentik: KentikAPI;
   static template: any;
-  regionTypes = [
-    { value: "default", text: "US (default)" },
-    { value: "eu", text: "EU" },
-    { value: "custom", text: "Custom" }
-  ];
+  regionTypes = [{ value: 'default', text: 'US (default)' }, { value: 'eu', text: 'EU' }, { value: 'custom', text: 'Custom' }];
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any) {
@@ -29,7 +25,7 @@ class KentikConfigCtrl {
       this.appModel.secureJsonData = {};
     }
     if (typeof this.appModel.jsonData.region === 'undefined') {
-      this.appModel.jsonData.region = "default";
+      this.appModel.jsonData.region = 'default';
     }
     this.apiValidated = false;
     this.apiError = false;
@@ -53,7 +49,7 @@ class KentikConfigCtrl {
       return Promise.resolve();
     }
 
-    await this.validateApiConnection();    
+    await this.validateApiConnection();
     await this.appEditCtrl.importDashboards();
 
     return {
@@ -65,14 +61,14 @@ class KentikConfigCtrl {
   // make sure that we can hit the Kentik API.
   async validateApiConnection() {
     try {
-      let result = await this.kentik.getUsers();
+      const result = await this.kentik.getUsers();
       try {
-        if ( result.hasOwnProperty('data') ) {
+        if (result.hasOwnProperty('data')) {
           this.apiValidated = true;
           showCustomAlert('API working!', '', 'success');
         }
       } catch (e) {
-        showAlert("Unexpected result from API: " + e);
+        showAlert('Unexpected result from API: ' + e);
         this.apiValidated = false;
         this.apiError = true;
       }
@@ -86,8 +82,8 @@ class KentikConfigCtrl {
   reset() {
     this.appModel.jsonData.email = '';
     this.appModel.jsonData.tokenSet = false;
-    this.appModel.jsonData.region = "default";
-    this.appModel.jsonData.dynamicUrl = "";
+    this.appModel.jsonData.region = 'default';
+    this.appModel.jsonData.dynamicUrl = '';
     this.appModel.secureJsonData = {};
     this.apiValidated = false;
   }
@@ -117,7 +113,7 @@ class KentikConfigCtrl {
           return;
         }
       });
-      const promises = [];
+      const promises: Array<Promise<any>> = [];
       if (!foundKentikDS || updateKentikDS) {
         // create datasource
         const kentik = {

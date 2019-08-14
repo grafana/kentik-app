@@ -1,7 +1,7 @@
 import { KentikAPI } from '../../datasource/kentikAPI';
-import { showAlert } from "../../datasource/alertHelper";
+import { showAlert } from '../../datasource/alertHelper';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
-import { getRegion } from "../../datasource/regionHelper";
+import { getRegion } from '../../datasource/regionHelper';
 
 import * as _ from 'lodash';
 
@@ -18,8 +18,8 @@ class CallToActiontCtrl extends PanelCtrl {
   static templateUrl: string;
   deviceStatus: string;
   allDone: boolean;
-  kentik: KentikAPI;
-  region: string;
+  kentik: KentikAPI = {} as KentikAPI;
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public backendSrv: any, private datasourceSrv) {
@@ -29,13 +29,16 @@ class CallToActiontCtrl extends PanelCtrl {
     this.allDone = false;
     // get region from datasource
     //this.region = "default";
-    backendSrv.get('/api/datasources').then( (allDS: any) => {
-      this.region = getRegion(allDS);
-      this.kentik = new KentikAPI(this.backendSrv);
-      this.kentik.setRegion(this.region);
-    }).then (async () => {
-      await this.getTaskStatus();
-    });
+    backendSrv
+      .get('/api/datasources')
+      .then((allDS: any) => {
+        this.region = getRegion(allDS);
+        this.kentik = new KentikAPI(this.backendSrv);
+        this.kentik.setRegion(this.region);
+      })
+      .then(async () => {
+        await this.getTaskStatus();
+      });
   }
 
   async getTaskStatus() {
