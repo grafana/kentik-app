@@ -1,5 +1,9 @@
-import * as _ from 'lodash';
+import { KentikAPI } from '../../datasource/kentikAPI';
+import { showAlert } from '../../datasource/alertHelper';
 import { PanelCtrl, loadPluginCss } from 'grafana/app/plugins/sdk';
+import { getRegion } from '../../datasource/regionHelper';
+
+import * as _ from 'lodash';
 
 loadPluginCss({
   dark: 'plugins/kentik-app/css/kentik.dark.css',
@@ -14,34 +18,51 @@ class CallToActiontCtrl extends PanelCtrl {
   static templateUrl: string;
   deviceStatus: string;
   allDone: boolean;
+  kentik: KentikAPI = {} as KentikAPI;
+  region = '';
 
   /** @ngInject */
-  constructor($scope, $injector, public backendSrv: any) {
+  constructor($scope, $injector, public backendSrv: any, private datasourceSrv) {
     super($scope, $injector);
+    _.defaults(this.panel, panelDefaults);
     this.deviceStatus = '';
     this.allDone = false;
-    this.getTaskStatus();
-    _.defaults(this.panel, panelDefaults);
+    // get region from datasource
+    //this.region = "default";
+    backendSrv
+      .get('/api/datasources')
+      .then((allDS: any) => {
+        this.region = getRegion(allDS);
+        this.kentik = new KentikAPI(this.backendSrv);
+        this.kentik.setRegion(this.region);
+      })
+      .then(async () => {
+        await this.getTaskStatus();
+      });
   }
 
-  getTaskStatus() {
-    this.getDevices().then(() => {
-      if (this.deviceStatus === 'hasDevices') {
-        this.allDone = true;
-      } else {
-        this.allDone = false;
-      }
-    });
+  async getTaskStatus() {
+    await this.getDevices();
+
+    if (this.deviceStatus === 'hasDevices') {
+      this.allDone = true;
+    } else {
+      this.allDone = false;
+    }
   }
 
-  getDevices() {
-    return this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      if (resp.devices.length > 0) {
+  async getDevices() {
+    try {
+      const devices = await this.kentik.getDevices();
+
+      if (devices.length > 0) {
         this.deviceStatus = 'hasDevices';
       } else {
         this.deviceStatus = 'noDevices';
       }
-    });
+    } catch (e) {
+      showAlert(e);
+    }
   }
 
   refresh() {

@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import angular from 'angular';
+import { getRegion } from '../datasource/regionHelper';
 
 const defaults = {
   device_name: '',
@@ -18,11 +19,17 @@ export class AddDeviceCtrl {
   static templateUrl: string;
   device: any;
   sendingIps: any[];
+  region = '';
 
   /** @ngInject */
   constructor($scope, $injector, public $location: any, public backendSrv: any, public alertSrv: any) {
     this.device = angular.copy(defaults);
     this.sendingIps = [{ ip: '' }];
+    // get region from datasource
+    //this.region = "default";
+    backendSrv.get('/api/datasources').then((allDS: any) => {
+      this.region = getRegion(allDS);
+    });
   }
 
   addIP() {
@@ -34,12 +41,12 @@ export class AddDeviceCtrl {
   }
 
   addDevice() {
-    const ips = [];
+    const ips: string[] = [];
     _.forEach(this.sendingIps, ip => {
       ips.push(ip.ip);
     });
     this.device.sending_ips = ips.join();
-    this.backendSrv.post('/api/plugin-proxy/kentik-app/api/v5/device', this.device).then(resp => {
+    this.backendSrv.post(`/api/plugin-proxy/kentik-app/${this.region}/api/v5/device`, this.device).then(resp => {
       if ('err' in resp) {
         this.alertSrv.set('Device Add failed.', resp.err, 'error');
       } else {

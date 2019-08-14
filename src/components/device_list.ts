@@ -1,19 +1,31 @@
+import { KentikAPI } from '../datasource/kentikAPI';
+import { showAlert } from '../datasource/alertHelper';
+
+import { getRegion } from '../datasource/regionHelper';
 class DeviceListCtrl {
   static templateUrl: string;
   devices: any[];
   pageReady: boolean;
+  kentik: KentikAPI;
 
   /** @ngInject */
-  constructor($scope, $injector, public $location: any, public backendSrv: any) {
+  constructor(private $scope, $injector, public $location: any, public backendSrv: any) {
     this.devices = [];
     this.pageReady = false;
+    this.kentik = new KentikAPI(this.backendSrv);
     this.getDevices();
   }
+
   getDevices() {
-    this.backendSrv.get('/api/plugin-proxy/kentik-app/api/v5/devices').then(resp => {
-      this.devices = resp.devices;
-      this.pageReady = true;
-    });
+    try {
+      this.kentik.getDevices().then(devices => {
+        this.devices = devices;
+        this.pageReady = true;
+        this.$scope.$apply();
+      });
+    } catch (e) {
+      showAlert(e);
+    }
   }
 
   refresh() {

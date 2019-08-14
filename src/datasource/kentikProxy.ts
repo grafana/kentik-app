@@ -2,6 +2,7 @@ import angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import './kentikAPI';
+import { getRegion } from './regionHelper';
 
 function getUTCTimestamp() {
   const ts = new Date();
@@ -43,7 +44,6 @@ export class KentikProxy {
     this.requestCachingIntervals = {
       '1d': 0,
     };
-
     this.getDevices = this.kentikAPI.getDevices.bind(this.kentikAPI);
   }
 
@@ -61,17 +61,17 @@ export class KentikProxy {
           query: cachedQuery,
           result: result,
         };
-        console.log('Invoke Kentik query');
+        //console.log('Invoke Kentik query');
         return result;
       });
     } else {
       // Get from cache
-      console.log('Get result from cache');
+      //console.log('Get result from cache');
       return Promise.resolve(this.cache[hash].result);
     }
   }
 
-  // Decide, is query shold be invoked or get data from cahce?
+  // Decide, if query should be invoked or get data from cache?
   shouldInvoke(query: any) {
     const kentikQuery = query;
     const hash = getHash(kentikQuery);
@@ -83,7 +83,7 @@ export class KentikProxy {
 
     const cacheStartingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.starting_time) : null;
     const cacheEndingTime = this.cache[hash] ? Date.parse(this.cache[hash].query.ending_time) : null;
-    const cachedQueryRange = cacheEndingTime - cacheStartingTime;
+    const cachedQueryRange = cacheEndingTime! - cacheStartingTime!;
 
     const maxRefreshInterval = getMaxRefreshInterval(kentikQuery);
 
@@ -91,8 +91,8 @@ export class KentikProxy {
       !this.cache[hash] ||
       timestamp - endingTime > maxRefreshInterval ||
       (this.cache[hash] &&
-        (timestamp - cacheEndingTime > maxRefreshInterval ||
-          startingTime < cacheStartingTime ||
+        (timestamp - cacheEndingTime! > maxRefreshInterval ||
+          startingTime < cacheStartingTime! ||
           Math.abs(queryRange - cachedQueryRange) > 60 * 1000)) // is time range changed?
     );
   }
@@ -121,7 +121,7 @@ export class KentikProxy {
         values: this._getDimensionPopulatorsValues(dimension),
         text: `Custom ${dimension.display_name}`,
         value: dimension.name,
-        field: dimension.name
+        field: dimension.name,
       }));
     }
     return this.cache.customDimensions;
@@ -133,7 +133,7 @@ export class KentikProxy {
       this.cache.savedFilters = _.map(savedFilters, filter => ({
         text: `Saved ${filter.filter_name}`,
         field: filter.filter_name,
-        id: filter.id
+        id: filter.id,
       }));
     }
     return this.cache.savedFilters;

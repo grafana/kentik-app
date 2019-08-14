@@ -5,7 +5,7 @@
 
   "routes": [
     {
-      "path": "api/v5/*",
+      "path": "default/api/v5/*",
       "method": "*",
       "url": "https://grafana-api.kentik.com/api/v5",
       "headers": [
@@ -14,7 +14,25 @@
       ]
     },
     {
-      "path": "api/v4/*",
+      "path": "custom/api/v5/*",
+      "method": "*",
+      "url": "{{.JsonData.dynamicUrl}}",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    },
+    {
+      "path": "eu/api/v5/*",
+      "method": "*",
+      "url": "https://api.kentik.eu/api/v5/",
+      "headers": [
+        {"name": "X-CH-Auth-API-Token", "content": "{{.SecureJsonData.token}}"},
+        {"name": "X-CH-Auth-Email", "content": "{{.JsonData.email}}"}
+      ]
+    },
+    {
+      "path": "default/api/v4/*",
       "method": "*",
       "url": "https://grafanav4api.kentik.com/api/v4/",
       "headers": [
@@ -23,7 +41,7 @@
       ]
     },
     {
-      "path": "api/v1/*",
+      "path": "default/api/v1/*",
       "method": "*",
       "url": "https://grafanav1api.kentik.com/api/v1",
       "headers": [
@@ -55,8 +73,8 @@
       {"name": "Kentik Connect - Top Talkers 2", "path": "img/kentik-connect-top-talkers.png"},
       {"name": "Kentik Connect - Flow Logs", "path": "img/kentik-flow-logs.png"}
     ],
-    "version": "1.4.0",
-    "updated": "2018-11-16"
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
   },
 
   "includes": [
@@ -106,6 +124,6 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "3.x.x"
+    "grafanaVersion": "6.1.x"
   }
 }

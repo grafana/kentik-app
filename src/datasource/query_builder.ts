@@ -123,10 +123,10 @@ function formatAggs(unitDef: any) {
   return aggs;
 }
 
-function formatFilters(kentikFilterGroups: Array<any>) {
+function formatFilters(kentikFilterGroups: any[]) {
   const filtersObj = {
     connector: 'All',
-    filterGroups: [],
+    filterGroups: [] as any[],
   };
 
   if (kentikFilterGroups.length) {
@@ -155,7 +155,7 @@ function buildTopXdataQuery(options) {
     starting_time: startingTime,
     ending_time: endingTime,
     device_name: options.deviceNames,
-    outsort: unitDef.outsort,
+    outsort: unitDef!.outsort,
     aggregates: formatAggs(unitDef),
     filters_obj: formatFilters(options.kentikFilterGroups),
     saved_filters: options.kentikSavedFilters,
@@ -180,17 +180,17 @@ function convertToKentikFilter(filterObj: any, filterDef: any) {
 function convertToKentikSavedFilter(filterObj: any, filterDef: any) {
   return {
     filter_id: filterDef.id,
-    is_not: filterObj.value === 'exclude'
+    is_not: filterObj.value === 'exclude',
   };
 }
 
-function convertToKentikFilterGroup(filters: Array<any>, customDimensions: Array<any>, savedFiltersList: Array<any>) {
-  let kentikFilters = [];
-  let savedFilters = [];
+function convertToKentikFilterGroup(filters: any[], customDimensions: any[], savedFiltersList: any[]) {
+  let kentikFilters: any[] = [];
+  const savedFilters: any[] = [];
 
   if (filters.length) {
     const filterFieldListExtended = _.concat(filterFieldList, customDimensions);
-    for (let filter of filters) {
+    for (const filter of filters) {
       const filterFieldDef = _.find(filterFieldListExtended, { text: filter.key });
       if (filterFieldDef === undefined) {
         const savedFilterDef = _.find(savedFiltersList, { text: filter.key });
@@ -200,21 +200,19 @@ function convertToKentikFilterGroup(filters: Array<any>, customDimensions: Array
       }
     }
 
-
     if (kentikFilters.length > 0) {
       let connector = 'All';
-      if (
-        filters[0].condition &&
-        (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')
-      ) {
+      if (filters[0].condition && (filters[0].condition.toLowerCase() === 'or' || filters[0].condition.toLowerCase() === 'any')) {
         connector = 'Any';
       }
 
-      kentikFilters = [{
-        connector,
-        filters: kentikFilters,
-        not: false,
-      }];
+      kentikFilters = [
+        {
+          connector,
+          filters: kentikFilters,
+          not: false,
+        },
+      ];
     }
   }
 
