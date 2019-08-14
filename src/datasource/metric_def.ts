@@ -125,6 +125,19 @@ const unitList = [
       { text: 'p95th pps', field: 'p95th_pkts_per_sec', unit: 'pps' },
     ],
   },
+  {
+    text: 'Flows/s',
+    value: 'trautocount',
+    field: 'flows_per_sec',
+    outsort: 'avg_flows_per_sec',
+    gfUnit: 'fps',
+    gfAxisLabel: 'Flows/s',
+    tableFields: [
+      { text: 'Average', field: 'avg_flows_per_sec', unit: 'fps' },
+      { text: 'Max', field: 'max_flows_per_sec', unit: 'fps' },
+      { text: 'p95th', field: 'p95th_flows_per_sec', unit: 'fps' },
+    ],
+  },
 ];
 
 const filterFieldList = [
