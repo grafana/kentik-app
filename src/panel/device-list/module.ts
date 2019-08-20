@@ -8,8 +8,8 @@ import { getRegion } from '../../datasource/regionHelper';
 import * as _ from 'lodash';
 
 loadPluginCss({
-  dark: 'plugins/kentik-app/css/kentik.dark.css',
-  light: 'plugins/kentik-app/css/kentik.light.css',
+  dark: 'plugins/kentik-app/styles/dark.css',
+  light: 'plugins/kentik-app/styles/light.css',
 });
 
 const panelDefaults = {
