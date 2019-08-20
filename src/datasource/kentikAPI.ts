@@ -78,7 +78,7 @@ export class KentikAPI {
 
   async _get(url: string) {
     // if the region is not set, get it from the datasource
-    if ((typeof this.region === 'undefined') || (this.region === '')) {
+    if (typeof this.region === 'undefined' || this.region === '') {
       //console.log("_get: this.region UNDEFINED, fetching");
       await this.backendSrv.get('/api/datasources').then((allDS: any) => {
         this.setRegion(getRegion(allDS));
