@@ -29,6 +29,6 @@
     "@grafana/ui": "latest",
     "@types/angular": "1.6.54",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
-    "angular": "1.6.6"
+    "angular": "1.7.9"
   }
 }
